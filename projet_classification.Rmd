@@ -66,11 +66,10 @@ On a decider de ne pas centrer et réduire nos données
 **Choix des variables (regroupement ?) en vue d’une classification**
 
 
-
 # 2 - Classification des pays en utilisant les différents algorithmes abordés en cours
 
 Utilisation des algorithmes de classification vus en cours
-. R ́eflexion sur les choix op ́er ́es
+. Ŕeflexion sur les choix op ́er ́es
 D ́ecider d’une classification finale
 . Nombre de groupes ?
 

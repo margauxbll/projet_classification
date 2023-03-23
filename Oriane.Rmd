@@ -45,5 +45,83 @@ for (i in 1:9) {
 ```
 
 
+## Classification des individus 
 
+Après le pré-traitement des données, nous ne disposons plus que de 106 individus et 32 variables quantitatives.
+Nous allons donc pouvoir appliquer les méthodes de classification (nécessitant des données quantitatives)
+directement à ce jeu de données.
+
+### CAH 
+
+```{r}
+d <- dist(donnee)
+#d <- dist(e19, method = "manhattan")
+#d <- dist(e19, method = "minkowski")
+cah.ward <- hclust(d, method = "ward.D")
+cah.min <- hclust(d, method = "single")
+cah.max <- hclust(d, method = "complete")
+```
+
+
+#### Dendogramme 
+```{r}
+plot(cah.ward, hang = -1, main = "Distance de Ward", ylab = " ")
+```
+
+```{r}
+plot(cah.min, hang = -1, main = "Distance du saut minimal", ylab = " ")
+```
+
+```{r}
+plot(cah.max, hang = -1, main = "Distance du saut maximal", ylab = " ")
+```
+
+On s’apercoit raipdement que c’est le critère de Ward qui correspond le mieux à nos données. On voit déjà
+qu’on peut partitionner nos données en 3 ou 4 groupes
+
+**Fonction de perte**
+
+Pour rappel, on cherche à maximiser l’inertie inter-classe. En effet, nous avons pour objectif de créer des
+groupes d’individus se ressemblant fortement (inertie intra-classes faible) et tels que les groupes soient les
+plus distints possible (inertie inter-classes élevée). L’inertie inter-classe est logiquement maximale (égale à
+l’intertie totale) lorsqu’il y a autant de classes que d’individus. Nous cherchons dans le graphique ci-dessous
+un “coude” qui correspond à une rupture dans la courbe (moment où l’inertie inter augmente beaucoup).
+
+```{r}
+plot(rev(cah.ward$height)[1:30], type = "b", main = "Distance de Ward")
+```
+```{r}
+plot(rev(cah.min$height)[1:30], type = "b", main = "Distance du saut minimal")
+```
+
+```{r}
+plot(rev(cah.max$height)[1:30], type = "b", main = "Distance du saut maximal")
+```
+
+Avec le critère de Ward, la trace de la perte d’inertie nous incite à choisir des partitions en 4 groupes
+(“coude” très visible).
+
+A REPRENDRE 
+
+```{r}
+NbClust(as.matrix(donnee), min.nc = 3, max.nc = 15, method = "ward.D")
+```
+```{r}
+Iris.data   = donnee[,1:4]
+NbClust(Iris.data,min.nc = 2,max.nc = 15,method="ward.D",index="all")
+```
+De plus, la fonction NbClust nous donne 3 ou 4 comme nombre de classes optimal. L’analyse graphique de
+la courbe d’inertie nous invite à choisir 4 classes
+
+## Cutree 
+
+
+```{r}
+nbc <- 3
+gpe.ward <- cutree(cah.ward, k = nbc) # Classe affectée pour chaque individu
+gpe.min <- cutree(cah.min, k = nbc)
+gpe.max <- cutree(cah.max, k = nbc)
+plot(cah.ward, hang = -1, main = "Distance de Ward")
+rect.hclust(cah.ward, nbc, border = "blue")
+```
 
