@@ -14,9 +14,58 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # 1 - Compréhension et pré-traitement des données
 
-. Donn ́ees manquantes ? Outliers ?
-. Standardisation ?
-. Choix des variables (regroupement ?) en vue d’une classification
+```{r}
+donnee <- read.csv("Pays_donnees.csv", sep = ',')
+head(donnee,5)
+
+```
+
+```{r}
+str(donnee)
+dim(donnee)
+```
+
+Nous avons 167 individus et 9 variables
+
+## Statistiques descriptives 
+
+```{r}
+summary(donnee)
+
+```
+
+```{r}
+# Histogramme de chaque variable
+par(mfrow=c(3,3)) # Afficher les 9 histogrammes dans une grille 3x3
+for (i in 1:9) {
+  hist(donnee[,i], main=colnames(donnee)[i], xlab="")
+}
+```
+
+## Pre-traimement 
+**Donn ́ees manquantes ? Outliers **
+```{r}
+table(is.na(donnee))
+```
+Aucune donnée manquante 
+
+**Valeur aberrante**
+exports max à 200 ? Bizarre 
+Ce sont à première vue des pays riche comme malte, luxembourg, singapour
+import max à 174 ? Idem
+Finalement c'est logique 
+Aucune valeur aberrante 
+
+
+Mais y a des valeurs "leviers", certains pays comme malte, singapour se dégage des valeurs moyennes 
+
+**Standardisation ?**
+On remarque dans le résumé que nos variables sont dans des ordres de grandeurs relativement similaire. 
+On a decider de ne pas centrer et réduire nos données 
+
+**Choix des variables (regroupement ?) en vue d’une classification**
+
+
 
 # 2 - Classification des pays en utilisant les différents algorithmes abordés en cours
 

@@ -4,3 +4,46 @@ author: "Oriane"
 date: "`r Sys.Date()`"
 output: html_document
 ---
+
+# Chargement des librairies
+
+
+# 1 - Compréhension et pré-traitement des données
+
+```{r}
+donnee <- read.csv("Pays_donnees.csv", sep = ',', row.names = 1)
+head(donnee)
+```
+Donńees manquantes ? Outliers ?
+
+```{r}
+na.omit(donnee)
+```
+
+```{r}
+summary(donnee)
+str(donnee)
+dim(donnee)
+```
+**Valeur aberrante**
+exports max à 200 ? Bizarre 
+Ce sont à première vue des pays riche comme malte, luxembourg, singapour
+import max à 174 ? Idem
+
+Aucune valeur aberrante 
+Mais y a des valeurs "leviers", certains pays comme malte, singapour se dégage des valeurs moyennes 
+
+## Statistiques descriptives 
+
+```{r}
+# Histogramme de chaque variable
+par(mfrow=c(3,3)) # Afficher les 9 histogrammes dans une grille 3x3
+for (i in 1:9) {
+  hist(donnee[,i], main=colnames(donnee)[i], xlab="")
+}
+
+```
+
+
+
+
