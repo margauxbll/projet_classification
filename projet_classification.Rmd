@@ -9,22 +9,40 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+# Chargement des librairies
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+# 1 - Compréhension et pré-traitement des données
 
-```{r cars}
-summary(cars)
-```
+. Donn ́ees manquantes ? Outliers ?
+. Standardisation ?
+. Choix des variables (regroupement ?) en vue d’une classification
 
-## Including Plots
+# 2 - Classification des pays en utilisant les différents algorithmes abordés en cours
 
-You can also embed plots, for example:
+Utilisation des algorithmes de classification vus en cours
+. R ́eflexion sur les choix op ́er ́es
+D ́ecider d’une classification finale
+. Nombre de groupes ?
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+# 3 - Comparaison des résultats obtenus avec les différentes méthodes
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Caract ́erisation de la partition obtenue
+Repr ́esentation informative des r ́esultats
+. Graphiques adapt ́es, repr ́esentations factorielles si adapt ́ees
+Optionnel : Repr ́esentation spatiale des r ́esultats sur la carte de
+Rennes
+Faire une ACP
+
+# 4 - Conclusion vis à vis des choix effectués
+
+Quels points peuvent ˆetre critiqu ́es dans vos choix
+Quelles pistes pourraient ˆetre explor ́ees pour aller plus loin et/ou
+mieux explorer ces donn ́ees ?
+
+# 5 - Suggestion d'une liste de pays à aider en priorité
+
+
+
+
+
