@@ -18,7 +18,7 @@ library(corrplot)
 # 1 - Compréhension et pré-traitement des données
 
 ```{r}
-donnee <- read.csv("Pays_donnees.csv", sep = ',')
+donnee <- read.csv("Pays_donnees.csv", sep = ',', row.names = 1)
 head(donnee,5)
 ```
 
@@ -61,13 +61,13 @@ summary(donnee)
 ```{r}
 # Histogramme de chaque variable
 par(mfrow=c(3,3)) # Afficher les 9 histogrammes dans une grille 3x3
-for (i in 2:10) {
+for (i in 1:9) {
   hist(donnee[,i], main=colnames(donnee)[i], xlab="")
 }
 ```
 
 ```{r}
-var <- donnee[,2:10]
+var <- donnee[,1:9]
 corrplot(cor(var), type = "upper")
 ```
 
