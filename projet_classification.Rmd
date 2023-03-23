@@ -1,6 +1,6 @@
 ---
 title: "Projet Classification"
-author: "Margaux Bailleul"
+author: "Margaux Bailleul et Oriane Duclos"
 date: "2023-03-23"
 output: html_document
 ---
@@ -11,13 +11,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Chargement des librairies
 
+```{r}
+library(corrplot)
+```
 
 # 1 - Compréhension et pré-traitement des données
 
 ```{r}
 donnee <- read.csv("Pays_donnees.csv", sep = ',')
 head(donnee,5)
-
 ```
 
 ```{r}
@@ -26,21 +28,6 @@ dim(donnee)
 ```
 
 Nous avons 167 individus et 9 variables
-
-## Statistiques descriptives 
-
-```{r}
-summary(donnee)
-
-```
-
-```{r}
-# Histogramme de chaque variable
-par(mfrow=c(3,3)) # Afficher les 9 histogrammes dans une grille 3x3
-for (i in 1:9) {
-  hist(donnee[,i], main=colnames(donnee)[i], xlab="")
-}
-```
 
 ## Pre-traimement 
 **Donn ́ees manquantes ? Outliers **
@@ -65,7 +52,26 @@ On a decider de ne pas centrer et réduire nos données
 
 **Choix des variables (regroupement ?) en vue d’une classification**
 
+## Statistiques descriptives 
 
+```{r}
+summary(donnee)
+```
+
+```{r}
+# Histogramme de chaque variable
+par(mfrow=c(3,3)) # Afficher les 9 histogrammes dans une grille 3x3
+for (i in 2:10) {
+  hist(donnee[,i], main=colnames(donnee)[i], xlab="")
+}
+```
+
+```{r}
+var <- donnee[,2:10]
+corrplot(cor(var), type = "upper")
+```
+
+La matrice de corrélation nous aide à mieux comprendre les relations entre chaque variable et pourra nous aider à interpréter plus tard. 
 
 # 2 - Classification des pays en utilisant les différents algorithmes abordés en cours
 

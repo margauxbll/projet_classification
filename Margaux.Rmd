@@ -14,11 +14,40 @@ Chargement des librairies
 ```{r}
 library(ggplot2)
 library(leaflet)
+library(corrplot)
 ```
 
 Ouverture de la base de données 
 
 ```{r}
+donnees <- read.csv("Pays_donnees.csv")
+head(donnees)
+summary(donnees)
+```
+
+Nous allons vérifier s'il y a des données manquantes : 
+
+```{r}
+table(is.na(donnees))
+```
+
+Il n'y en a pas. 
+
+Nous allons maintenant regarder s'il y a des valeurs aberrantes : 
+
+```{r}
 
 ```
 
+Nous allons regarder les types des variables 
+
+```{r}
+str(donnees)
+```
+
+Aucune valeur aberrante mais nous remarquons des valeurs leviers. 
+
+```{r}
+var <- donnees[,2:10]
+corrplot(cor(var), type = "upper")
+```
