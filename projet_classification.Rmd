@@ -75,7 +75,6 @@ corrplot(cor(var), type = "upper")
 
 La matrice de corrélation nous aide à mieux comprendre les relations entre chaque variable et pourra nous aider à interpréter plus tard. 
 
->>>>>>> fbada6a66dd7e5644c23ef3336b8cf82aed5c737
 # 2 - Classification des pays en utilisant les différents algorithmes abordés en cours
 
 Utilisation des algorithmes de classification vus en cours
