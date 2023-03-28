@@ -181,7 +181,51 @@ plot(rev(cah.max$height)[1:10], type = "b", main = "Distance du saut maximal")
 Avec le critère de Ward, la trace de la perte d’inertie nous incite à choisir des partitions en 3 groupes
 (“coude” très visible).
 
-A REVOIR  PAGE 12 
+
+
+```{r}
+NbClust(as.matrix(donnee), min.nc = 3, max.nc = 15, method = "ward.D")
+```
+
+
+
+Nbclust
+**Cutree**
+
+```{r}
+nbc <- 3
+gpe.ward <- cutree(cah.ward, k = nbc) # Classe affectée pour chaque individu
+gpe.min <- cutree(cah.min, k = nbc)
+gpe.max <- cutree(cah.max, k = nbc)
+plot(cah.ward, hang = -1, main = "Distance de Ward")
+rect.hclust(cah.ward, nbc, border = "blue")
+```
+
+
+```{r}
+plot(cah.min, hang = -1, main = "Distance du saut minimal")
+rect.hclust(cah.min, nbc, border = "blue")
+```
+
+```{r}
+plot(cah.max, hang = -1, main = "Distance du saut maximal")
+rect.hclust(cah.max, nbc, border = "blue")
+```
+
+
+faire une clusplot 
+
+```{r}
+clusplot(donnee, gpe.ward, labels = nbc, col.p = as.numeric(gpe.ward))
+```
+
+
+### Partie 3 : Agragation autour des centres mobiles 
+
+**Classifiaction mixte**
+**Classifiaction finale**
+
+
 
 
 # 3 - Comparaison des résultats obtenus avec les différentes méthodes
@@ -192,6 +236,7 @@ Repr ́esentation informative des r ́esultats
 Optionnel : Repr ́esentation spatiale des r ́esultats sur la carte de
 Rennes
 Faire une ACP
+
 
 # 4 - Conclusion vis à vis des choix effectués
 
