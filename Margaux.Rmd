@@ -15,20 +15,21 @@ Chargement des librairies
 library(ggplot2)
 library(leaflet)
 library(corrplot)
+library(FactoMineR)
 ```
 
 Ouverture de la base de données 
 
 ```{r}
-donnees <- read.csv("Pays_donnees.csv")
-head(donnees)
-summary(donnees)
+donnee <- read.csv("Pays_donnees.csv", row.names = 1)
+head(donnee)
+summary(donnee)
 ```
 
 Nous allons vérifier s'il y a des données manquantes : 
 
 ```{r}
-table(is.na(donnees))
+table(is.na(donnee))
 ```
 
 Il n'y en a pas. 
@@ -42,12 +43,29 @@ Nous allons maintenant regarder s'il y a des valeurs aberrantes :
 Nous allons regarder les types des variables 
 
 ```{r}
-str(donnees)
+str(donnee)
 ```
 
 Aucune valeur aberrante mais nous remarquons des valeurs leviers. 
 
 ```{r}
-var <- donnees[,2:10]
+var <- donnee[,2:10]
 corrplot(cor(var), type = "upper")
 ```
+
+# ACP
+
+```{r}
+acpdonnee <- PCA(donnee)
+barplot(acpdonnee$eig[,2])
+```
+
+
+
+
+
+
+
+
+
+
