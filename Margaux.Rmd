@@ -16,6 +16,7 @@ library(ggplot2)
 library(leaflet)
 library(corrplot)
 library(FactoMineR)
+library(ade4)
 ```
 
 Ouverture de la base de données 
@@ -48,8 +49,14 @@ str(donnee)
 
 Aucune valeur aberrante mais nous remarquons des valeurs leviers. 
 
+
 ```{r}
-var <- donnee[,2:10]
+donnees_quanti <- data.frame(scale(donnee))
+```
+
+
+```{r}
+var <- donnee[,1:9]
 corrplot(cor(var), type = "upper")
 ```
 
@@ -59,13 +66,10 @@ corrplot(cor(var), type = "upper")
 acpdonnee <- PCA(donnee)
 barplot(acpdonnee$eig[,2])
 ```
+À voir si on met : 
 
-
-
-
-
-
-
-
+```{r}
+s.corcircle(acpdonnee$var, 1, 2, clabel = 0.7)
+```
 
 
