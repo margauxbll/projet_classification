@@ -1,8 +1,26 @@
 ---
-title: "Projet Classification"
-author: "Margaux Bailleul et Oriane Duclos"
-date: "2023-03-23"
-output: html_document
+title: "Quels pays devons-nous aider en priorité ?"
+subtitle: | 
+    | Projet de classification
+    | Université de Rennes II : Master Mathématiques Appliquées, Statistiques 
+author: | 
+    | Margaux Bailleul
+    | Oriane Duclos
+    
+
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+geometry: "left=2.5cm,right=2.5cm,top=2cm,bottom=2cm"
+fontfamily: mathpazo
+output:
+  pdf_document:
+    keep_tex: true
+    latex_engine: pdflatex
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    toc: yes
+    toc_depth: 2
+    citation_package: natbib
 ---
 
 ```{r setup, include=FALSE}
