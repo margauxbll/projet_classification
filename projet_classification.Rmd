@@ -1,13 +1,8 @@
 ---
-title: "Quels pays devons-nous aider en priorité ?"
-subtitle: | 
-    | Projet de classification
-    | Université de Rennes II : Master Mathématiques Appliquées, Statistiques 
-author: | 
-    | Margaux Bailleul
-    | Oriane Duclos
-fontfamily: mathpazo
-output: html
+title: "Projet Classification"
+author: "Margaux Bailleul et Oriane Duclos"
+date: "2023-03-23"
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
