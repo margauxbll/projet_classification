@@ -18,6 +18,9 @@ knitr::opts_chunk$set(echo = TRUE)
 library(corrplot)
 library(cluster)
 library(NbClust)
+library(FactoMineR)
+library(ade4)
+
 ```
 
 # 1 - Compréhension et pré-traitement des données
@@ -238,6 +241,7 @@ gpe = cutree(cah.ward,k=3)
 donnee$gpecah = as.factor(gpe)
 interpcah = catdes(donnee,num.var = 10)
 interpcah
+head(donnee)
 ```
 
 ```{r}
@@ -266,6 +270,10 @@ s.class(CCpca$li, factor(gpe), col = 2:4, add.plot = TRUE,clabel = 1)
 
 Suite à l'analyse de nos différentes méthodes, nous nous rendons compte que 3 gros groupes se sont formés. Nous décidons de nous concentrer sur le groupe des pays les moins développés. 
 
+
+
+
+
 ### Partie 3 : Agrégation autour des centres mobiles
 
 **Classifiaction mixte**
@@ -277,12 +285,91 @@ Suite à l'analyse de nos différentes méthodes, nous nous rendons compte que 3
 
 # 3 - Traitement du groupe des pays les moins favorisés
 
+
 Caractérisation de la partition obtenue Représentation informative des
 r ́esultats . Graphiques adapt ́es, repr ́esentations factorielles si
 adapt ́ees Optionnel : Repr ́esentation spatiale des r ́esultats sur la
 carte de Rennes Faire une ACP
 
 Nous allons maintenant uniquement nous pencher sur les pays les moins développés (ceux appartenant au premier groupe).
+
+
+
+### Partie 1 : CAH sur les pays moins dévelloper
+
+On decide de realiser une deuxième CAH sur le groupe 1  les pays moins développer : 
+
+```{r}
+donnee_groupe <- donnee
+donnee_groupe$gpecah <- as.factor(gpe.ward)
+#head(donnee_groupe)
+class(donnee_groupe)
+# Trions et prenons que le groupe des pays moins developper
+
+donnee_moinsdev <- donnee_groupe[donnee_groupe$gpecah ==1,]
+#head(donnee_moinsdev)
+
+donnee_moinsdev <-donnee_moinsdev[1:9]
+donnee_moinsdev
+
+```
+
+On decide d'appliquer une CAH sur ces données avec la distance euclidienne et la stratégie d'aggrégation de ward (au vue du travail effectué plus haut c'est ce qui nous semble le plus pertinent) 
+
+```{r}
+d_moinsdev = dist(donnee_moinsdev)
+cah.ward.moinsdev = hclust(d_moinsdev,method="ward.D")
+
+plot(cah.ward.moinsdev,hang=-1)
+
+
+```
+
+De la même façon que la seconde partie, on observe la présence d'une structure "naturelle" en un nombre de groupe modéré.  Regardons la courbe de perte d'inertie (on se contente des 15 premières valeurs pour ne pas "noyer" l'information importante)
+
+```{r}
+plot(rev(cah.ward.moinsdev$height)[1:15],type="b")
+```
+
+Le tracé de la perte d'inertie nous incite à choisir une partition en 4 groupes (lecture de gauche à droite : juste avant le coude ou changement de pente s'opérant au passage de 4 à 6 groupes)
+
+On peut aussi s'aider de critères automatiques calculés dans le package `NbClust`
+
+```{r}
+NbClust(donnee_moinsdev,min.nc = 2,max.nc = 15,method="ward.D",index="all")
+```
+
+C'est aussi une partition en 5 groupes qui obtient un vote majoritaire, nous confortant dans notre premier choix. Néanmoins, on peut déjà observé la variabilité des réponses apportées par les différents critères. Cela souligne l'importance de garder une inspection visuelle de la courbe d'inertie/dendrogramme.
+
+
+ - Partition en 5 groupes
+ 
+```{r}
+K=6
+gpe.ward.moinsdev = cutree(cah.ward.moinsdev,k=K)
+gpe.ward.moinsdev
+
+```
+
+- Representation du dendogramme avec les différents groupes obtenus 
+
+```{r}
+plot(cah.ward.moinsdev,hang=-1)
+rect.hclust(cah.ward.moinsdev, K, border ="blue")
+
+```
+
+- Clusplot
+
+```{r}
+clusplot(donnee_moinsdev, gpe.ward.moinsdev, labels = nbc, col.p = as.numeric(gpe.ward.moinsdev))
+```
+
+### Partie 2 : Avec les kmeans : 
+
+?????
+
+
 
 # 4 - Conclusion vis à vis des choix effectués
 

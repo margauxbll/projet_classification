@@ -290,8 +290,13 @@ rect.hclust(cah.ward.moinsdev, K, border ="blue")
 - Clusplot
 
 ```{r}
-
+clusplot(donnee_moinsdev, gpe.ward.moinsdev, labels = nbc, col.p = as.numeric(gpe.ward.moinsdev))
 ```
+
+- Avec les kmeans : 
+
+?????????
+
 
 
 ### Partie 3 : Agragation autour des centres mobiles 
