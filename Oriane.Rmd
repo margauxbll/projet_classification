@@ -6,36 +6,46 @@ output: html_document
 ---
 https://delladata.fr/kmeans/
 
+---
+title: "Projet Classification"
+author: "Margaux Bailleul et Oriane Duclos"
+date: "2023-03-23"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 # Chargement des librairies
 
+```{r}
+library(corrplot)
+library(cluster)
+library(NbClust)
+```
 
 # 1 - Compréhension et pré-traitement des données
 
 ```{r}
 donnee <- read.csv("Pays_donnees.csv", sep = ',', row.names = 1)
-head(donnee)
-```
-Donńees manquantes ? Outliers ?
-
-```{r}
-na.omit(donnee)
+head(donnee,5)
 ```
 
 ```{r}
-summary(donnee)
 str(donnee)
 dim(donnee)
 ```
-**Valeur aberrante**
-exports max à 200 ? Bizarre 
-Ce sont à première vue des pays riche comme malte, luxembourg, singapour
-import max à 174 ? Idem
 
-Aucune valeur aberrante 
-Mais y a des valeurs "leviers", certains pays comme malte, singapour se dégage des valeurs moyennes 
+Nous avons 167 individus et 9 variables
+
 
 ## Statistiques descriptives 
+
+
+```{r}
+summary(donnee)
+```
 
 ```{r}
 # Histogramme de chaque variable
@@ -43,20 +53,93 @@ par(mfrow=c(3,3)) # Afficher les 9 histogrammes dans une grille 3x3
 for (i in 1:9) {
   hist(donnee[,i], main=colnames(donnee)[i], xlab="")
 }
-
 ```
 
 
-## Classification des individus 
+## Pre-traimement 
+**Donn ́ees manquantes ? Outliers **
+```{r}
+table(is.na(donnee))
+```
+Aucune donnée manquante 
 
-Après le pré-traitement des données, nous ne disposons plus que de 106 individus et 32 variables quantitatives.
-Nous allons donc pouvoir appliquer les méthodes de classification (nécessitant des données quantitatives)
-directement à ce jeu de données.
+**Valeur aberrante**
+exports max à 200 ? Bizarre 
+Ce sont à première vue des pays riche comme malte, luxembourg, singapour
+import max à 174 ? Idem
+Finalement c'est logique 
+Aucune valeur aberrante 
 
-### CAH 
+Mais y a des valeurs "leviers", certains pays comme malte, singapour se dégage des valeurs moyennes 
+
+**Standardisation ?**
+
+Lorsque l'on a des données avec des unités différentes (par exemple des pourcentages, des espérances de vie, des PIB par habitant), il est recommandé de centrer et de réduire ces données. 
+Centrer les données signifie soustraire la moyenne de la variable de toutes les observations, ce qui permet d'avoir une moyenne égale à zéro. 
+Réduire les données signifie diviser chaque observation par l'écart-type de la variable, ce qui met toutes les variables à la même échelle. 
+Cela facilite la comparaison entre les différentes variables et permet des analyses statistiques plus fiables. Il est cependant important de garder à l'esprit que la signification des résultats dépend toujours du contexte et de la validité des données utilisées
 
 ```{r}
-d <- dist(donnee)
+donnee <- data.frame(scale(donnee))
+```
+
+
+**Choix des variables (regroupement ?) en vue d’une classification**
+
+## Matrice de corrélation 
+
+```{r}
+var <- donnee[,1:9]
+corrplot(cor(var), type = "upper")
+```
+
+La matrice de corrélation nous aide à mieux comprendre les relations entre chaque variable et pourra nous aider à interpréter plus tard. 
+
+# 2 - Classification des pays en utilisant les différents algorithmes abordés en cours
+
+Utilisation des algorithmes de classification vus en cours
+. Ŕeflexion sur les choix op ́er ́es
+D ́ecider d’une classification finale
+. Nombre de groupes ?
+
+### Partie 1 : Algoritlme des Kmeans
+
+Tout d’abord nous allons utiliser l’algorithme des k-means pour avoir une première idée de notre classification finale. Si on ne sait pas a priori combien de groupes comporte le jeu de donnees, on peut appliquer l’algorithme pour plusieurs choix de K possibles et tracer la courbe d’évolution de l’inertie .
+On lance l’algorithme des kmeans et on observe l’évolution de la variance intra-groupes en fonction du nombre de groupes. On rajoute également l’option « nstart =50 »  pour stabiliser les résultats.
+
+
+```{r,echo=FALSE}
+set.seed(123)
+c <-  sapply(1:10,FUN=function(k){ kmeans(donnee,k)$tot.withinss })
+plot(c,type="b")
+```
+
+A la vue de ce graphique, on aurait tendance à choisir K= 3,4 ou 5 groupes en appliquant la méthode dite « du coude »
+
+
+```{r}
+K=4
+cl = kmeans(donnee,K,nstart=50)
+gpe = cl$cluster
+clusplot(donnee,gpe,labels=4,col.p=gpe)
+
+```
+
+La représentation en clusplot nous permet de voir qu’il y a 4 groupes qui se séparent plutôt bien sur les composante 1, 2, 3 et 4. (on le voit au travers des différents couleur sur le graphique).
+
+Representation des groupes sur le premier plan factoriel
+
+```{r}
+
+```
+
+### Partie 2 : CAH 
+
+On applique une CAH sur ces données avec plusieurs distance puis différent type d'agrégation. 
+
+```{r}
+set.seed(123)
+d <- dist(donnee) # distance euclienne par défaut
 #d <- dist(e19, method = "manhattan")
 #d <- dist(e19, method = "minkowski")
 cah.ward <- hclust(d, method = "ward.D")
@@ -65,58 +148,60 @@ cah.max <- hclust(d, method = "complete")
 ```
 
 
-#### Dendogramme 
+**Dengrogrammes**
+
 ```{r}
 plot(cah.ward, hang = -1, main = "Distance de Ward", ylab = " ")
 ```
+
 
 ```{r}
 plot(cah.min, hang = -1, main = "Distance du saut minimal", ylab = " ")
 ```
 
+
 ```{r}
 plot(cah.max, hang = -1, main = "Distance du saut maximal", ylab = " ")
 ```
-
 On s’apercoit raipdement que c’est le critère de Ward qui correspond le mieux à nos données. On voit déjà
 qu’on peut partitionner nos données en 3 ou 4 groupes
 
+L'aspect général du dendrogramme nous conforte dans la présence d'une structuration "naturelle" en un nombre modéré de groupes (la majeure partie des regroupements se font à faible hauteur). Regardons la courbe de perte d'inertie (on se contente des 20 premières valeurs pour ne pas "noyer" l'information importante)
+
 **Fonction de perte**
 
-Pour rappel, on cherche à maximiser l’inertie inter-classe. En effet, nous avons pour objectif de créer des
-groupes d’individus se ressemblant fortement (inertie intra-classes faible) et tels que les groupes soient les
-plus distints possible (inertie inter-classes élevée). L’inertie inter-classe est logiquement maximale (égale à
-l’intertie totale) lorsqu’il y a autant de classes que d’individus. Nous cherchons dans le graphique ci-dessous
-un “coude” qui correspond à une rupture dans la courbe (moment où l’inertie inter augmente beaucoup).
+Pour rappel, on cherche à maximiser l’inertie inter-classe. En effet, nous avons pour objectif de créer des groupes d’individus se ressemblant fortement (inertie intra-classes faible) et tels que les groupes soient les plus distints possible (inertie inter-classes élevée). L’inertie inter-classe est logiquement maximale (égale à l’intertie totale) lorsqu’il y a autant de classes que d’individus. Nous cherchons dans le graphique ci-dessous un “coude” qui correspond à une rupture dans la courbe (moment où l’inertie inter augmente beaucoup).
 
 ```{r}
-plot(rev(cah.ward$height)[1:30], type = "b", main = "Distance de Ward")
-```
-```{r}
-plot(rev(cah.min$height)[1:30], type = "b", main = "Distance du saut minimal")
+plot(rev(cah.ward$height)[1:10], type = "b", main = "Distance de Ward")
 ```
 
 ```{r}
-plot(rev(cah.max$height)[1:30], type = "b", main = "Distance du saut maximal")
+plot(rev(cah.min$height)[1:10], type = "b", main = "Distance du saut minimal")
 ```
 
-Avec le critère de Ward, la trace de la perte d’inertie nous incite à choisir des partitions en 4 groupes
+```{r}
+plot(rev(cah.max$height)[1:10], type = "b", main = "Distance du saut maximal")
+```
+
+
+Avec le critère de Ward, la trace de la perte d’inertie nous incite à choisir des partitions en 3 groupes
 (“coude” très visible).
 
-A REPRENDRE 
+```{r}
+as.matrix(donnee)
+```
+
+On peut aussi
 
 ```{r}
 NbClust(as.matrix(donnee), min.nc = 3, max.nc = 15, method = "ward.D")
 ```
-```{r}
-Iris.data   = donnee[,1:4]
-NbClust(Iris.data,min.nc = 2,max.nc = 15,method="ward.D",index="all")
-```
-De plus, la fonction NbClust nous donne 3 ou 4 comme nombre de classes optimal. L’analyse graphique de
-la courbe d’inertie nous invite à choisir 4 classes
 
-## Cutree 
 
+
+Nbclust
+**Cutree**
 
 ```{r}
 nbc <- 3
@@ -126,4 +211,53 @@ gpe.max <- cutree(cah.max, k = nbc)
 plot(cah.ward, hang = -1, main = "Distance de Ward")
 rect.hclust(cah.ward, nbc, border = "blue")
 ```
+
+
+```{r}
+plot(cah.min, hang = -1, main = "Distance du saut minimal")
+rect.hclust(cah.min, nbc, border = "blue")
+```
+
+```{r}
+plot(cah.max, hang = -1, main = "Distance du saut maximal")
+rect.hclust(cah.max, nbc, border = "blue")
+```
+
+
+faire une clusplot 
+
+```{r}
+clusplot(donnee, gpe.ward, labels = nbc, col.p = as.numeric(gpe.ward))
+```
+
+
+### Partie 3 : Agragation autour des centres mobiles 
+
+**Classifiaction mixte**
+**Classifiaction finale**
+
+
+
+
+# 3 - Comparaison des résultats obtenus avec les différentes méthodes
+
+Caract ́erisation de la partition obtenue
+Repr ́esentation informative des r ́esultats
+. Graphiques adapt ́es, repr ́esentations factorielles si adapt ́ees
+Optionnel : Repr ́esentation spatiale des r ́esultats sur la carte de
+Rennes
+Faire une ACP
+
+
+# 4 - Conclusion vis à vis des choix effectués
+
+Quels points peuvent ˆetre critiqu ́es dans vos choix
+Quelles pistes pourraient ˆetre explor ́ees pour aller plus loin et/ou
+mieux explorer ces donn ́ees ?
+
+# 5 - Suggestion d'une liste de pays à aider en priorité
+
+
+
+
 

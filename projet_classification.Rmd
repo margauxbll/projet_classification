@@ -186,6 +186,9 @@ plot(rev(cah.max$height)[1:10], type = "b", main = "Distance du saut maximal")
 Avec le critère de Ward, la trace de la perte d’inertie nous incite à choisir des partitions en 3 groupes
 (“coude” très visible).
 
+```{r}
+as.matrix(donnee)
+```
 
 
 ```{r}
