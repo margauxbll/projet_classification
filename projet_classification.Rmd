@@ -6,21 +6,8 @@ subtitle: |
 author: | 
     | Margaux Bailleul
     | Oriane Duclos
-    
-
-date: "`r format(Sys.time(), '%d %B, %Y')`"
-geometry: "left=2.5cm,right=2.5cm,top=2cm,bottom=2cm"
 fontfamily: mathpazo
-output:
-  pdf_document:
-    keep_tex: true
-    latex_engine: pdflatex
-    fig_caption: yes
-    highlight: haddock
-    number_sections: yes
-    toc: yes
-    toc_depth: 2
-    citation_package: natbib
+output: html
 ---
 
 ```{r setup, include=FALSE}
