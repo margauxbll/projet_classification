@@ -20,7 +20,6 @@ library(cluster)
 library(NbClust)
 library(FactoMineR)
 library(ade4)
-
 ```
 
 # 1 - Compréhension et pré-traitement des données
@@ -199,11 +198,11 @@ Avec le critère de Ward, la trace de la perte d'inertie nous incite à
 choisir des partitions en 3 groupes ("coude" très visible).
 
 ```{r}
-as.matrix(donnee)
+matrix <- as.matrix(donnee)
 ```
 
 ```{r}
-NbClust(as.matrix(donnee), min.nc = 2, max.nc = 15, method = "ward.D")
+NbClust(matrix, min.nc = 2, max.nc = 15, method = "ward.D")
 ```
 
 Voir quand on knit en html pour l'interprétation
@@ -258,8 +257,8 @@ Les 3 groupes sont donc caractérisés ainsi :
 
 
 ```{r}
-CCpca = dudi.pca(donnee,scannf=FALSE,nf=2)
-cumsum(CCpca$eig)/sum(CCpca$eig) # 63% de variabilité expliquée sur les deux premiers axes
+CCpca = dudi.pca(donnee[1:9],scannf=FALSE,nf=2)
+cumsum(CCpca$eig)/sum(CCpca$eig) # 68% de variabilité expliquée sur les deux premiers axes
 ```
 
 ```{r}
@@ -365,7 +364,6 @@ rect.hclust(cah.ward.moinsdev, K, border ="blue")
 clusplot(donnee_moinsdev, gpe.ward.moinsdev, labels = nbc, col.p = as.numeric(gpe.ward.moinsdev))
 ```
 
-### Partie 2 : Avec les kmeans : 
 
 ?????
 
