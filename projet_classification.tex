@@ -1,0 +1,792 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage[]{mathpazo}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[left=2.5cm,right=2.5cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\newenvironment{Shaded}{}{}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{#1}}
+\newcommand{\AttributeTok}[1]{#1}
+\newcommand{\BaseNTok}[1]{#1}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.00,0.50,0.50}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{#1}}
+\newcommand{\ConstantTok}[1]{#1}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.00,1.00}{#1}}
+\newcommand{\DataTypeTok}[1]{#1}
+\newcommand{\DecValTok}[1]{#1}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{#1}
+\newcommand{\FunctionTok}[1]{#1}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.00,1.00}{#1}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{#1}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{1.00,0.25,0.00}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{1.00,0.25,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.50,0.50}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.00,0.50,0.50}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.00,0.50,0.50}{#1}}
+\newcommand{\VariableTok}[1]{#1}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.00,0.50,0.50}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{\textbf{#1}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage[]{natbib}
+\bibliographystyle{plainnat}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Quels pays devons-nous aider en priorité ?},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Quels pays devons-nous aider en priorité ?}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Projet de classification\\
+Université de Rennes II : Master Mathématiques Appliquées, Statistiques}
+\author{Margaux Bailleul\\
+Oriane Duclos}
+\date{08 April, 2023}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\hypertarget{chargement-des-librairies}{%
+\section{Chargement des librairies}\label{chargement-des-librairies}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(corrplot)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## corrplot 0.92 loaded
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(cluster)}
+\FunctionTok{library}\NormalTok{(NbClust)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{compruxe9hension-et-pruxe9-traitement-des-donnuxe9es}{%
+\section{1 - Compréhension et pré-traitement des
+données}\label{compruxe9hension-et-pruxe9-traitement-des-donnuxe9es}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{donnee }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Pays\_donnees.csv"}\NormalTok{, }\AttributeTok{sep =} \StringTok{\textquotesingle{},\textquotesingle{}}\NormalTok{, }\AttributeTok{row.names =} \DecValTok{1}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(donnee,}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                     enfant_mort exports sant. imports revenu inflation
+## Afghanistan                90.2    10.0  7.58    44.9   1610      9.44
+## Albania                    16.6    28.0  6.55    48.6   9930      4.49
+## Algeria                    27.3    38.4  4.17    31.4  12900     16.10
+## Angola                    119.0    62.3  2.85    42.9   5900     22.40
+## Antigua and Barbuda        10.3    45.5  6.03    58.9  19100      1.44
+##                     esper_vie fert pib_h
+## Afghanistan              56.2 5.82   553
+## Albania                  76.3 1.65  4090
+## Algeria                  76.5 2.89  4460
+## Angola                   60.1 6.16  3530
+## Antigua and Barbuda      76.8 2.13 12200
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(donnee)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    167 obs. of  9 variables:
+##  $ enfant_mort: num  90.2 16.6 27.3 119 10.3 14.5 18.1 4.8 4.3 39.2 ...
+##  $ exports    : num  10 28 38.4 62.3 45.5 18.9 20.8 19.8 51.3 54.3 ...
+##  $ sant.      : num  7.58 6.55 4.17 2.85 6.03 8.1 4.4 8.73 11 5.88 ...
+##  $ imports    : num  44.9 48.6 31.4 42.9 58.9 16 45.3 20.9 47.8 20.7 ...
+##  $ revenu     : int  1610 9930 12900 5900 19100 18700 6700 41400 43200 16000 ...
+##  $ inflation  : num  9.44 4.49 16.1 22.4 1.44 20.9 7.77 1.16 0.873 13.8 ...
+##  $ esper_vie  : num  56.2 76.3 76.5 60.1 76.8 75.8 73.3 82 80.5 69.1 ...
+##  $ fert       : num  5.82 1.65 2.89 6.16 2.13 2.37 1.69 1.93 1.44 1.92 ...
+##  $ pib_h      : int  553 4090 4460 3530 12200 10300 3220 51900 46900 5840 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(donnee)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 167   9
+\end{verbatim}
+
+Nous avons 167 individus et 9 variables
+
+\hypertarget{statistiques-descriptives}{%
+\subsection{Statistiques descriptives}\label{statistiques-descriptives}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(donnee)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   enfant_mort        exports            sant.           imports        
+##  Min.   :  2.60   Min.   :  0.109   Min.   : 1.810   Min.   :  0.0659  
+##  1st Qu.:  8.25   1st Qu.: 23.800   1st Qu.: 4.920   1st Qu.: 30.2000  
+##  Median : 19.30   Median : 35.000   Median : 6.320   Median : 43.3000  
+##  Mean   : 38.27   Mean   : 41.109   Mean   : 6.816   Mean   : 46.8902  
+##  3rd Qu.: 62.10   3rd Qu.: 51.350   3rd Qu.: 8.600   3rd Qu.: 58.7500  
+##  Max.   :208.00   Max.   :200.000   Max.   :17.900   Max.   :174.0000  
+##      revenu         inflation         esper_vie          fert      
+##  Min.   :   609   Min.   : -4.210   Min.   :32.10   Min.   :1.150  
+##  1st Qu.:  3355   1st Qu.:  1.810   1st Qu.:65.30   1st Qu.:1.795  
+##  Median :  9960   Median :  5.390   Median :73.10   Median :2.410  
+##  Mean   : 17145   Mean   :  7.782   Mean   :70.56   Mean   :2.948  
+##  3rd Qu.: 22800   3rd Qu.: 10.750   3rd Qu.:76.80   3rd Qu.:3.880  
+##  Max.   :125000   Max.   :104.000   Max.   :82.80   Max.   :7.490  
+##      pib_h       
+##  Min.   :   231  
+##  1st Qu.:  1330  
+##  Median :  4660  
+##  Mean   : 12964  
+##  3rd Qu.: 14050  
+##  Max.   :105000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Histogramme de chaque variable}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow=}\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{)) }\CommentTok{\# Afficher les 9 histogrammes dans une grille 3x3}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{9}\NormalTok{) \{}
+  \FunctionTok{hist}\NormalTok{(donnee[,i], }\AttributeTok{main=}\FunctionTok{colnames}\NormalTok{(donnee)[i], }\AttributeTok{xlab=}\StringTok{""}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\hypertarget{pre-traimement}{%
+\subsection{Pre-traimement}\label{pre-traimement}}
+
+\textbf{Donn ́ees manquantes ? Outliers }
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(donnee))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## FALSE 
+##  1503
+\end{verbatim}
+
+Aucune donnée manquante
+
+\textbf{Valeur aberrante} exports max à 200 ? Bizarre Ce sont à première
+vue des pays riche comme malte, luxembourg, singapour import max à 174 ?
+Idem Finalement c'est logique Aucune valeur aberrante
+
+Mais y a des valeurs ``leviers'', certains pays comme malte, singapour
+se dégage des valeurs moyennes
+
+\textbf{Standardisation ?}
+
+Lorsque l'on a des données avec des unités différentes (par exemple des
+pourcentages, des espérances de vie, des PIB par habitant), il est
+recommandé de centrer et de réduire ces données. Centrer les données
+signifie soustraire la moyenne de la variable de toutes les
+observations, ce qui permet d'avoir une moyenne égale à zéro. Réduire
+les données signifie diviser chaque observation par l'écart-type de la
+variable, ce qui met toutes les variables à la même échelle. Cela
+facilite la comparaison entre les différentes variables et permet des
+analyses statistiques plus fiables. Il est cependant important de garder
+à l'esprit que la signification des résultats dépend toujours du
+contexte et de la validité des données utilisées
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{donnee }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{scale}\NormalTok{(donnee))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Choix des variables (regroupement ?) en vue d'une
+classification}
+
+\hypertarget{matrice-de-corruxe9lation}{%
+\subsection{Matrice de corrélation}\label{matrice-de-corruxe9lation}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{var }\OtherTok{\textless{}{-}}\NormalTok{ donnee[,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{9}\NormalTok{]}
+\FunctionTok{corrplot}\NormalTok{(}\FunctionTok{cor}\NormalTok{(var), }\AttributeTok{type =} \StringTok{"upper"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+La matrice de corrélation nous aide à mieux comprendre les relations
+entre chaque variable et pourra nous aider à interpréter plus tard.
+
+\hypertarget{classification-des-pays-en-utilisant-les-diffuxe9rents-algorithmes-aborduxe9s-en-cours}{%
+\section{2 - Classification des pays en utilisant les différents
+algorithmes abordés en
+cours}\label{classification-des-pays-en-utilisant-les-diffuxe9rents-algorithmes-aborduxe9s-en-cours}}
+
+Utilisation des algorithmes de classification vus en cours . Ŕeflexion
+sur les choix op ́er ́es D ́ecider d'une classification finale . Nombre
+de groupes ?
+
+\hypertarget{partie-1-algoritlme-des-kmeans}{%
+\subsubsection{Partie 1 : Algoritlme des
+Kmeans}\label{partie-1-algoritlme-des-kmeans}}
+
+Tout d'abord nous allons utiliser l'algorithme des k-means pour avoir
+une première idée de notre classification finale. Si on ne sait pas a
+priori combien de groupes comporte le jeu de donnees, on peut appliquer
+l'algorithme pour plusieurs choix de K possibles et tracer la courbe
+d'évolution de l'inertie . On lance l'algorithme des kmeans et on
+observe l'évolution de la variance intra-groupes en fonction du nombre
+de groupes. On rajoute également l'option « nstart =50 » pour stabiliser
+les résultats.
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+A la vue de ce graphique, on aurait tendance à choisir K= 3,4 ou 5
+groupes en appliquant la méthode dite « du coude »
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{K}\OtherTok{=}\DecValTok{4}
+\NormalTok{cl }\OtherTok{=} \FunctionTok{kmeans}\NormalTok{(donnee,K,}\AttributeTok{nstart=}\DecValTok{50}\NormalTok{)}
+\NormalTok{gpe }\OtherTok{=}\NormalTok{ cl}\SpecialCharTok{$}\NormalTok{cluster}
+\FunctionTok{clusplot}\NormalTok{(donnee,gpe,}\AttributeTok{labels=}\DecValTok{4}\NormalTok{,}\AttributeTok{col.p=}\NormalTok{gpe)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+La représentation en clusplot nous permet de voir qu'il y a 4 groupes
+qui se séparent plutôt bien sur les composante 1, 2, 3 et 4. (on le voit
+au travers des différents couleur sur le graphique).
+
+Representation des groupes sur le premier plan factoriel
+
+\hypertarget{partie-2-cah}{%
+\subsubsection{Partie 2 : CAH}\label{partie-2-cah}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
+\NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{dist}\NormalTok{(donnee)}
+\CommentTok{\#d \textless{}{-} dist(e19, method = "manhattan")}
+\CommentTok{\#d \textless{}{-} dist(e19, method = "minkowski")}
+\NormalTok{cah.ward }\OtherTok{\textless{}{-}} \FunctionTok{hclust}\NormalTok{(d, }\AttributeTok{method =} \StringTok{"ward.D"}\NormalTok{)}
+\NormalTok{cah.min }\OtherTok{\textless{}{-}} \FunctionTok{hclust}\NormalTok{(d, }\AttributeTok{method =} \StringTok{"single"}\NormalTok{)}
+\NormalTok{cah.max }\OtherTok{\textless{}{-}} \FunctionTok{hclust}\NormalTok{(d, }\AttributeTok{method =} \StringTok{"complete"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Dengrogrammes}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(cah.ward, }\AttributeTok{hang =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{main =} \StringTok{"Distance de Ward"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{" "}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(cah.min, }\AttributeTok{hang =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{main =} \StringTok{"Distance du saut minimal"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{" "}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(cah.max, }\AttributeTok{hang =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{main =} \StringTok{"Distance du saut maximal"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{" "}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-15-1.pdf}
+On s'apercoit raipdement que c'est le critère de Ward qui correspond le
+mieux à nos données. On voit déjà qu'on peut partitionner nos données en
+3 ou 4 groupes
+
+\textbf{Fonction de perte}
+
+Pour rappel, on cherche à maximiser l'inertie inter-classe. En effet,
+nous avons pour objectif de créer des groupes d'individus se ressemblant
+fortement (inertie intra-classes faible) et tels que les groupes soient
+les plus distints possible (inertie inter-classes élevée). L'inertie
+inter-classe est logiquement maximale (égale à l'intertie totale)
+lorsqu'il y a autant de classes que d'individus. Nous cherchons dans le
+graphique ci-dessous un ``coude'' qui correspond à une rupture dans la
+courbe (moment où l'inertie inter augmente beaucoup).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{rev}\NormalTok{(cah.ward}\SpecialCharTok{$}\NormalTok{height)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{], }\AttributeTok{type =} \StringTok{"b"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Distance de Ward"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{rev}\NormalTok{(cah.min}\SpecialCharTok{$}\NormalTok{height)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{], }\AttributeTok{type =} \StringTok{"b"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Distance du saut minimal"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{rev}\NormalTok{(cah.max}\SpecialCharTok{$}\NormalTok{height)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{], }\AttributeTok{type =} \StringTok{"b"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Distance du saut maximal"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-18-1.pdf}
+
+Avec le critère de Ward, la trace de la perte d'inertie nous incite à
+choisir des partitions en 3 groupes (``coude'' très visible).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{NbClust}\NormalTok{(}\FunctionTok{as.matrix}\NormalTok{(donnee), }\AttributeTok{min.nc =} \DecValTok{3}\NormalTok{, }\AttributeTok{max.nc =} \DecValTok{15}\NormalTok{, }\AttributeTok{method =} \StringTok{"ward.D"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+\begin{verbatim}
+## *** : The Hubert index is a graphical method of determining the number of clusters.
+##                 In the plot of Hubert index, we seek a significant knee that corresponds to a 
+##                 significant increase of the value of the measure i.e the significant peak in Hubert
+##                 index second differences plot. 
+## 
+\end{verbatim}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-19-2.pdf}
+
+\begin{verbatim}
+## *** : The D index is a graphical method of determining the number of clusters. 
+##                 In the plot of D index, we seek a significant knee (the significant peak in Dindex
+##                 second differences plot) that corresponds to a significant increase of the value of
+##                 the measure. 
+##  
+## ******************************************************************* 
+## * Among all indices:                                                
+## * 4 proposed 3 as the best number of clusters 
+## * 9 proposed 4 as the best number of clusters 
+## * 1 proposed 5 as the best number of clusters 
+## * 1 proposed 8 as the best number of clusters 
+## * 5 proposed 9 as the best number of clusters 
+## * 1 proposed 12 as the best number of clusters 
+## * 1 proposed 14 as the best number of clusters 
+## * 1 proposed 15 as the best number of clusters 
+## 
+##                    ***** Conclusion *****                            
+##  
+## * According to the majority rule, the best number of clusters is  4 
+##  
+##  
+## *******************************************************************
+\end{verbatim}
+
+\begin{verbatim}
+## $All.index
+##        KL      CH Hartigan     CCC     Scott      Marriot    TrCovW   TraceW
+## 3  1.8427 57.8307  20.9221 -2.4313  418.9626 5.164539e+16 17615.022 876.1166
+## 4  1.5564 50.1387  14.8863 -2.6786  609.3518 2.936225e+16 13591.412 776.9927
+## 5  1.1442 44.4853  12.5772 -3.1997  758.7814 1.875028e+16 12060.060 711.9705
+## 6  0.2926 40.6143  28.1333 -3.4454  808.6017 2.003593e+16  9447.050 660.6776
+## 7  2.0767 44.1722  16.2945  0.1436  962.9977 1.081897e+16  6363.185 562.4029
+## 8  0.5419 43.7703  28.2797  1.4605 1070.1097 7.440776e+15  4995.833 510.4213
+## 9  4.3721 48.3399   9.3875  5.1119 1220.3724 3.829616e+15  3394.298 433.3464
+## 10 1.1997 46.2701   8.1650  5.2609 1293.2347 3.056237e+15  3031.433 409.0434
+## 11 0.8340 44.3410   8.9717  5.3083 1376.7840 2.242316e+15  2823.262 388.8221
+## 12 1.2044 43.1654   7.8186  5.6184 1447.0356 1.752186e+15  2505.380 367.6767
+## 13 0.9742 41.9434   7.8612  5.7962 1506.8698 1.437148e+15  2361.741 350.0208
+## 14 1.5395 41.0299   5.8597  6.0549 1560.7539 1.207096e+15  2068.108 333.0212
+## 15 1.2204 39.7156   5.0920  6.0050 1614.6635 1.003397e+15  1975.666 320.7374
+##    Friedman  Rubin Cindex     DB Silhouette   Duda Pseudot2   Beale Ratkowsky
+## 3   25.3844 1.7053 0.2347 1.5929     0.2289 0.6755  15.3735  2.7975    0.3307
+## 4   36.3323 1.9228 0.2246 1.4508     0.2470 0.8298  12.9207  1.2123    0.3286
+## 5   40.4147 2.0984 0.2063 1.7295     0.2079 0.7280  24.6545  2.2097    0.3070
+## 6   42.7143 2.2613 0.2032 1.7717     0.1599 0.3414  17.3592 10.4241    0.2951
+## 7   51.2007 2.6565 0.1987 1.5066     0.1827 0.7968  10.4568  1.4951    0.2928
+## 8   54.2108 2.9270 0.1882 1.4706     0.2036 1.0665  -1.6830 -0.3609    0.2832
+## 9   56.8841 3.4476 0.3108 1.2326     0.2160 0.7129  10.4715  2.3289    0.2800
+## 10  59.8853 3.6524 0.2997 1.2020     0.2206 0.7251  12.1343  2.2081    0.2688
+## 11  62.3662 3.8424 0.2914 1.2141     0.2056 0.4977  12.1126  5.5951    0.2587
+## 12  64.6251 4.0634 0.2862 1.1860     0.2105 0.6908   9.4000  2.5657    0.2503
+## 13  68.3495 4.2683 0.2798 1.2286     0.1915 0.7334  11.6328  2.1168    0.2424
+## 14  70.8060 4.4862 0.2721 1.2700     0.1875 0.7291   7.4314  2.1250    0.2353
+## 15  72.5606 4.6580 0.2654 1.3223     0.1767 0.5385  13.7138  4.8442    0.2286
+##        Ball Ptbiserial    Frey McClain   Dunn Hubert SDindex Dindex   SDbw
+## 3  292.0389     0.4053 -0.1502  1.1448 0.0751 0.0014  2.8973 1.9790 0.9576
+## 4  194.2482     0.4357  0.4909  1.1797 0.0757 0.0016  3.0800 1.8707 1.0002
+## 5  142.3941     0.4312  5.5517  1.5461 0.0757 0.0019  3.1602 1.7666 0.9660
+## 6  110.1129     0.3474 -0.1479  2.5747 0.0685 0.0019  3.1581 1.6756 0.7597
+## 7   80.3433     0.3571  0.1256  2.5488 0.0685 0.0022  3.1016 1.5843 0.6454
+## 8   63.8027     0.3659 -0.1291  2.8953 0.0717 0.0023  3.1233 1.5211 0.6410
+## 9   48.1496     0.3835  0.1872  2.8069 0.1221 0.0025  2.9451 1.4625 0.4967
+## 10  40.9043     0.3829  0.8481  2.9427 0.1221 0.0026  2.9247 1.4258 0.4672
+## 11  35.3475     0.3608  0.0927  3.4443 0.1221 0.0026  3.1190 1.3866 0.4425
+## 12  30.6397     0.3617  0.4867  3.4868 0.1221 0.0026  3.0365 1.3450 0.4064
+## 13  26.9247     0.3521  1.0162  3.7714 0.1154 0.0027  2.9761 1.3048 0.3864
+## 14  23.7872     0.3208  0.4286  4.6963 0.1154 0.0027  3.4028 1.2676 0.3676
+## 15  21.3825     0.3095  1.4422  5.1586 0.1154 0.0028  3.4239 1.2396 0.3519
+## 
+## $All.CriticalValues
+##    CritValue_Duda CritValue_PseudoT2 Fvalue_Beale
+## 3          0.6825            14.8875       0.0037
+## 4          0.7508            20.9124       0.2845
+## 5          0.7548            21.4445       0.0200
+## 6          0.4954             9.1671       0.0000
+## 7          0.7098            16.7607       0.1478
+## 8          0.6621            13.7821       1.0000
+## 9          0.6573            13.5542       0.0158
+## 10         0.6825            14.8875       0.0216
+## 11         0.5447            10.0311       0.0000
+## 12         0.6292            12.3746       0.0083
+## 13         0.6825            14.8875       0.0282
+## 14         0.6225            12.1297       0.0296
+## 15         0.5901            11.1141       0.0000
+## 
+## $Best.nc
+##                     KL      CH Hartigan     CCC    Scott      Marriot  TrCovW
+## Number_clusters 9.0000  3.0000   9.0000 14.0000   4.0000 5.000000e+00    4.00
+## Value_Index     4.3721 57.8307  18.8923  6.0549 190.3892 1.189761e+16 4023.61
+##                  TraceW Friedman   Rubin Cindex     DB Silhouette   Duda
+## Number_clusters  9.0000    4.000  9.0000 8.0000 12.000      4.000 4.0000
+## Value_Index     52.7719   10.948 -0.3158 0.1882  1.186      0.247 0.8298
+##                 PseudoT2  Beale Ratkowsky    Ball PtBiserial Frey McClain
+## Number_clusters   4.0000 4.0000    3.0000  4.0000     4.0000    2  3.0000
+## Value_Index      12.9207 1.2123    0.3307 97.7907     0.4357   NA  1.1448
+##                   Dunn Hubert SDindex Dindex    SDbw
+## Number_clusters 9.0000      0  3.0000      0 15.0000
+## Value_Index     0.1221      0  2.8973      0  0.3519
+## 
+## $Best.partition
+##                    Afghanistan                        Albania 
+##                              1                              2 
+##                        Algeria                         Angola 
+##                              2                              1 
+##            Antigua and Barbuda                      Argentina 
+##                              2                              2 
+##                        Armenia                      Australia 
+##                              2                              3 
+##                        Austria                     Azerbaijan 
+##                              3                              2 
+##                        Bahamas                        Bahrain 
+##                              2                              4 
+##                     Bangladesh                       Barbados 
+##                              1                              2 
+##                        Belarus                        Belgium 
+##                              2                              3 
+##                         Belize                          Benin 
+##                              2                              1 
+##                         Bhutan                        Bolivia 
+##                              1                              1 
+##         Bosnia and Herzegovina                       Botswana 
+##                              2                              1 
+##                         Brazil                         Brunei 
+##                              2                              4 
+##                       Bulgaria                   Burkina Faso 
+##                              2                              1 
+##                        Burundi                       Cambodia 
+##                              1                              1 
+##                       Cameroon                         Canada 
+##                              1                              3 
+##                     Cape Verde       Central African Republic 
+##                              2                              1 
+##                           Chad                          Chile 
+##                              1                              2 
+##                          China                       Colombia 
+##                              2                              2 
+##                        Comoros                Congo Dem. Rep. 
+##                              1                              1 
+##                     Congo Rep.                     Costa Rica 
+##                              1                              2 
+##                  Cote d'Ivoire                        Croatia 
+##                              1                              2 
+##                         Cyprus                 Czech Republic 
+##                              2                              2 
+##                        Denmark             Dominican Republic 
+##                              3                              2 
+##                        Ecuador                          Egypt 
+##                              2                              1 
+##                    El Salvador              Equatorial Guinea 
+##                              2                              1 
+##                        Eritrea                        Estonia 
+##                              1                              2 
+##                           Fiji                        Finland 
+##                              1                              3 
+##                         France                          Gabon 
+##                              3                              1 
+##                         Gambia                        Georgia 
+##                              1                              2 
+##                        Germany                          Ghana 
+##                              3                              1 
+##                         Greece                        Grenada 
+##                              3                              2 
+##                      Guatemala                         Guinea 
+##                              2                              1 
+##                  Guinea-Bissau                         Guyana 
+##                              1                              1 
+##                          Haiti                        Hungary 
+##                              1                              2 
+##                        Iceland                          India 
+##                              3                              1 
+##                      Indonesia                           Iran 
+##                              2                              2 
+##                           Iraq                        Ireland 
+##                              1                              3 
+##                         Israel                          Italy 
+##                              3                              3 
+##                        Jamaica                          Japan 
+##                              2                              3 
+##                         Jordan                     Kazakhstan 
+##                              2                              2 
+##                          Kenya                       Kiribati 
+##                              1                              1 
+##                         Kuwait                Kyrgyz Republic 
+##                              4                              1 
+##                            Lao                         Latvia 
+##                              1                              2 
+##                        Lebanon                        Lesotho 
+##                              2                              1 
+##                        Liberia                          Libya 
+##                              1                              4 
+##                      Lithuania                     Luxembourg 
+##                              2                              4 
+##                  Macedonia FYR                     Madagascar 
+##                              2                              1 
+##                         Malawi                       Malaysia 
+##                              1                              2 
+##                       Maldives                           Mali 
+##                              2                              1 
+##                          Malta                     Mauritania 
+##                              4                              1 
+##                      Mauritius           Micronesia Fed. Sts. 
+##                              2                              1 
+##                        Moldova                       Mongolia 
+##                              2                              2 
+##                     Montenegro                        Morocco 
+##                              2                              2 
+##                     Mozambique                        Myanmar 
+##                              1                              1 
+##                        Namibia                          Nepal 
+##                              1                              1 
+##                    Netherlands                    New Zealand 
+##                              3                              3 
+##                          Niger                        Nigeria 
+##                              1                              1 
+##                         Norway                           Oman 
+##                              3                              4 
+##                       Pakistan                         Panama 
+##                              1                              2 
+##                       Paraguay                           Peru 
+##                              2                              2 
+##                    Philippines                         Poland 
+##                              1                              2 
+##                       Portugal                          Qatar 
+##                              3                              4 
+##                        Romania                         Russia 
+##                              2                              2 
+##                         Rwanda                          Samoa 
+##                              1                              2 
+##                   Saudi Arabia                        Senegal 
+##                              4                              1 
+##                         Serbia                     Seychelles 
+##                              2                              2 
+##                   Sierra Leone                      Singapore 
+##                              1                              4 
+##                Slovak Republic                       Slovenia 
+##                              2                              2 
+##                Solomon Islands                   South Africa 
+##                              1                              1 
+##                    South Korea                          Spain 
+##                              2                              3 
+##                      Sri Lanka St. Vincent and the Grenadines 
+##                              2                              2 
+##                          Sudan                       Suriname 
+##                              1                              2 
+##                         Sweden                    Switzerland 
+##                              3                              3 
+##                     Tajikistan                       Tanzania 
+##                              1                              1 
+##                       Thailand                    Timor-Leste 
+##                              2                              1 
+##                           Togo                          Tonga 
+##                              1                              2 
+##                        Tunisia                         Turkey 
+##                              2                              2 
+##                   Turkmenistan                         Uganda 
+##                              1                              1 
+##                        Ukraine           United Arab Emirates 
+##                              2                              4 
+##                 United Kingdom                  United States 
+##                              3                              3 
+##                        Uruguay                     Uzbekistan 
+##                              2                              1 
+##                        Vanuatu                      Venezuela 
+##                              1                              2 
+##                        Vietnam                          Yemen 
+##                              2                              1 
+##                         Zambia 
+##                              1
+\end{verbatim}
+
+Nbclust \textbf{Cutree}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nbc }\OtherTok{\textless{}{-}} \DecValTok{3}
+\NormalTok{gpe.ward }\OtherTok{\textless{}{-}} \FunctionTok{cutree}\NormalTok{(cah.ward, }\AttributeTok{k =}\NormalTok{ nbc) }\CommentTok{\# Classe affectée pour chaque individu}
+\NormalTok{gpe.min }\OtherTok{\textless{}{-}} \FunctionTok{cutree}\NormalTok{(cah.min, }\AttributeTok{k =}\NormalTok{ nbc)}
+\NormalTok{gpe.max }\OtherTok{\textless{}{-}} \FunctionTok{cutree}\NormalTok{(cah.max, }\AttributeTok{k =}\NormalTok{ nbc)}
+\FunctionTok{plot}\NormalTok{(cah.ward, }\AttributeTok{hang =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{main =} \StringTok{"Distance de Ward"}\NormalTok{)}
+\FunctionTok{rect.hclust}\NormalTok{(cah.ward, nbc, }\AttributeTok{border =} \StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(cah.min, }\AttributeTok{hang =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{main =} \StringTok{"Distance du saut minimal"}\NormalTok{)}
+\FunctionTok{rect.hclust}\NormalTok{(cah.min, nbc, }\AttributeTok{border =} \StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(cah.max, }\AttributeTok{hang =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{main =} \StringTok{"Distance du saut maximal"}\NormalTok{)}
+\FunctionTok{rect.hclust}\NormalTok{(cah.max, nbc, }\AttributeTok{border =} \StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-22-1.pdf}
+
+faire une clusplot
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{clusplot}\NormalTok{(donnee, gpe.ward, }\AttributeTok{labels =}\NormalTok{ nbc, }\AttributeTok{col.p =} \FunctionTok{as.numeric}\NormalTok{(gpe.ward))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{projet_classification_files/figure-latex/unnamed-chunk-23-1.pdf}
+
+\hypertarget{partie-3-agragation-autour-des-centres-mobiles}{%
+\subsubsection{Partie 3 : Agragation autour des centres
+mobiles}\label{partie-3-agragation-autour-des-centres-mobiles}}
+
+\textbf{Classifiaction mixte} \textbf{Classifiaction finale}
+
+\hypertarget{comparaison-des-ruxe9sultats-obtenus-avec-les-diffuxe9rentes-muxe9thodes}{%
+\section{3 - Comparaison des résultats obtenus avec les différentes
+méthodes}\label{comparaison-des-ruxe9sultats-obtenus-avec-les-diffuxe9rentes-muxe9thodes}}
+
+Caract ́erisation de la partition obtenue Repr ́esentation informative
+des r ́esultats . Graphiques adapt ́es, repr ́esentations factorielles
+si adapt ́ees Optionnel : Repr ́esentation spatiale des r ́esultats sur
+la carte de Rennes Faire une ACP
+
+\hypertarget{conclusion-vis-uxe0-vis-des-choix-effectuuxe9s}{%
+\section{4 - Conclusion vis à vis des choix
+effectués}\label{conclusion-vis-uxe0-vis-des-choix-effectuuxe9s}}
+
+Quels points peuvent ˆetre critiqu ́es dans vos choix Quelles pistes
+pourraient ˆetre explor ́ees pour aller plus loin et/ou mieux explorer
+ces donn ́ees ?
+
+\end{document}
