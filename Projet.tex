@@ -198,6 +198,14 @@ Nous avons 167 individus et 9 variables
 ##  Max.   :105000
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-7-1.pdf}
+
 \hypertarget{pre-traimement}{%
 \subsection{Pre-traimement}\label{pre-traimement}}
 
@@ -259,7 +267,7 @@ contexte et de la validité des données utilisées
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-9-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-10-1.pdf}
 
 La matrice de corrélation nous aide à mieux comprendre les relations
 entre chaque variable et pourra nous aider à interpréter plus tard.
@@ -298,7 +306,7 @@ groupes ?
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-11-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-12-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -306,7 +314,7 @@ groupes ?
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-12-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-13-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -314,7 +322,7 @@ groupes ?
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-13-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-14-1.pdf}
 
 On s'apercoit raipdement que c'est le critère de Ward qui correspond le
 mieux à nos données. On voit déjà qu'on peut partitionner nos données en
@@ -337,7 +345,7 @@ courbe (moment où l'inertie inter augmente beaucoup).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-14-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-15-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -345,7 +353,7 @@ courbe (moment où l'inertie inter augmente beaucoup).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-15-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-16-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -353,7 +361,7 @@ courbe (moment où l'inertie inter augmente beaucoup).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-16-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-17-1.pdf}
 
 Avec le critère de Ward, la trace de la perte d'inertie nous incite à
 choisir des partitions en 3 groupes (``coude'' très visible).
@@ -370,7 +378,7 @@ choisir des partitions en 3 groupes (``coude'' très visible).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-18-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-19-1.pdf}
 
 \begin{verbatim}
 ## *** : The Hubert index is a graphical method of determining the number of clusters.
@@ -380,7 +388,7 @@ choisir des partitions en 3 groupes (``coude'' très visible).
 ## 
 \end{verbatim}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-18-2.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-19-2.pdf}
 
 \begin{verbatim}
 ## *** : The D index is a graphical method of determining the number of clusters. 
@@ -673,7 +681,7 @@ Voir quand on knit en html pour l'interprétation
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-20-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -682,7 +690,7 @@ Voir quand on knit en html pour l'interprétation
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-20-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-21-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -691,7 +699,7 @@ Voir quand on knit en html pour l'interprétation
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-21-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-22-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -699,7 +707,7 @@ Voir quand on knit en html pour l'interprétation
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-22-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-23-1.pdf}
 
 \hypertarget{algoritlme-des-kmeans}{%
 \subsection{Algoritlme des Kmeans}\label{algoritlme-des-kmeans}}
@@ -713,7 +721,7 @@ observe l'évolution de la variance intra-groupes en fonction du nombre
 de groupes. On rajoute également l'option « nstart =50 » pour stabiliser
 les résultats.
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-23-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-24-1.pdf}
 
 A la vue de ce graphique, on aurait tendance à choisir K= 3,4 ou 5
 groupes en appliquant la méthode dite « du coude »
@@ -727,7 +735,7 @@ groupes en appliquant la méthode dite « du coude »
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-24-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-25-1.pdf}
 
 La représentation en clusplot nous permet de voir qu'il y a 4 groupes
 qui se séparent plutôt bien sur les composante 1, 2, 3 et 4. (on le voit
@@ -849,8 +857,8 @@ l'aide de la fonction catdes.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-27-1.pdf}
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-27-2.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-28-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-28-2.pdf}
 
 Les 3 groupes sont donc caractérisés ainsi :
 
@@ -898,19 +906,15 @@ Les 3 groupes sont donc caractérisés ainsi :
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-29-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-30-1.pdf}
 
 Suite à l'analyse de nos différentes méthodes, nous nous rendons compte
 que 3 gros groupes se sont formés. Nous décidons de nous concentrer sur
 le groupe des pays les moins développés.
 
-\hypertarget{partie-3-agruxe9gation-autour-des-centres-mobiles}{%
-\subsubsection{Partie 3 : Agrégation autour des centres
-mobiles}\label{partie-3-agruxe9gation-autour-des-centres-mobiles}}
-
-\textbf{Classifiaction mixte}
-
-\textbf{Classifiaction finale}
+\hypertarget{visualisation-des-ruxe9sultats-obtenus-carte}{%
+\subsection{Visualisation des résultats obtenus
+(carte)}\label{visualisation-des-ruxe9sultats-obtenus-carte}}
 
 \hypertarget{traitement-du-groupe-des-pays-les-moins-favorisuxe9s}{%
 \section{Traitement du groupe des pays les moins
@@ -955,7 +959,7 @@ effectué plus haut c'est ce qui nous semble le plus pertinent)
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-31-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-33-1.pdf}
 
 De la même façon que la seconde partie, on observe la présence d'une
 structure ``naturelle'' en un nombre de groupe modéré. Regardons la
@@ -968,7 +972,7 @@ ne pas ``noyer'' l'information importante)
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-32-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-34-1.pdf}
 
 Le tracé de la perte d'inertie nous incite à choisir une partition en 4
 groupes (lecture de gauche à droite : juste avant le coude ou changement
@@ -983,7 +987,7 @@ On peut aussi s'aider de critères automatiques calculés dans le package
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-33-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-35-1.pdf}
 
 \begin{verbatim}
 ## *** : The Hubert index is a graphical method of determining the number of clusters.
@@ -993,7 +997,7 @@ On peut aussi s'aider de critères automatiques calculés dans le package
 ## 
 \end{verbatim}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-33-2.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-35-2.pdf}
 
 \begin{verbatim}
 ## *** : The D index is a graphical method of determining the number of clusters. 
@@ -1224,7 +1228,7 @@ de la courbe d'inertie/dendrogramme.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-35-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-37-1.pdf}
 
 \begin{itemize}
 \tightlist
@@ -1238,7 +1242,7 @@ de la courbe d'inertie/dendrogramme.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-36-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-38-1.pdf}
 
 \hypertarget{avec-les-kmeans}{%
 \subsubsection{Avec les kmeans :}\label{avec-les-kmeans}}
@@ -1374,8 +1378,8 @@ l'aide de la fonction catdes.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-38-1.pdf}
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-38-2.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-40-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-40-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1406,10 +1410,10 @@ l'aide de la fonction catdes.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-40-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-42-1.pdf}
 
 \hypertarget{conclusion-vis-uxe0-vis-des-choix-effectuuxe9s}{%
-\section{4 - Conclusion vis à vis des choix
+\section{Conclusion vis à vis des choix
 effectués}\label{conclusion-vis-uxe0-vis-des-choix-effectuuxe9s}}
 
 Quels points peuvent être critiqués dans votre choix Quelles pistes
@@ -1428,5 +1432,18 @@ pouvoir observer les pays qui étaient le plus en difficulté. Là encore,
 nous avons du faire un choix : donner une grosse somme d'argent aux pays
 dans le besoin puis une somme d'argent plus faible aux pays qui en ont
 moins besoin, mais une aide sera là quand même.
+
+\hypertarget{suggestion-dune-liste-de-pays-uxe0-aider-en-priorituxe9}{%
+\section{Suggestion d'une liste de pays à aider en
+priorité}\label{suggestion-dune-liste-de-pays-uxe0-aider-en-priorituxe9}}
+
+\hypertarget{pour-aller-plus-loin}{%
+\section{Pour aller plus loin}\label{pour-aller-plus-loin}}
+
+\hypertarget{amuxe9liorations}{%
+\subsection{Améliorations}\label{amuxe9liorations}}
+
+\hypertarget{pistes}{%
+\subsection{Pistes}\label{pistes}}
 
 \end{document}
