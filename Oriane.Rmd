@@ -314,9 +314,6 @@ library(rnaturalearth)
 
 
 ```{r}
-head(donnee)
-# Définir la palette de couleurs pour chaque groupe
-couleurs <- c("red", "orange", "green", "blue")
 
 
 don_carte <- donnee

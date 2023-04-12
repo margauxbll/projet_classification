@@ -33,6 +33,18 @@ library(FactoMineR)
 library(ade4)
 library(ggplot2)
 library(factoextra)
+
+# package carte 
+library(ggplot2)
+
+library(ggmap)
+library(rworldmap)
+library(countrycode)
+library(sf)
+library(tmap)
+
+library(tidyverse)
+library(rnaturalearth)
 ```
 
 # Compréhension et pré-traitement des données
@@ -315,10 +327,39 @@ Suite à l'analyse de nos différentes méthodes, nous nous rendons compte que 3
 
 ## Visualisation des résultats obtenus (carte)
 
-```{r}
+```{r echo=FALSE}
+don_carte <- donnee
+don_carte$pays <- row.names(don_carte)
+
+# Géocoder les noms de pays en utilisant la base de données worldmap
+df_coords <- data.frame(getMap()[, c("ISO3", "LAT", "LON")])
+colnames(df_coords) <- c("iso3c", "lat", "lon")
+head(df_coords)
+
+# Convertir les noms de pays en codes ISO3 en utilisant countrycode
+don_carte$iso3c <- countrycode(sourcevar = don_carte$pays, origin = "country.name", destination = "iso3c")
+
+
+merged_data <- merge(map_data("world"), don_carte, by.x = "region", by.y = "pays", all = TRUE)
+
+#Importer les données géographiques
+world <- ne_countries(returnclass = "sf")
+head(world)
+
+
+
+# Joindre les données géographiques et les données sur les valeurs
+world_data <- left_join(world, don_carte, by = c("iso_a3" = "iso3c"))
+
+
+ggplot() +
+  geom_sf(data = world_data, aes(fill = gpecah)) +
+  scale_fill_manual(values = c("red",  "yellow", "green")) +  # remplacez les couleurs par celles que vous souhaitez
+  theme_void()
 
 ```
 
+Voici une représentation cartographique de nos 3 groupes. On observe bien que les pays dans le besoin (les individus se trouvant dans le groupe 1 de notre cah) se situent principalement en afrique et en asie. 
 
 # Traitement du groupe des pays les moins favorisés
 
