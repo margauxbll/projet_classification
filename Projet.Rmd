@@ -25,8 +25,6 @@ output:
 
 ---
 
-# Chargement des librairies
-
 ```{r include=FALSE}
 library(corrplot)
 library(cluster)
@@ -34,6 +32,7 @@ library(NbClust)
 library(FactoMineR)
 library(ade4)
 library(ggplot2)
+library(factoextra)
 ```
 
 # Compréhension et pré-traitement des données
@@ -115,7 +114,7 @@ contexte et de la validité des données utilisées
 donnee <- data.frame(scale(donnee))
 ```
 
-## Matrice de corrélation
+**Matrice de corrélation**
 
 ```{r}
 var <- donnee[,1:9]
@@ -194,10 +193,11 @@ matrix <- as.matrix(donnee)
 ```
 
 ```{r}
-NbClust(matrix, min.nc = 2, max.nc = 15, method = "ward.D")
+NbClust(matrix, min.nc = 2, max.nc = 15, method = "ward.D", index = "all")
 ```
 
-Voir quand on knit en html pour l'interprétation
+On nous dit que les meilleurs clusters sont 2 ou 4 avec 5 chacun ou 3 avec 4. 
+Au vu de l'interprétation graphique faite précédemment, nous allons rester sur 3 clusters, qui nous semble le plus pertinent.
 
 
 **Cutree**
@@ -224,9 +224,11 @@ rect.hclust(cah.max, nbc, border = "blue")
 ```{r}
 clusplot(donnee, gpe.ward, labels = nbc, col.p = as.numeric(gpe.ward))
 ```
+Les 3 groupes sont reconnaissables mais mélangés à certains endroits, particulièrement entre . 
 
+Ce graphe correspond à la représentation des groupes sur les deux premiers axes principaux d’une ACP. De plus, des ellipses de contour autour des groupes sont tracées. On observe ici en colorant les points avec leur vraie classe que les groupes vert et rouge et rouge et noir sont difficiles à retrouver.
 
-## Algoritlme des Kmeans
+## Algorithme des Kmeans
 
 Tout d'abord nous allons utiliser l'algorithme des k-means pour avoir
 une première idée de notre classification finale. Si on ne sait pas a
@@ -244,18 +246,18 @@ plot(c,type="b")
 ```
 
 A la vue de ce graphique, on aurait tendance à choisir K= 3,4 ou 5
-groupes en appliquant la méthode dite « du coude »
+groupes en appliquant la méthode dite « du coude ». Ayant, grâce à la CAH, choisi de garder K=3, nous allons conserver ce nombre pour les k-means. Ce graphique nous conforome tout de même dans notre idée. 
 
 ```{r}
-K=4
+K=3
 cl = kmeans(donnee,K,nstart=50)
 gpe = cl$cluster
-clusplot(donnee,gpe,labels=4,col.p=gpe)
+clusplot(donnee,gpe,labels=3,col.p=gpe)
 
 ```
 
-La représentation en clusplot nous permet de voir qu'il y a 4 groupes
-qui se séparent plutôt bien sur les composante 1, 2, 3 et 4. (on le voit
+La représentation en clusplot nous permet de voir qu'il y a 3 groupes
+qui se séparent plutôt bien sur les composante 1, 2 et 3. (on le voit
 au travers des différents couleur sur le graphique).
 
 Representation des groupes sur le premier plan factoriel
@@ -321,13 +323,13 @@ Suite à l'analyse de nos différentes méthodes, nous nous rendons compte que 3
 # Traitement du groupe des pays les moins favorisés
 
 
-Caractérisation de la partition obtenue Représentation informative des résultats.
+Caractérisation de la partition obtenue 
+Représentation informative des résultats.
 Graphiques adaptés, représentations factorielles si adaptées
 Optionnel : Représentation spatiale des résultats sur la carte de Rennes 
 Faire une ACP
 
 Nous allons maintenant uniquement nous pencher sur les pays les moins développés (ceux appartenant au premier groupe).
-
 
 
 ### Partie 1 : CAH sur les pays moins développés
@@ -350,8 +352,6 @@ d_moinsdev = dist(donnee_moinsdev)
 cah.ward.moinsdev = hclust(d_moinsdev,method="ward.D")
 
 plot(cah.ward.moinsdev,hang=-1)
-
-
 ```
 
 De la même façon que la seconde partie, on observe la présence d'une structure "naturelle" en un nombre de groupe modéré.  Regardons la courbe de perte d'inertie (on se contente des 15 premières valeurs pour ne pas "noyer" l'information importante)
@@ -428,6 +428,10 @@ text(CCpca_moinsdev$li[,1], CCpca_moinsdev$li[,2],labels =row.names(donnee_moins
 s.class(CCpca_moinsdev$li, factor(gpe), col = 2:4, add.plot = TRUE,clabel = 1)
 ```
 
+```{r}
+pays_a_aider <- donnee_moinsdev[donnee_moinsdev$gpecah ==1,]
+head(pays_a_aider)
+```
 
 
 # Conclusion vis à vis des choix effectués
