@@ -33,7 +33,7 @@ library(cluster)
 library(NbClust)
 library(FactoMineR)
 library(ade4)
-
+library(ggplot2)
 ```
 
 # Compréhension et pré-traitement des données
@@ -68,6 +68,11 @@ for (i in 1:9) {
   hist(donnee[,i], main=colnames(donnee)[i], xlab="")
 }
 ```
+
+```{r}
+ggplot()
+```
+
 
 ## Pre-traimement
 
@@ -306,16 +311,11 @@ s.class(CCpca$li, factor(gpe), col = 2:4, add.plot = TRUE,clabel = 1)
 Suite à l'analyse de nos différentes méthodes, nous nous rendons compte que 3 gros groupes se sont formés. Nous décidons de nous concentrer sur le groupe des pays les moins développés. 
 
 
+## Visualisation des résultats obtenus (carte)
 
+```{r}
 
-
-### Partie 3 : Agrégation autour des centres mobiles
-
-**Classifiaction mixte**
-
-
-**Classifiaction finale**
-
+```
 
 
 # Traitement du groupe des pays les moins favorisés
@@ -430,7 +430,7 @@ s.class(CCpca_moinsdev$li, factor(gpe), col = 2:4, add.plot = TRUE,clabel = 1)
 
 
 
-# 4 - Conclusion vis à vis des choix effectués
+# Conclusion vis à vis des choix effectués
 
 Quels points peuvent être critiqués dans votre choix
 Quelles pistes pourraient être exploréess pour aller plus loin et/ou mieux explorer ces données ?
@@ -439,7 +439,18 @@ Nous avons fait un premier gros choix suite à l'obtention de nos premiers résu
 
 Nous avons enusite retraité ce groupe de pays défavorisés afin de pouvoir observer les pays qui étaient le plus en difficulté. Là encore, nous avons du faire un choix : donner une grosse somme d'argent aux pays dans le besoin puis une somme d'argent plus faible aux pays qui en ont moins besoin, mais une aide sera là quand même. 
 
-# 5 - Suggestion d'une liste de pays à aider en priorité
+# Suggestion d'une liste de pays à aider en priorité
+
+# Pour aller plus loin
+
+## Améliorations
+
+
+
+## Pistes
+
+
+
 
 
  
