@@ -517,7 +517,7 @@ x_values <- pull(t, Nom_pays)
 
 paste('Il y a', length(x_values), 'pays à aider en priorité')
 # Afficher les valeurs de la colonne "x" sous forme de liste à puce
-cat(paste("*", x_values, sep = "\\n"))
+cat(paste(x_values, sep = "\\n"))
 
 ```
 
