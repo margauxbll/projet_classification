@@ -359,7 +359,9 @@ ggplot() +
 
 ```
 
-Voici une représentation cartographique de nos 3 groupes. On observe bien que les pays dans le besoin (les individus se trouvant dans le groupe 1 de notre cah) se situent principalement en afrique et en asie. 
+Voici une représentation cartographique de nos 3 groupes. 
+Pour le choix des couleurs (roueg étant les pays les plus dans le besoin et vert les pays le moins dans le besoin), nous nous sommes basées sur la représentation de la CAH faite plus haut ainsi que sur le rendu du catdes. En effet, nous apercevons que dans le groupe 1 (les pays qui ont un fort taux de mortalité infantile et une faible espérance de vie) se trouvent des pays comme l'Angola ou le Nigeria. Nous avons alors reliés la couleur rouge au groupe de ces pays. 
+On observe bien que les pays dans le besoin (les individus se trouvant dans le groupe 1 de notre cah) se situent principalement en afrique et en asie. 
 
 # Traitement du groupe des pays les moins favorisés
 
