@@ -22,7 +22,6 @@ output:
     toc: yes
     toc_depth: 2
     citation_package: natbib
-
 ---
 
 ```{r include=FALSE}
@@ -45,6 +44,11 @@ library(rnaturalearth)
 
 library(tibble)
 library(knitr)
+```
+
+```{r include=FALSE}
+library(knitr)
+opts_chunk$set(comment=NA)
 ```
 
 # Compréhension et pré-traitement des données
@@ -515,19 +519,12 @@ t <- tibble::rownames_to_column(aide, var = "Nom_pays")
 # Extraire la colonne "x" en tant que vecteur
 x_values <- pull(t, Nom_pays)
 
-paste('Il y a', length(x_values), 'pays à aider en priorité')
+paste('Il y a', length(x_values), 'pays à aider en priorité dont voici la liste :')
 # Afficher les valeurs de la colonne "x" sous forme de liste à puce
-cat(paste(x_values, sep = "\\n"))
+cat(paste(x_values, "\n"))
 
 ```
 
-En voici la liste :
-
-```{r}
-# Afficher les valeurs de la colonne "x" sous forme de liste à puce
-cat(paste(x_values, sep = "\n"))
-
-```
 
 On va réaliser une méthode rapide des K-means pour choisir ce que l'on
 alloue comme budget pour nos 22 pays. Nous allons fixer K = 3.
