@@ -465,6 +465,28 @@ text(CCpca_moinsdev$li[,1], CCpca_moinsdev$li[,2],labels =row.names(donnee_moins
 s.class(CCpca_moinsdev$li, factor(gpe), col = 2:4, add.plot = TRUE,clabel = 1)
 ```
 
+```{r,echo=FALSE}
+grp <- donnee |> 
+  group_by(gpecah) |> 
+  summarise(nb=n())
+
+ggplot(grp) +
+  aes(x = gpecah, weight = nb) +
+  geom_bar(fill = "#112446") +
+  theme_minimal()
+```
+
+```{r,echo=FALSE}
+grp_moinsdev <- donnee_moinsdev |> 
+  group_by(gpecah) |> 
+  summarise(nb=n())
+
+ggplot(grp_moinsdev) +
+  aes(x = gpecah, weight = nb) +
+  geom_bar(fill = "#112446") +
+  theme_minimal()
+```
+
 # Conclusion vis à vis des choix effectués
 
 Quels points peuvent être critiqués dans votre choix
