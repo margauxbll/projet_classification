@@ -474,6 +474,30 @@ Nous avons enusite retraité ce groupe de pays défavorisés afin de pouvoir obs
 
 # Suggestion d'une liste de pays à aider en priorité
 
+```{r}
+head(donnee_moinsdev)
+
+
+aide <- donnee_moinsdev[donnee_moinsdev$gpecah==1,]
+head(aide)
+
+
+library(tibble)
+library(knitr)
+# Ajouter les noms des lignes comme colonne
+t <- tibble::rownames_to_column(aide, var = "Nom_pays")
+
+# Extraire la colonne "x" en tant que vecteur
+x_values <- pull(t, Nom_pays)
+
+# Afficher les valeurs de la colonne "x" sous forme de liste à puce
+cat(paste("-", x_values, sep = "\n"))
+
+paste('Il y a', length(x_values), 'pays à aider en priorité')
+```
+
+
+
 # Pour aller plus loin
 
 ## Améliorations
