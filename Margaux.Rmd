@@ -5,72 +5,494 @@ date: "2023-03-23"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-tinytex::install_tinytex()
-```
 
-Chargement des librairies
-
-```{r}
-library(ggplot2)
-library(leaflet)
+```{r include=FALSE}
 library(corrplot)
+library(cluster)
+library(NbClust)
 library(FactoMineR)
 library(ade4)
+library(ggplot2)
+library(factoextra)
+
+# package carte 
+library(ggplot2)
+
+library(ggmap)
+library(rworldmap)
+library(countrycode)
+library(sf)
+library(tmap)
+
+library(tidyverse)
+library(rnaturalearth)
 ```
 
-Ouverture de la base de données 
+# Compréhension et pré-traitement des données
 
 ```{r}
-donnee <- read.csv("Pays_donnees.csv", row.names = 1)
-head(donnee)
+donnee <- read.csv("Pays_donnees.csv", sep = ',', row.names = 1)
+head(donnee,3)
+```
+
+```{r echo=TRUE, results='hide'}
+str(donnee)
+```
+
+Nous observons que toutes les colonnes ont des données qui sont en cohérence avec leur type. 
+
+```{r echo=TRUE, results='hide'}
+dim(donnee)
+```
+
+Nous avons 167 individus et 9 variables
+
+## Statistiques descriptives
+
+```{r}
 summary(donnee)
 ```
 
-Nous allons vérifier s'il y a des données manquantes : 
+```{r eval=FALSE, include=FALSE}
+# Histogramme de chaque variable
+par(mfrow=c(3,3)) # Afficher les 9 histogrammes dans une grille 3x3
+for (i in 1:9) {
+  hist(donnee[,i], main=colnames(donnee)[i], xlab="")
+}
+```
+
+```{r}
+ggplot()
+```
+
+
+## Pre-traimement
+
+**Donnees manquantes ? Outliers**
 
 ```{r}
 table(is.na(donnee))
 ```
 
-Il n'y en a pas. 
+Aucune donnée manquante.
 
-Nous allons maintenant regarder s'il y a des valeurs aberrantes : 
+**Valeur aberrante** 
+
+Exports max à 200 ? Bizarre 
+
+Ce sont à première vue des pays riche comme malte, luxembourg, singapour 
+
+Imports max à 174 ?
+Idem, finalement c'est logique 
+Aucune valeur aberrante
+
+Mais y a des valeurs "leviers", certains pays comme malte, singapour se
+dégagent des valeurs moyennes
+
+**Standardisation ?**
+
+Lorsque l'on a des données avec des unités différentes (par exemple des
+pourcentages, des espérances de vie, des PIB par habitant), il est
+recommandé de centrer et de réduire ces données. Centrer les données
+signifie soustraire la moyenne de la variable de toutes les
+observations, ce qui permet d'avoir une moyenne égale à zéro. Réduire
+les données signifie diviser chaque observation par l'écart-type de la
+variable, ce qui met toutes les variables à la même échelle. Cela
+facilite la comparaison entre les différentes variables et permet des
+analyses statistiques plus fiables. Il est cependant important de garder
+à l'esprit que la signification des résultats dépend toujours du
+contexte et de la validité des données utilisées
 
 ```{r}
-
+donnee <- data.frame(scale(donnee))
 ```
 
-Nous allons regarder les types des variables 
-
-```{r}
-str(donnee)
-```
-
-Aucune valeur aberrante mais nous remarquons des valeurs leviers. 
-
-
-```{r}
-donnees_quanti <- data.frame(scale(donnee))
-```
-
+**Matrice de corrélation**
 
 ```{r}
 var <- donnee[,1:9]
 corrplot(cor(var), type = "upper")
 ```
 
-# ACP
+La matrice de corrélation nous aide à mieux comprendre les relations
+entre chaque variable et pourra nous aider à interpréter plus tard.
+
+Nous allons alors classifier les pays en fonction de NOMS DE COLONNES.
+
+# Classification des pays en utilisant les différents algorithmes abordés en cours
+
+Utilisation des algorithmes de classification vus en cours . Reflexion
+sur les choix operer decider d'une classification finale . Nombre
+de groupes ?
+
+## CAH
 
 ```{r}
-acpdonnee <- PCA(donnee)
-barplot(acpdonnee$eig[,2])
+set.seed(123)
+d <- dist(donnee)
+#d <- dist(e19, method = "manhattan")
+#d <- dist(e19, method = "minkowski")
+cah.ward <- hclust(d, method = "ward.D")
+cah.min <- hclust(d, method = "single")
+cah.max <- hclust(d, method = "complete")
 ```
-À voir si on met : 
+
+**Dengrogrammes**
 
 ```{r}
-s.corcircle(acpdonnee$var, 1, 2, clabel = 0.7)
+plot(cah.ward, hang = -1, main = "Distance de Ward", ylab = " ")
+```
+
+```{r}
+plot(cah.min, hang = -1, main = "Distance du saut minimal", ylab = " ")
+```
+
+```{r}
+plot(cah.max, hang = -1, main = "Distance du saut maximal", ylab = " ")
+```
+
+On s'apercoit raipdement que c'est le critère de Ward qui correspond le
+mieux à nos données. On voit déjà qu'on peut partitionner nos données en
+3 ou 4 groupes
+
+**Fonction de perte**
+
+Pour rappel, on cherche à maximiser l'inertie inter-classe. En effet,
+nous avons pour objectif de créer des groupes d'individus se ressemblant
+fortement (inertie intra-classes faible) et tels que les groupes soient
+les plus distints possible (inertie inter-classes élevée). L'inertie
+inter-classe est logiquement maximale (égale à l'intertie totale)
+lorsqu'il y a autant de classes que d'individus. Nous cherchons dans le
+graphique ci-dessous un "coude" qui correspond à une rupture dans la
+courbe (moment où l'inertie inter augmente beaucoup).
+
+```{r}
+plot(rev(cah.ward$height)[1:10], type = "b", main = "Distance de Ward")
+```
+
+```{r}
+plot(rev(cah.min$height)[1:10], type = "b", main = "Distance du saut minimal")
+```
+
+```{r}
+plot(rev(cah.max$height)[1:10], type = "b", main = "Distance du saut maximal")
+```
+
+Avec le critère de Ward, la trace de la perte d'inertie nous incite à
+choisir des partitions en 3 groupes ("coude" très visible).
+
+```{r}
+matrix <- as.matrix(donnee)
+```
+
+```{r}
+NbClust(matrix, min.nc = 2, max.nc = 15, method = "ward.D", index = "all")
+```
+
+On nous dit que les meilleurs clusters sont 2 ou 4 avec 5 chacun ou 3 avec 4. 
+Au vu de l'interprétation graphique faite précédemment, nous allons rester sur 3 clusters, qui nous semble le plus pertinent.
+
+
+**Cutree**
+
+```{r}
+nbc <- 3
+gpe.ward <- cutree(cah.ward, k = nbc) # Classe affectée pour chaque individu
+gpe.min <- cutree(cah.min, k = nbc)
+gpe.max <- cutree(cah.max, k = nbc)
+plot(cah.ward, hang = -1, main = "Distance de Ward")
+rect.hclust(cah.ward, nbc, border = "blue")
+```
+
+```{r}
+plot(cah.min, hang = -1, main = "Distance du saut minimal")
+rect.hclust(cah.min, nbc, border = "blue")
+```
+
+```{r}
+plot(cah.max, hang = -1, main = "Distance du saut maximal")
+rect.hclust(cah.max, nbc, border = "blue")
+```
+
+```{r}
+clusplot(donnee, gpe.ward, labels = nbc, col.p = as.numeric(gpe.ward))
+```
+Les 3 groupes sont reconnaissables mais mélangés à certains endroits, particulièrement entre . 
+
+Ce graphe correspond à la représentation des groupes sur les deux premiers axes principaux d’une ACP. De plus, des ellipses de contour autour des groupes sont tracées. On observe ici en colorant les points avec leur vraie classe que les groupes vert et rouge et rouge et noir sont difficiles à retrouver.
+
+## Algorithme des Kmeans
+
+Tout d'abord nous allons utiliser l'algorithme des k-means pour avoir
+une première idée de notre classification finale. Si on ne sait pas a
+priori combien de groupes comporte le jeu de donnees, on peut appliquer
+l'algorithme pour plusieurs choix de K possibles et tracer la courbe
+d'évolution de l'inertie . On lance l'algorithme des kmeans et on
+observe l'évolution de la variance intra-groupes en fonction du nombre
+de groupes. On rajoute également l'option « nstart =50 » pour stabiliser
+les résultats.
+
+```{r,echo=FALSE}
+set.seed(123)
+c <-  sapply(1:10,FUN=function(k){ kmeans(donnee,k)$tot.withinss })
+plot(c,type="b")
+```
+
+A la vue de ce graphique, on aurait tendance à choisir K= 3,4 ou 5
+groupes en appliquant la méthode dite « du coude ». Ayant, grâce à la CAH, choisi de garder K=3, nous allons conserver ce nombre pour les k-means. Ce graphique nous conforome tout de même dans notre idée. 
+
+```{r}
+K=3
+cl = kmeans(donnee,K,nstart=50)
+gpe = cl$cluster
+clusplot(donnee,gpe,labels=3,col.p=gpe)
+
+```
+
+La représentation en clusplot nous permet de voir qu'il y a 3 groupes
+qui se séparent plutôt bien sur les composante 1, 2 et 3. (on le voit
+au travers des différents couleur sur le graphique).
+
+Representation des groupes sur le premier plan factoriel
+
+```{r}
+
+```
+
+## Interprétation des groupes 
+
+Nous allons maintenant chercher à interpréter les groupes obtenus à
+l'aide de la fonction catdes.
+
+```{r}
+gpe = cutree(cah.ward,k=3)
+donnee$gpecah = as.factor(gpe)
+interpcah = catdes(donnee,num.var = 10)
+interpcah
+head(donnee)
+```
+
+```{r}
+plot.catdes(interpcah,barplot=T)
 ```
 
 
+Les 3 groupes sont donc caractérisés ainsi :
+
+-   Le premier groupe a une très faible espérance de vie, un faible
+    revenu, un faible pib, et un fort taux de fertilité et de mortalité
+    infantile.
+
+-   Le second groupe se démarque déjà très largement du premier. En
+    effet, il a un faible taux de mort infantile et une haute espérance
+    de vie. Il a cependant un pib par habitant plutôt faible, mais
+    toujours moins que le premier groupe.
+
+-   Le troisième groupe se démarque également du deuxième groupe : il a
+    un très fort pib par habitant, de forts revenus.
+    
+
+```{r}
+CCpca = dudi.pca(donnee[1:9],scannf=FALSE,nf=2)
+cumsum(CCpca$eig)/sum(CCpca$eig) # 63% de variabilité expliquée sur les deux premiers axes
+```
+
+```{r}
+scatter(CCpca,posieig = "none",clab.row=0,pch=NA)
+text(CCpca$li[,1], CCpca$li[,2],labels = row.names(donnee),col=gpe+1,xpd=TRUE)
+s.class(CCpca$li, factor(gpe), col = 2:4, add.plot = TRUE,clabel = 1)
+```
+
+Suite à l'analyse de nos différentes méthodes, nous nous rendons compte que 3 gros groupes se sont formés. Nous décidons de nous concentrer sur le groupe des pays les moins développés. 
+
+
+## Visualisation des résultats obtenus (carte)
+
+```{r echo=FALSE}
+don_carte <- donnee
+don_carte$pays <- row.names(don_carte)
+
+# Géocoder les noms de pays en utilisant la base de données worldmap
+df_coords <- data.frame(getMap()[, c("ISO3", "LAT", "LON")])
+colnames(df_coords) <- c("iso3c", "lat", "lon")
+head(df_coords)
+
+# Convertir les noms de pays en codes ISO3 en utilisant countrycode
+don_carte$iso3c <- countrycode(sourcevar = don_carte$pays, origin = "country.name", destination = "iso3c")
+
+
+merged_data <- merge(map_data("world"), don_carte, by.x = "region", by.y = "pays", all = TRUE)
+
+#Importer les données géographiques
+world <- ne_countries(returnclass = "sf")
+head(world)
+
+
+
+# Joindre les données géographiques et les données sur les valeurs
+world_data <- left_join(world, don_carte, by = c("iso_a3" = "iso3c"))
+
+
+ggplot() +
+  geom_sf(data = world_data, aes(fill = gpecah)) +
+  scale_fill_manual(values = c("red",  "yellow", "green")) +  # remplacez les couleurs par celles que vous souhaitez
+  theme_void()
+
+```
+
+Voici une représentation cartographique de nos 3 groupes. 
+Pour le choix des couleurs (roueg étant les pays les plus dans le besoin et vert les pays le moins dans le besoin), nous nous sommes basées sur la représentation de la CAH faite plus haut ainsi que sur le rendu du catdes. En effet, nous apercevons que dans le groupe 1 (les pays qui ont un fort taux de mortalité infantile et une faible espérance de vie) se trouvent des pays comme l'Angola ou le Nigeria. Nous avons alors reliés la couleur rouge au groupe de ces pays. 
+On observe bien que les pays dans le besoin (les individus se trouvant dans le groupe 1 de notre cah) se situent principalement en afrique et en asie. 
+
+# Traitement du groupe des pays les moins favorisés
+
+
+Caractérisation de la partition obtenue 
+Représentation informative des résultats.
+Graphiques adaptés, représentations factorielles si adaptées
+Optionnel : Représentation spatiale des résultats sur la carte de Rennes 
+Faire une ACP
+
+Nous allons maintenant uniquement nous pencher sur les pays les moins développés (ceux appartenant au premier groupe).
+
+
+### Partie 1 : CAH sur les pays moins développés
+
+On decide de realiser une deuxième CAH sur le groupe 1, qui sont les pays moins développés : 
+
+```{r echo=T, results='hide'}
+donnee_groupe <- donnee
+donnee_groupe$gpecah <- as.factor(gpe.ward)
+donnee_moinsdev <- donnee_groupe[donnee_groupe$gpecah ==1,]
+donnee_moinsdev <-donnee_moinsdev[1:9]
+donnee_moinsdev
+```
+
+On enlève la dernière colonne qui ne nous sert plus à rien. 
+
+On decide d'appliquer une CAH sur ces données avec la distance euclidienne et la stratégie d'aggrégation de ward (au vue du travail effectué plus haut c'est ce qui nous semble le plus pertinent) 
+
+```{r}
+d_moinsdev = dist(donnee_moinsdev)
+cah.ward.moinsdev = hclust(d_moinsdev,method="ward.D")
+
+plot(cah.ward.moinsdev,hang=-1)
+```
+
+De la même façon que la seconde partie, on observe la présence d'une structure "naturelle" en un nombre de groupe modéré.  Regardons la courbe de perte d'inertie (on se contente des 15 premières valeurs pour ne pas "noyer" l'information importante)
+
+```{r}
+plot(rev(cah.ward.moinsdev$height)[1:15],type="b")
+```
+
+Le tracé de la perte d'inertie nous incite à choisir une partition en 4 groupes (lecture de gauche à droite : juste avant le coude ou changement de pente s'opérant au passage de 4 à 6 groupes)
+
+On peut aussi s'aider de critères automatiques calculés dans le package `NbClust`
+
+```{r}
+NbClust(donnee_moinsdev,min.nc = 2,max.nc = 15,method="ward.D",index="all")
+```
+
+C'est aussi une partition en 5 groupes qui obtient un vote majoritaire, nous confortant dans notre premier choix. Néanmoins, on peut déjà observé la variabilité des réponses apportées par les différents critères. Cela souligne l'importance de garder une inspection visuelle de la courbe d'inertie/dendrogramme.
+
+
+ - Partition en 6 groupes
+ 
+```{r}
+K=6
+gpe.ward.moinsdev = cutree(cah.ward.moinsdev,k=K)
+```
+
+- Representation du dendogramme avec les différents groupes obtenus 
+
+```{r}
+plot(cah.ward.moinsdev,hang=-1)
+rect.hclust(cah.ward.moinsdev, K, border ="blue")
+
+```
+
+- Clusplot
+
+```{r}
+clusplot(donnee_moinsdev, gpe.ward.moinsdev, labels = nbc, col.p = as.numeric(gpe.ward.moinsdev))
+```
+
+### Avec les kmeans : 
+
+```{r,echo=FALSE}
+set.seed(123)
+c <-  sapply(1:10,FUN=function(k){ kmeans(donnee_moinsdev,k)$tot.withinss })
+plot(c,type="b")
+```
+
+A la vue de ce graphique, on aurait tendance à choisir K= 5 ou 6
+groupes en appliquant la méthode dite « du coude ». Ayant, grâce à la CAH, choisi de garder K=3, nous allons conserver ce nombre pour les k-means. Ce graphique nous conforome tout de même dans notre idée. 
+
+```{r}
+K=6
+cl = kmeans(donnee_moinsdev,K,nstart=50)
+gpe = cl$cluster
+clusplot(donnee_moinsdev,gpe,labels=3,col.p=gpe)
+donnee_moinsdev
+```
+
+
+Nous allons maintenant chercher à interpréter les groupes obtenus à
+l'aide de la fonction catdes.
+
+```{r}
+gpe = cutree(cah.ward.moinsdev,k=6)
+gpe
+donnee_moinsdev$gpecah = as.factor(gpe) 
+interpcah_moinsdev = catdes(donnee_moinsdev,num.var = 10)
+interpcah_moinsdev
+head(donnee_moinsdev)
+```
+
+```{r}
+plot.catdes(interpcah_moinsdev,barplot=T)
+```
+
+
+```{r}
+CCpca_moinsdev = dudi.pca(donnee_moinsdev[1:9],scannf=FALSE,nf=2)
+cumsum(CCpca_moinsdev$eig)/sum(CCpca_moinsdev$eig) # 52% de variabilité expliquée sur les deux premiers axes
+```
+
+```{r}
+scatter(CCpca_moinsdev,posieig = "none",clab.row=0,pch=NA)
+text(CCpca_moinsdev$li[,1], CCpca_moinsdev$li[,2],labels =row.names(donnee_moinsdev),col=gpe+1,xpd=TRUE)
+s.class(CCpca_moinsdev$li, factor(gpe), col = 2:4, add.plot = TRUE,clabel = 1)
+```
+
+# Conclusion vis à vis des choix effectués
+
+Quels points peuvent être critiqués dans votre choix
+Quelles pistes pourraient être exploréess pour aller plus loin et/ou mieux explorer ces données ?
+
+Nous avons fait un premier gros choix suite à l'obtention de nos premiers résultats. En effet, nous n'avons sélectionné que le groupe dont les pays étaient en sous-devéloppement. Ce choix peut être critiqué. Cependant, ayant déjà un grand nombre de pays dans ce groupe et n'ayant "que" 10 millions de dollars à partager, nous avons décidé de ne prioriser que ce groupe.
+
+Nous avons enusite retraité ce groupe de pays défavorisés afin de pouvoir observer les pays qui étaient le plus en difficulté. Là encore, nous avons du faire un choix : donner une grosse somme d'argent aux pays dans le besoin puis une somme d'argent plus faible aux pays qui en ont moins besoin, mais une aide sera là quand même. 
+
+# Suggestion d'une liste de pays à aider en priorité
+
+# Pour aller plus loin
+
+## Améliorations
+
+
+
+## Pistes
+
+
+
+
+
+ 
+    
+    
+    
+    
+    
+    
+    

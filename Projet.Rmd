@@ -45,6 +45,9 @@ library(tmap)
 
 library(tidyverse)
 library(rnaturalearth)
+
+library(tibble)
+library(knitr)
 ```
 
 # Compréhension et pré-traitement des données
@@ -269,14 +272,10 @@ clusplot(donnee,gpe,labels=3,col.p=gpe)
 ```
 
 La représentation en clusplot nous permet de voir qu'il y a 3 groupes
-qui se séparent plutôt bien sur les composante 1, 2 et 3. (on le voit
+qui se séparent plutôt bien sur les composantes 1, 2 et 3. (on le voit
 au travers des différents couleur sur le graphique).
 
 Representation des groupes sur le premier plan factoriel
-
-```{r}
-
-```
 
 ## Interprétation des groupes 
 
@@ -375,7 +374,7 @@ Faire une ACP
 Nous allons maintenant uniquement nous pencher sur les pays les moins développés (ceux appartenant au premier groupe).
 
 
-### Partie 1 : CAH sur les pays moins développés
+## CAH sur les pays moins développés
 
 On decide de realiser une deuxième CAH sur le groupe 1, qui sont les pays moins développés : 
 
@@ -411,7 +410,7 @@ On peut aussi s'aider de critères automatiques calculés dans le package `NbClu
 NbClust(donnee_moinsdev,min.nc = 2,max.nc = 15,method="ward.D",index="all")
 ```
 
-C'est aussi une partition en 5 groupes qui obtient un vote majoritaire, nous confortant dans notre premier choix. Néanmoins, on peut déjà observé la variabilité des réponses apportées par les différents critères. Cela souligne l'importance de garder une inspection visuelle de la courbe d'inertie/dendrogramme.
+C'est aussi une partition en 6 groupes qui obtient un vote majoritaire, nous confortant dans notre premier choix. Néanmoins, on peut déjà observé la variabilité des réponses apportées par les différents critères. Cela souligne l'importance de garder une inspection visuelle de la courbe d'inertie/dendrogramme.
 
 
  - Partition en 6 groupes
@@ -435,12 +434,26 @@ rect.hclust(cah.ward.moinsdev, K, border ="blue")
 clusplot(donnee_moinsdev, gpe.ward.moinsdev, labels = nbc, col.p = as.numeric(gpe.ward.moinsdev))
 ```
 
-### Avec les kmeans : 
+## Avec les kmeans : 
 
-?????
+```{r,echo=FALSE}
+set.seed(123)
+c <-  sapply(1:10,FUN=function(k){ kmeans(donnee_moinsdev,k)$tot.withinss })
+plot(c,type="b")
+```
 
+A la vue de ce graphique, on aurait tendance à choisir K= 5 ou 6
+groupes en appliquant la méthode dite « du coude ». Ayant, grâce à la CAH, choisi de garder K=3, nous allons conserver ce nombre pour les k-means. Ce graphique nous conforome tout de même dans notre idée. 
 
+```{r}
+K=6
+cl = kmeans(donnee_moinsdev,K,nstart=50)
+gpe = cl$cluster
+clusplot(donnee_moinsdev,gpe,labels=3,col.p=gpe)
+donnee_moinsdev
+```
 
+## Interprétation des groupes 
 
 Nous allons maintenant chercher à interpréter les groupes obtenus à
 l'aide de la fonction catdes.
@@ -470,6 +483,25 @@ text(CCpca_moinsdev$li[,1], CCpca_moinsdev$li[,2],labels =row.names(donnee_moins
 s.class(CCpca_moinsdev$li, factor(gpe), col = 2:4, add.plot = TRUE,clabel = 1)
 ```
 
+
+Tableaux repartisant les pays à aider en 6 groupes : 
+
+```{r}
+tab <- table(donnee_moinsdev$gpecah)
+
+# Ajouter les marges au tableau
+tab <- addmargins(tab)
+
+# Formater les nombres dans le tableau
+tab <- format(tab, scientific = FALSE, digits = 1)
+
+# Afficher le tableau
+tab
+```
+
+Notons que le groupe 1 est le groupe à aider en priorité 
+
+
 # Conclusion vis à vis des choix effectués
 
 Quels points peuvent être critiqués dans votre choix
@@ -479,7 +511,31 @@ Nous avons fait un premier gros choix suite à l'obtention de nos premiers résu
 
 Nous avons enusite retraité ce groupe de pays défavorisés afin de pouvoir observer les pays qui étaient le plus en difficulté. Là encore, nous avons du faire un choix : donner une grosse somme d'argent aux pays dans le besoin puis une somme d'argent plus faible aux pays qui en ont moins besoin, mais une aide sera là quand même. 
 
+
 # Suggestion d'une liste de pays à aider en priorité
+
+
+```{r echo=FALSE}
+aide <- donnee_moinsdev[donnee_moinsdev$gpecah==1,]
+
+# Ajouter les noms des lignes comme colonne
+t <- tibble::rownames_to_column(aide, var = "Nom_pays")
+
+# Extraire la colonne "x" en tant que vecteur
+x_values <- pull(t, Nom_pays)
+
+paste('Il y a', length(x_values), 'pays à aider en priorité')
+# Afficher les valeurs de la colonne "x" sous forme de liste à puce
+cat(paste(x_values, sep = "\n"))
+```
+
+En voici la liste : 
+
+```{r}
+# Afficher les valeurs de la colonne "x" sous forme de liste à puce
+cat(paste(x_values, sep = "\n"))
+```
+
 
 # Pour aller plus loin
 

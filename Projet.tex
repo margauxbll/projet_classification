@@ -746,8 +746,8 @@ k-means. Ce graphique nous conforome tout de même dans notre idée.
 \includegraphics{Projet_files/figure-latex/unnamed-chunk-25-1.pdf}
 
 La représentation en clusplot nous permet de voir qu'il y a 3 groupes
-qui se séparent plutôt bien sur les composante 1, 2 et 3. (on le voit au
-travers des différents couleur sur le graphique).
+qui se séparent plutôt bien sur les composantes 1, 2 et 3. (on le voit
+au travers des différents couleur sur le graphique).
 
 Representation des groupes sur le premier plan factoriel
 
@@ -865,8 +865,8 @@ l'aide de la fonction catdes.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-28-1.pdf}
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-28-2.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-27-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-27-2.pdf}
 
 Les 3 groupes sont donc caractérisés ainsi :
 
@@ -914,7 +914,7 @@ Les 3 groupes sont donc caractérisés ainsi :
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-30-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-29-1.pdf}
 
 Suite à l'analyse de nos différentes méthodes, nous nous rendons compte
 que 3 gros groupes se sont formés. Nous décidons de nous concentrer sur
@@ -1068,11 +1068,18 @@ le groupe des pays les moins développés.
 ## 5                  Kazakistan Kazakhstan    <NA> MULTIPOLYGON (((87.35997 49...
 \end{verbatim}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-31-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-30-1.pdf}
 
-Voici une représentation cartographique de nos 3 groupes. On observe
-bien que les pays dans le besoin (les individus se trouvant dans le
-groupe 1 de notre cah) se situent principalement en afrique et en asie.
+Voici une représentation cartographique de nos 3 groupes. Pour le choix
+des couleurs (roueg étant les pays les plus dans le besoin et vert les
+pays le moins dans le besoin), nous nous sommes basées sur la
+représentation de la CAH faite plus haut ainsi que sur le rendu du
+catdes. En effet, nous apercevons que dans le groupe 1 (les pays qui ont
+un fort taux de mortalité infantile et une faible espérance de vie) se
+trouvent des pays comme l'Angola ou le Nigeria. Nous avons alors reliés
+la couleur rouge au groupe de ces pays. On observe bien que les pays
+dans le besoin (les individus se trouvant dans le groupe 1 de notre cah)
+se situent principalement en afrique et en asie.
 
 \hypertarget{traitement-du-groupe-des-pays-les-moins-favorisuxe9s}{%
 \section{Traitement du groupe des pays les moins
@@ -1086,9 +1093,9 @@ Faire une ACP
 Nous allons maintenant uniquement nous pencher sur les pays les moins
 développés (ceux appartenant au premier groupe).
 
-\hypertarget{partie-1-cah-sur-les-pays-moins-duxe9veloppuxe9s}{%
-\subsubsection{Partie 1 : CAH sur les pays moins
-développés}\label{partie-1-cah-sur-les-pays-moins-duxe9veloppuxe9s}}
+\hypertarget{cah-sur-les-pays-moins-duxe9veloppuxe9s}{%
+\subsection{CAH sur les pays moins
+développés}\label{cah-sur-les-pays-moins-duxe9veloppuxe9s}}
 
 On decide de realiser une deuxième CAH sur le groupe 1, qui sont les
 pays moins développés :
@@ -1117,7 +1124,7 @@ effectué plus haut c'est ce qui nous semble le plus pertinent)
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-33-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-32-1.pdf}
 
 De la même façon que la seconde partie, on observe la présence d'une
 structure ``naturelle'' en un nombre de groupe modéré. Regardons la
@@ -1130,7 +1137,7 @@ ne pas ``noyer'' l'information importante)
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-34-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-33-1.pdf}
 
 Le tracé de la perte d'inertie nous incite à choisir une partition en 4
 groupes (lecture de gauche à droite : juste avant le coude ou changement
@@ -1145,7 +1152,7 @@ On peut aussi s'aider de critères automatiques calculés dans le package
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-35-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-34-1.pdf}
 
 \begin{verbatim}
 ## *** : The Hubert index is a graphical method of determining the number of clusters.
@@ -1155,7 +1162,7 @@ On peut aussi s'aider de critères automatiques calculés dans le package
 ## 
 \end{verbatim}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-35-2.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-34-2.pdf}
 
 \begin{verbatim}
 ## *** : The D index is a graphical method of determining the number of clusters. 
@@ -1306,7 +1313,7 @@ On peut aussi s'aider de critères automatiques calculés dans le package
 ##                        2                        1
 \end{verbatim}
 
-C'est aussi une partition en 5 groupes qui obtient un vote majoritaire,
+C'est aussi une partition en 6 groupes qui obtient un vote majoritaire,
 nous confortant dans notre premier choix. Néanmoins, on peut déjà
 observé la variabilité des réponses apportées par les différents
 critères. Cela souligne l'importance de garder une inspection visuelle
@@ -1315,14 +1322,284 @@ de la courbe d'inertie/dendrogramme.
 \begin{itemize}
 \tightlist
 \item
-  Partition en 5 groupes
+  Partition en 6 groupes
 \end{itemize}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{K}\OtherTok{=}\DecValTok{6}
 \NormalTok{gpe.ward.moinsdev }\OtherTok{=} \FunctionTok{cutree}\NormalTok{(cah.ward.moinsdev,}\AttributeTok{k=}\NormalTok{K)}
-\NormalTok{gpe.ward.moinsdev}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  Representation du dendogramme avec les différents groupes obtenus
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(cah.ward.moinsdev,}\AttributeTok{hang=}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)}
+\FunctionTok{rect.hclust}\NormalTok{(cah.ward.moinsdev, K, }\AttributeTok{border =}\StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-36-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  Clusplot
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{clusplot}\NormalTok{(donnee\_moinsdev, gpe.ward.moinsdev, }\AttributeTok{labels =}\NormalTok{ nbc, }\AttributeTok{col.p =} \FunctionTok{as.numeric}\NormalTok{(gpe.ward.moinsdev))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-37-1.pdf}
+
+\hypertarget{avec-les-kmeans}{%
+\subsection{Avec les kmeans :}\label{avec-les-kmeans}}
+
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-38-1.pdf}
+
+A la vue de ce graphique, on aurait tendance à choisir K= 5 ou 6 groupes
+en appliquant la méthode dite « du coude ». Ayant, grâce à la CAH,
+choisi de garder K=3, nous allons conserver ce nombre pour les k-means.
+Ce graphique nous conforome tout de même dans notre idée.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{K}\OtherTok{=}\DecValTok{6}
+\NormalTok{cl }\OtherTok{=} \FunctionTok{kmeans}\NormalTok{(donnee\_moinsdev,K,}\AttributeTok{nstart=}\DecValTok{50}\NormalTok{)}
+\NormalTok{gpe }\OtherTok{=}\NormalTok{ cl}\SpecialCharTok{$}\NormalTok{cluster}
+\FunctionTok{clusplot}\NormalTok{(donnee\_moinsdev,gpe,}\AttributeTok{labels=}\DecValTok{3}\NormalTok{,}\AttributeTok{col.p=}\NormalTok{gpe)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-39-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{donnee\_moinsdev}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                          enfant_mort       exports       sant.     imports
+## Afghanistan               1.28765971 -1.1348666486  0.27825140 -0.08220771
+## Angola                    2.00178723  0.7730561847 -1.44372888 -0.16481961
+## Bangladesh                0.27597905 -0.9159844880 -1.19981201 -1.03637509
+## Benin                     1.80341848 -0.6314376792 -0.98866010 -0.40026351
+## Bhutan                    0.10984521  0.0507450547 -0.58819957  0.98348572
+## Bolivia                   0.20654998  0.0033205866 -0.71925938 -0.52005075
+## Botswana                  0.35284694  0.0908734508  0.54037102  0.18215035
+## Burkina Faso              1.92739895 -0.7992473357 -0.02755482 -0.71418870
+## Burundi                   1.37196643 -1.1742654376  1.74175261 -0.31765161
+## Cambodia                  0.15199858  0.4739172319 -0.41345315  0.52085911
+## Cameroon                  1.72903019 -0.6898062554 -0.61368342 -0.82158417
+## Central African Republic  2.74567007 -1.0692020005 -1.03234670 -0.84223714
+## Chad                      2.77046617 -0.1571929979 -0.83211643 -0.14003604
+## Comoros                   1.23806752 -0.8977443080 -0.83939753  0.19867273
+## Congo Dem. Rep.           1.92739895 -0.0003274495  0.39838956  0.11193024
+## Congo Rep.                0.63552242  1.6048083951 -1.58571034  0.32259057
+## Cote d'Ivoire             1.80341848  0.3462359715 -0.55179406 -0.14829723
+## Egypt                    -0.22738167 -0.7226385795 -0.78478928 -0.83810654
+## Equatorial Guinea         1.80341848  1.6303446471 -0.85031919  0.49607554
+## Eritrea                   0.41979640 -1.3249293248 -1.51289933 -0.97441617
+## Fiji                     -0.35136215  0.6088945643 -0.71197827  0.70260528
+## Gabon                     0.63056320  0.6052465282 -1.20709311 -1.15616234
+## Gambia                    1.04217837 -0.6314376792 -0.40981260 -0.17308080
+## Ghana                     0.90332024 -0.4234996266 -0.58091846 -0.04090177
+## Guinea                    1.75382629 -0.3943153386 -0.68649442 -0.15242782
+## Guinea-Bissau             1.87780676 -0.9561128841  0.61318202 -0.48287540
+## Guyana                   -0.01661487  0.3754202596 -0.52266966  1.33045567
+## Haiti                     4.20863965 -0.9415207401  0.03433453  0.73565004
+## India                     0.50906234 -0.6752141114 -1.00686285 -0.81745357
+## Iraq                     -0.03397213 -0.0623440616  0.58041707 -0.52831194
+## Kenya                     0.59336906 -0.7445267956 -0.75202433 -0.54896492
+## Kiribati                  0.60576711 -1.0144814603  1.63253610  1.36350043
+## Kyrgyz Republic          -0.21498363  0.3827163316 -0.23142564  1.43785114
+## Lao                       1.00746384 -0.2082655020 -0.85395974  0.09953845
+## Lesotho                   1.52322261 -0.0623440616  1.55972509  2.23505591
+## Liberia                   1.26534322 -0.8028953717  1.81456361  1.88808596
+## Madagascar                0.59336906 -0.5876612471 -1.10879825 -0.16068901
+## Malawi                    1.29509854 -0.6679180393 -0.08216308 -0.49526718
+## Mali                      2.44811694 -0.6679180393 -0.66829167 -0.48700600
+## Mauritania                1.46619159  0.3498840075 -0.87580304  0.59107922
+## Micronesia Fed. Sts.      0.04289576 -0.6423817873  2.68829568  1.40893697
+## Mozambique                1.55545753 -0.3505389064 -0.58455902 -0.02850998
+## Myanmar                   0.64792047 -1.4956938904 -1.76409730 -1.93412267
+## Namibia                   0.43963327  0.2440909632 -0.01299262  0.57042625
+## Nepal                     0.21646842 -1.1501883999 -0.56999681 -0.43330826
+## Niger                     2.10097161 -0.6898062554 -0.60276177  0.09127726
+## Nigeria                   2.27454427 -0.5767171391 -0.63552672 -1.21812126
+## Pakistan                  1.33477229 -1.0071853883 -1.68036465 -1.13550936
+## Philippines              -0.15795261 -0.2301537181 -1.16704706 -0.42504707
+## Rwanda                    0.62808359 -1.0619059284  1.34129208 -0.69766632
+## Senegal                   0.70743109 -0.5913092831 -0.42073425 -0.27221507
+## Sierra Leone              3.01842711 -0.8868002000  2.28783515 -0.51178956
+## Solomon Islands          -0.25217777  0.2988115034  0.63138478  1.41719816
+## South Africa              0.38260226 -0.4563319507  0.77336624 -0.80506179
+## Sudan                     0.95291243 -0.7810071557 -0.18045794 -1.22638245
+## Tajikistan                0.35036733 -0.9561128841 -0.30423664  0.48368376
+## Tanzania                  0.83389118 -0.8174875158 -0.29331499 -0.73484168
+## Timor-Leste               0.60328750 -1.4194134574  0.83889614 -0.78853941
+## Togo                      1.29013932 -0.0331597736  0.30373525  0.42998603
+## Turkmenistan              0.58840984  1.2837812262 -1.57114814 -0.09873009
+## Uganda                    1.05953564 -0.8758560919  0.79885009 -0.75549465
+## Uzbekistan               -0.04884979 -0.3432428344 -0.36612600 -0.75962525
+## Vanuatu                  -0.22490206  0.2003145311 -0.56999681  0.23997867
+## Yemen                     0.44707210 -0.4052594466 -0.59548067 -0.51592016
+## Zambia                    1.11160744 -0.1498969259 -0.33700160 -0.66049097
+##                               revenu   inflation    esper_vie        fert
+## Afghanistan              -0.80582187  0.15686445 -1.614237166  1.89717646
+## Angola                   -0.58328920  1.38289444 -1.175698472  2.12176975
+## Bangladesh               -0.76276777 -0.06071803 -0.017506535 -0.40820760
+## Benin                    -0.79492867 -0.65244778 -0.984540579  1.59331495
+## Bhutan                   -0.55631554 -0.16950927  0.173651358 -0.37517917
+## Bolivia                  -0.60870668  0.09442774  0.117428448  0.16648699
+## Botswana                 -0.19943330  0.10767189 -1.513035929 -0.04489492
+## Burkina Faso             -0.81515891 -0.09193639 -1.423079274  1.93020489
+## Burundi                  -0.84970594  0.42742354 -1.445568438  2.18782660
+## Cambodia                 -0.75861797 -0.44101437 -0.501023557 -0.04489492
+## Cameroon                 -0.75135583 -0.55548168 -1.490546765  1.42817283
+## Central African Republic -0.84327376 -0.54602157 -2.592515793  1.49422968
+## Chad                     -0.78922270 -0.13166884 -1.580503421  2.40581421
+## Comoros                  -0.81619636 -0.37006356 -0.523512721  1.19036817
+## Congo Dem. Rep.          -0.85774616  1.23153271 -1.468057602  2.37278578
+## Congo Rep.               -0.62011861  1.22207261 -1.141964726  1.32248187
+## Cote d'Ivoire            -0.74979966 -0.22626992 -1.602992585  1.53386379
+## Egypt                    -0.37787442  0.21930116 -0.006261953  0.15988131
+## Equatorial Guinea         0.85876404  1.61939714 -1.085741816  1.49422968
+## Eritrea                  -0.81567763  0.36120278 -0.995785161  1.09788858
+## Fiji                     -0.50807419 -0.33600717 -0.590980212 -0.18361431
+## Gabon                    -0.09050122  0.83420818 -0.860850178  0.74778727
+## Gambia                   -0.80322825 -0.32938510 -0.568491048  1.82451393
+## Ghana                    -0.73060687  0.83420818 -0.939562252  0.87329529
+## Guinea                   -0.82760829  0.78690764 -1.411834692  1.58010358
+## Guinea-Bissau            -0.81723381 -0.45520453 -1.681704658  1.38853872
+## Guyana                   -0.58640154 -0.19410555 -0.568491048 -0.19682568
+## Haiti                    -0.81152784 -0.22059386 -4.324181408  0.25236090
+## India                    -0.66057910  0.11334795 -0.489778975 -0.22985410
+## Iraq                     -0.23055675  0.83420818 -0.377333156  1.06486015
+## Kenya                    -0.76069287 -0.53845348 -0.872094760  0.93935214
+## Kiribati                 -0.79959718 -0.59237610 -1.108230980  0.58925083
+## Kyrgyz Republic          -0.74461242  0.20984106 -0.231153591  0.10043014
+## Lao                      -0.68288424  0.13416019 -0.759648941  0.13345857
+## Lesotho                  -0.76588011 -0.34357526 -2.704961612  0.23254384
+## Liberia                  -0.85302577 -0.21870183 -1.096986398  1.36872166
+## Madagascar               -0.81723381  0.09537375 -1.096986398  1.09128289
+## Malawi                   -0.83590788  0.40850332 -1.962819206  1.56028653
+## Mali                     -0.79233504 -0.32276302 -1.243165963  2.37939147
+## Mauritania               -0.71712004  1.05179066 -0.264887337  1.34229892
+## Micronesia Fed. Sts.     -0.71608259 -0.37668564 -0.579735630  0.33823480
+## Mozambique               -0.84171759 -0.01341749 -1.805395059  1.72542865
+## Myanmar                  -0.69637107 -0.07017814 -0.422311484 -0.35536212
+## Namibia                  -0.45049580 -0.39938990 -1.344367201  0.43071439
+## Nepal                    -0.78611035  0.69230656 -0.253642755 -0.22324842
+## Niger                    -0.84711232 -0.49493699 -1.321878037  3.00032586
+## Nigeria                  -0.62219351  9.10234253 -1.130720144  1.91038783
+## Pakistan                 -0.66732252  0.29498203 -0.590980212  0.59585652
+## Philippines              -0.59885092 -0.33695318 -0.174930682  0.14006425
+## Rwanda                   -0.81930870 -0.48926092 -0.669692286  1.03183173
+## Senegal                  -0.77625459 -0.56115774 -0.737159777  1.39514440
+## Sierra Leone             -0.82605212  0.89096883 -1.749172149  1.48762399
+## Solomon Islands          -0.79700356 -0.09193639 -0.995785161  0.85347823
+## South Africa             -0.26686744 -0.13545288 -1.827884223 -0.23645979
+## Sudan                    -0.71452642  1.11801142 -0.478534393  1.27624207
+## Tajikistan               -0.77988566  0.44634375 -0.107463190  0.37126323
+## Tanzania                 -0.78092311  0.13889025 -1.265655127  1.63955475
+## Timor-Leste              -0.79337249  1.77075887  0.061205539  2.16800955
+## Togo                     -0.82657084 -0.62454047 -1.333122619  1.26963639
+## Turkmenistan             -0.37372463 -0.51764125 -0.298621083 -0.07792335
+## Uganda                   -0.80945294  0.26660170 -1.546769675  2.11516407
+## Uzbekistan               -0.66939741  0.82474807 -0.197419845 -0.40160191
+## Vanuatu                  -0.73631283 -0.48831491 -0.849605596  0.36465754
+## Yemen                    -0.65694803  1.49641574 -0.343599410  1.13752269
+## Zambia                   -0.71919493  0.58824537 -2.086509607  1.61973769
+##                               pib_h
+## Afghanistan              -0.6771431
+## Angola                   -0.5147203
+## Bangladesh               -0.6659584
+## Benin                    -0.6659584
+## Bhutan                   -0.5883752
+## Bolivia                  -0.5992871
+## Botswana                 -0.3608632
+## Burkina Faso             -0.6759428
+## Burundi                  -0.6947112
+## Cambodia                 -0.6644308
+## Cameroon                 -0.6358417
+## Central African Republic -0.6829809
+## Chad                     -0.6583747
+## Comoros                  -0.6653583
+## Congo Dem. Rep.          -0.6890916
+## Congo Rep.               -0.5578220
+## Cote d'Ivoire            -0.6407521
+## Egypt                    -0.5654603
+## Equatorial Guinea         0.2256485
+## Eritrea                  -0.6810168
+## Fiji                     -0.5081732
+## Gabon                    -0.2299211
+## Gambia                   -0.6766521
+## Ghana                    -0.6358417
+## Guinea                   -0.6719600
+## Guinea-Bissau            -0.6774704
+## Guyana                   -0.5414543
+## Haiti                    -0.6711961
+## India                    -0.6336594
+## Iraq                     -0.4617978
+## Kenya                    -0.6545556
+## Kiribati                 -0.6260211
+## Kyrgyz Republic          -0.6593022
+## Lao                      -0.6451168
+## Lesotho                  -0.6434800
+## Liberia                  -0.6894735
+## Madagascar               -0.6847814
+## Malawi                   -0.6822717
+## Mali                     -0.6686864
+## Mauritania               -0.6418433
+## Micronesia Fed. Sts.     -0.5512749
+## Mozambique               -0.6844540
+## Myanmar                  -0.6534098
+## Namibia                  -0.4241519
+## Nepal                    -0.6750153
+## Niger                    -0.6883277
+## Nigeria                  -0.5801913
+## Pakistan                 -0.6505727
+## Philippines              -0.5911032
+## Rwanda                   -0.6765975
+## Senegal                  -0.6527551
+## Sierra Leone             -0.6855452
+## Solomon Islands          -0.6369329
+## South Africa             -0.3101232
+## Sudan                    -0.6265667
+## Tajikistan               -0.6670496
+## Tanzania                 -0.6690138
+## Timor-Leste              -0.5109011
+## Togo                     -0.6806894
+## Turkmenistan             -0.4650714
+## Uganda                   -0.6748516
+## Uzbekistan               -0.6320226
+## Vanuatu                  -0.5452734
+## Yemen                    -0.6358417
+## Zambia                   -0.6276579
+\end{verbatim}
+
+\hypertarget{interpruxe9tation-des-groupes-1}{%
+\subsection{Interprétation des
+groupes}\label{interpruxe9tation-des-groupes-1}}
+
+Nous allons maintenant chercher à interpréter les groupes obtenus à
+l'aide de la fonction catdes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gpe }\OtherTok{=} \FunctionTok{cutree}\NormalTok{(cah.ward.moinsdev,}\AttributeTok{k=}\DecValTok{6}\NormalTok{)}
+\NormalTok{gpe}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1373,46 +1650,8 @@ de la courbe d'inertie/dendrogramme.
 ##                        3                        1
 \end{verbatim}
 
-\begin{itemize}
-\tightlist
-\item
-  Representation du dendogramme avec les différents groupes obtenus
-\end{itemize}
-
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(cah.ward.moinsdev,}\AttributeTok{hang=}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)}
-\FunctionTok{rect.hclust}\NormalTok{(cah.ward.moinsdev, K, }\AttributeTok{border =}\StringTok{"blue"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-37-1.pdf}
-
-\begin{itemize}
-\tightlist
-\item
-  Clusplot
-\end{itemize}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{clusplot}\NormalTok{(donnee\_moinsdev, gpe.ward.moinsdev, }\AttributeTok{labels =}\NormalTok{ nbc, }\AttributeTok{col.p =} \FunctionTok{as.numeric}\NormalTok{(gpe.ward.moinsdev))}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-38-1.pdf}
-
-\hypertarget{avec-les-kmeans}{%
-\subsubsection{Avec les kmeans :}\label{avec-les-kmeans}}
-
-?????
-
-Nous allons maintenant chercher à interpréter les groupes obtenus à
-l'aide de la fonction catdes.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{gpe }\OtherTok{=} \FunctionTok{cutree}\NormalTok{(cah.ward.moinsdev,}\AttributeTok{k=}\DecValTok{6}\NormalTok{)}
 \NormalTok{donnee\_moinsdev}\SpecialCharTok{$}\NormalTok{gpecah }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(gpe) }
 \NormalTok{interpcah\_moinsdev }\OtherTok{=} \FunctionTok{catdes}\NormalTok{(donnee\_moinsdev,}\AttributeTok{num.var =} \DecValTok{10}\NormalTok{)}
 \NormalTok{interpcah\_moinsdev}
@@ -1536,8 +1775,8 @@ l'aide de la fonction catdes.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-40-1.pdf}
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-40-2.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-41-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-41-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1568,38 +1807,32 @@ l'aide de la fonction catdes.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-42-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-43-1.pdf}
+
+Tableaux repartisant les pays à aider en 6 groupes :
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{pays\_a\_aider }\OtherTok{\textless{}{-}}\NormalTok{ donnee\_moinsdev[donnee\_moinsdev}\SpecialCharTok{$}\NormalTok{gpecah }\SpecialCharTok{==}\DecValTok{1}\NormalTok{,]}
-\FunctionTok{head}\NormalTok{(pays\_a\_aider)}
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(donnee\_moinsdev}\SpecialCharTok{$}\NormalTok{gpecah)}
+
+\CommentTok{\# Ajouter les marges au tableau}
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{addmargins}\NormalTok{(tab)}
+
+\CommentTok{\# Formater les nombres dans le tableau}
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{format}\NormalTok{(tab, }\AttributeTok{scientific =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{digits =} \DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Afficher le tableau}
+\NormalTok{tab}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##                          enfant_mort    exports       sant.     imports
-## Afghanistan                 1.287660 -1.1348666  0.27825140 -0.08220771
-## Benin                       1.803418 -0.6314377 -0.98866010 -0.40026351
-## Burkina Faso                1.927399 -0.7992473 -0.02755482 -0.71418870
-## Burundi                     1.371966 -1.1742654  1.74175261 -0.31765161
-## Cameroon                    1.729030 -0.6898063 -0.61368342 -0.82158417
-## Central African Republic    2.745670 -1.0692020 -1.03234670 -0.84223714
-##                              revenu   inflation  esper_vie     fert      pib_h
-## Afghanistan              -0.8058219  0.15686445 -1.6142372 1.897176 -0.6771431
-## Benin                    -0.7949287 -0.65244778 -0.9845406 1.593315 -0.6659584
-## Burkina Faso             -0.8151589 -0.09193639 -1.4230793 1.930205 -0.6759428
-## Burundi                  -0.8497059  0.42742354 -1.4455684 2.187827 -0.6947112
-## Cameroon                 -0.7513558 -0.55548168 -1.4905468 1.428173 -0.6358417
-## Central African Republic -0.8432738 -0.54602157 -2.5925158 1.494230 -0.6829809
-##                          gpecah
-## Afghanistan                   1
-## Benin                         1
-## Burkina Faso                  1
-## Burundi                       1
-## Cameroon                      1
-## Central African Republic      1
+## 
+##    1    2    3    4    5    6  Sum 
+## "22" " 6" "22" "10" " 4" " 1" "65"
 \end{verbatim}
+
+Notons que le groupe 1 est le groupe à aider en priorité
 
 \hypertarget{conclusion-vis-uxe0-vis-des-choix-effectuuxe9s}{%
 \section{Conclusion vis à vis des choix
@@ -1625,6 +1858,27 @@ moins besoin, mais une aide sera là quand même.
 \hypertarget{suggestion-dune-liste-de-pays-uxe0-aider-en-priorituxe9}{%
 \section{Suggestion d'une liste de pays à aider en
 priorité}\label{suggestion-dune-liste-de-pays-uxe0-aider-en-priorituxe9}}
+
+\begin{verbatim}
+## [1] "Il y a 22 pays à aider en priorité"
+\end{verbatim}
+
+\begin{verbatim}
+## Afghanistan Benin Burkina Faso Burundi Cameroon Central African Republic Chad Congo Dem. Rep. Cote d'Ivoire Guinea Guinea-Bissau Haiti Malawi Mali Mozambique Niger Rwanda Sierra Leone Tanzania Togo Uganda Zambia
+\end{verbatim}
+
+En voici la liste :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Afficher les valeurs de la colonne "x" sous forme de liste à puce}
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{paste}\NormalTok{(x\_values, }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Afghanistan Benin Burkina Faso Burundi Cameroon Central African Republic Chad Congo Dem. Rep. Cote d'Ivoire Guinea Guinea-Bissau Haiti Malawi Mali Mozambique Niger Rwanda Sierra Leone Tanzania Togo Uganda Zambia
+\end{verbatim}
 
 \hypertarget{pour-aller-plus-loin}{%
 \section{Pour aller plus loin}\label{pour-aller-plus-loin}}
