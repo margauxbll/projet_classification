@@ -34,9 +34,6 @@ library(ade4)
 library(ggplot2)
 library(factoextra)
 
-# package carte 
-library(ggplot2)
-
 library(ggmap)
 library(rworldmap)
 library(countrycode)
@@ -82,11 +79,6 @@ for (i in 1:9) {
   hist(donnee[,i], main=colnames(donnee)[i], xlab="")
 }
 ```
-
-```{r}
-ggplot()
-```
-
 
 ## Pre-traimement
 
