@@ -102,7 +102,7 @@ Nous observons égelement un import maximal à 174. En allant un peu plus loin, 
 
 Nous n'avons donc aucun valeur aberrante dans notre base de données.
 
-**Standardisation ?**
+**Standardisation**
 
 Lorsque l'on a des données avec des unités différentes (par exemple des pourcentages, des espérances de vie, des PIB par habitant), il est recommandé de centrer et de réduire ces données. Centrer les données signifie soustraire la moyenne de la variable à toutes les observations, ce qui permet d'avoir une moyenne égale à zéro. Réduire les données signifie diviser chaque observation par l'écart-type de la variable, ce qui met toutes les variables à la même échelle. Cela facilite la comparaison entre les différentes variables et permet des analyses statistiques plus fiables. Il est cependant important de garder à l'esprit que la signification des résultats dépend toujours du contexte et de la validité des données utilisées. 
 Nous allons ici utiliser la méthode scale afin de centrer et de réduire les données, qui ici ne sont pas aux mêmes unités. 
@@ -203,11 +203,11 @@ Ce graphe correspond à la représentation des groupes sur les deux premiers axe
 
 
 
-Les deux composantes expliquent 63.13% de la variance. Cela signifie que les deux composantes principales (axes) du graphique de la CAH représentent ensemble X% de la variance totale des données. En d'autres termes, les deux premiers axes expliquent 63.13% de l'information contenue dans les données, ce qui permet de visualiser les relations entre les individus ou les variables dans un espace en deux dimensions.
+Cela signifie que les deux composantes principales (axes) du graphique de la CAH représentent ensemble 63.13% de la variance totale des données. En d'autres termes, les deux premiers axes expliquent 63.13% de l'information contenue dans les données, ce qui permet de visualiser les relations entre les individus ou les variables dans un espace en deux dimensions.
 
 Les 3 groupes sont reconnaissables mais superposés à certains endroits, particulièrement entre le groupe rouge et les deux autres. 
 
-Nous avons opté pour la création de trois groupes plutôt que quatre. Nous avons observé que lors de la partition en quatre groupes, le groupe des pays développés était scindé. Or, dans le cadre de cette analyse, notre intérêt se concentre exclusivement sur les pays en difficulté auxquels un budget devra être alloué. Donc il le partionnement en 4 groupes n'apportera pas plus d'information à notre analyse. 
+Nous avons opté pour la création de trois groupes plutôt que quatre. Nous avons observé que lors de la partition en quatre groupes, le groupe des pays développés était scindé. Or, dans le cadre de cette analyse, notre intérêt se concentre exclusivement sur les pays en difficulté auxquels un budget devra être alloué. Donc le partionnement en 4 groupes n'apportera pas plus d'information à notre analyse. 
 
 ## Algorithme des Kmeans
 
@@ -221,7 +221,7 @@ plot(c,type="b")
 ```
 
 A la vue de ce graphique, on aurait tendance à choisir K= 4
-groupes en appliquant la méthode dite « du coude ». Ayant, grâce à la CAH, choisi de garder K=3, nous allons conserver ce nombre pour les k-means. En effet, en prenant K=4, nous nous rendons compte que CONTINUER
+groupes en appliquant la méthode dite « du coude ». Ayant, grâce à la CAH, choisi de garder K=3, nous allons conserver ce nombre pour les k-means.
 
 ```{r}
 K=3
@@ -268,7 +268,7 @@ CCpca = dudi.pca(donnee[1:9],scannf=FALSE,nf=2)
 cumsum(CCpca$eig)/sum(CCpca$eig) # 63% de variabilité expliquée sur les deux premiers axes
 ```
 
-Nous avons donc 63% de variabilité expliqués sur les deux premiers axes. Nous allons alors faire une ACP afin de déterminer CONTINUER
+Nous avons donc 63% de variabilité expliqués sur les deux premiers axes. Nous allons alors faire une ACP afin de déterminer visuellement par quelles variables peuvent être expliquées les groupes. 
 
 ```{r}
 scatter(CCpca,posieig = "none",clab.row=0,pch=NA)
@@ -374,24 +374,6 @@ rect.hclust(cah.ward.moinsdev, K, border ="blue")
 ```{r}
 clusplot(donnee_moinsdev, gpe.ward.moinsdev, labels = 2, col.p = as.numeric(gpe.ward.moinsdev))
 ```
-
-## Avec les kmeans : 
-
-```{r,echo=FALSE}
-c <-  sapply(1:10,FUN=function(k){ kmeans(donnee_moinsdev,k)$tot.withinss })
-plot(c,type="b")
-```
-
-A la vue de ce graphique, on aurait tendance à choisir K= 4
-groupes en appliquant la méthode dite « du coude ». Ayant aupravant choisi de garder K=4, nous allons conserver ce nombre pour les k-means. Ce graphique nous conforte dans notre choix 
-
-```{r}
-K=4
-cl = kmeans(donnee_moinsdev,K,nstart=50)
-gpe = cl$cluster
-clusplot(donnee_moinsdev,gpe,labels=2,col.p=gpe)
-```
-
 ## Interprétation des groupes 
 
 Nous allons maintenant chercher à interpréter les groupes obtenus à
@@ -442,7 +424,7 @@ tab <- format(tab, scientific = FALSE, digits = 1)
 tab
 ```
 
-Notons que le groupe 1 est le groupe à aider en priorité.
+Notons que le groupe 1 est le groupe à aider en priorité, car il a beaucoup d'enfants morts et beaucoup de fertilité, ainsi qu'une faible espérance de vie, l'espérance de vie étant corrélée négativement à ces deux variables. 
 
 # Conclusion vis à vis des choix effectués
 
@@ -510,31 +492,25 @@ clusplot(aide,gpe_22,labels=2,col.p=gpe_22)
 table(gpe_22)
 ```
 
-Le groupe 1 est le plus nécessiteux avec un pays en grande difficulté,
-tandis que le groupe 2 comprend 5 pays en difficulté et le groupe 3
-comprend 16 pays avec des besoins moindres.
-
-Compte tenu de ces informations, j'ai décidé de répartir l'argent de la
+Compte tenu de ces informations, nous avons décidé de répartir l'argent de la
 manière suivante :
 
--   Groupe 1 : 1 millions d'euros
+-   Groupe 1 : 8 millions d'euros
 
--   Groupe 2 : 8 millions d'euros
+-   Groupe 2 : 1 millions d'euros
 
 -   Groupe 3 : 1 millions d'euros
 
 Nous allons maintenant expliquer notre raisonnement pour cette
-répartition. Le groupe 1 avec un seul pays en grande difficulté
-nécessite une aide urgente et importante. Nous avons donc alloué une
-plus grande partie de l'argent disponible à ce groupe pour répondre à
-ses besoins pressants.
+répartition. 
 
-Pour le groupe 2, bien que les besoins soient moins urgents que dans le
-groupe 1, il y a tout de même 16 pays qui ont besoin d'une aide
-financière. Nous avons alloué une somme significative à ce groupe pour
-les aider à surmonter leurs difficultés.
+Le groupe 3 a un seul pays en difficulté et il nécessite une aide urgente et importante. En effet, grâce au catdes, nous observons que c'est un pays qui a une faible espérance de vie et une forte mortalité infantile. Nous avons donc alloué une plus grande partie de l'argent disponible à ce groupe pour répondre à ces besoins pressants. L'argent servirait principalement à des dépenses dans la santé, pour aider les enfant à rester en vie après leur naissance ou pour soigner les personnes plus âgées ou malades.
 
-Enfin, pour le groupe 3, nous avons alloué une somme plus petite car les besoins sont moins pressants et moins graves. Cela ne veut pas dire que ces pays n'ont pas besoin d'aide, mais plutôt qu'ils ont des besoins moins critiques que les autres groupes.
+Pour le groupe 1, bien que les besoins soient moins urgents que dans le
+groupe 3, il y a tout de même 16 pays qui ont besoin d'une aide
+financière. Le catdes nous indique que c'est un pays qui a tendance à beaucoup dépenser dans la santé. Cela nous indique que c'est un pays qui a besoin de matériel médical. Nous avons alloué une somme significative à ce groupe pour les aider à surmonter leurs difficultés.
+
+Enfin, pour le groupe 2, nous avons alloué une somme plus petite car les besoins sont moins pressants mais tout de même présents. Cela ne veut pas dire que ces pays n'ont pas besoin d'aide, mais plutôt qu'ils ont des besoins moins critiques que les autres groupes.
 
 
 ```{r echo=FALSE}
@@ -547,7 +523,7 @@ pie(slices, labels = lbls, explode = 0.1, main = "Répartition de l'argent entre
       col = colors, startangle = 90)
 ```
 
-Nous vous présentons donc si dessous, les sommes à alloué parmi les 22 pays dans le grand besoin. 
+Nous vous présentons donc si dessous, les sommes à allouer parmi les 22 pays dans le grand besoin. 
 
 -    Haiti : 1 million de dollars 
 -    Siera Leone : 200 000  dollars 
@@ -572,6 +548,9 @@ Nous vous présentons donc si dessous, les sommes à alloué parmi les 22 pays d
 -    Congo : 500 000  dollars 
 -    Dem Rep : 500 000  dollars 
 
+**Il nous semble tout de même compliqué d'aider plusieurs pays avec "seulement" 10 millions de dollars.** 
+
+En fin de compte, l'élimination de la pauvreté est un objectif complexe et à long terme qui nécessite une approche holistique et un engagement à long terme de la part des gouvernements, des organisations internationales et de la communauté mondiale dans son ensemble.
 
 # Pour aller plus loin
 
@@ -589,21 +568,4 @@ D'autres indices tels que l'indice silhouette moyen ou l'indice de gap sont des 
 
 Par conséquent, en utilisant uniquement la méthode du coude pour choisir le nombre de classes, on peut passer à côté d'une partition de données plus pertinente et plus adaptée à l'objectif de l'analyse. Il est donc recommandé de considérer d'autres indices tels que l'indice silhouette moyen ou l'indice de gap pour prendre une décision éclairée sur le choix du nombre optimal de classes.
 
-
-
-## Améliorations
-
-## Pistes
-
-
-
-
-
- 
-    
-    
-    
-    
-    
-    
-    
+- Nous aurions également pu faire d'autres cartes : une pour les moins moins développés et une autre pour les pays que nous aidons en fin de compte. 
