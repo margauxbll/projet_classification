@@ -170,14 +170,6 @@ courbe (moment où l'inertie inter augmente beaucoup).
 plot(rev(cah.ward$height)[1:10], type = "b", main = "Distance de Ward")
 ```
 
-```{r}
-plot(rev(cah.min$height)[1:10], type = "b", main = "Distance du saut minimal")
-```
-
-```{r}
-plot(rev(cah.max$height)[1:10], type = "b", main = "Distance du saut maximal")
-```
-
 Avec le critère de Ward, la trace de la perte d'inertie nous incite à choisir des partitions en 3 groupes ("coude" très visible).
 
 ```{r}
@@ -197,23 +189,25 @@ Au vu de l'interprétation graphique faite précédemment, nous allons rester su
 ```{r}
 nbc <- 3
 gpe.ward <- cutree(cah.ward, k = nbc) # Classe affectée pour chaque individu
-gpe.min <- cutree(cah.min, k = nbc)
-gpe.max <- cutree(cah.max, k = nbc)
 plot(cah.ward, hang = -1, main = "Distance de Ward")
 rect.hclust(cah.ward, nbc, border = "blue")
 ```
 
+Nous visualisons donc le partitionnement des 3 groupes sur le dendogramme.
+
 ```{r}
-clusplot(donnee, gpe.ward, labels = nbc, col.p = as.numeric(gpe.ward))
+clusplot(donnee, gpe.ward, labels = 2, col.p = as.numeric(gpe.ward))
 ```
 
 Ce graphe correspond à la représentation des groupes sur les deux premiers axes principaux d’une ACP. De plus, des ellipses de contour autour des groupes sont tracées. On observe ici en colorant les points avec leur vraie classe que les groupes vert et rouge et rouge et noir sont difficiles à retrouver.
 
-Les 3 groupes sont reconnaissables mais mélangés à certains endroits, particulièrement entre le groupe rouge et les deux autres. 
+Les deux composantes expliquent 63.13% de la variance.
+
+Les 3 groupes sont reconnaissables mais superposés à certains endroits, particulièrement entre le groupe rouge et les deux autres. 
 
 ## Algorithme des Kmeans
 
-Nous allons à présent utiliser l'algorithme des k-means pour nouq conforter dans notre choix de K suite à la CAH.
+Nous allons à présent utiliser l'algorithme des k-means pour nous conforter dans notre choix de K suite à la CAH.
 Nous pouvons appliquer l'algorithme pour plusieurs choix de K possibles et tracer la courbe d'évolution de l'inertie. On lance l'algorithme des kmeans et on observe l'évolution de la variance intra-groupes en fonction du nombre de groupes. On rajoute également l'option « nstart =50 » pour stabiliser les résultats.
 
 ```{r,echo=FALSE}
@@ -222,15 +216,14 @@ c <-  sapply(1:10,FUN=function(k){ kmeans(donnee,k)$tot.withinss })
 plot(c,type="b")
 ```
 
-A la vue de ce graphique, on aurait tendance à choisir K= 3,4 ou 5
-groupes en appliquant la méthode dite « du coude ». Ayant, grâce à la CAH, choisi de garder K=3, nous allons conserver ce nombre pour les k-means.
+A la vue de ce graphique, on aurait tendance à choisir K= 4
+groupes en appliquant la méthode dite « du coude ». Ayant, grâce à la CAH, choisi de garder K=3, nous allons conserver ce nombre pour les k-means. En effet, en prenant K=4, nous nous rendons compte que CONTINUER
 
 ```{r}
 K=3
-cl = kmeans(donnee,K,nstart=50)
-gpe = cl$cluster
+donnee.kmeans = kmeans(donnee,K,nstart=50)
+gpe = donnee.kmeans$cluster
 clusplot(donnee,gpe,labels=3,col.p=gpe)
-
 ```
 
 ## Interprétation des groupes 
@@ -271,6 +264,8 @@ CCpca = dudi.pca(donnee[1:9],scannf=FALSE,nf=2)
 cumsum(CCpca$eig)/sum(CCpca$eig) # 63% de variabilité expliquée sur les deux premiers axes
 ```
 
+Nous avons donc 63% de variabilité expliqués sur les deux premiers axes. Nous allons alors faire une ACP afin de déterminer CONTINUER
+
 ```{r}
 scatter(CCpca,posieig = "none",clab.row=0,pch=NA)
 text(CCpca$li[,1], CCpca$li[,2],labels = row.names(donnee),col=gpe+1,xpd=TRUE)
@@ -310,7 +305,7 @@ ggplot() +
 
 Voici une représentation cartographique de nos 3 groupes. 
 Pour le choix des couleurs (rouge étant les pays les plus dans le besoin et vert les pays le moins dans le besoin), nous nous sommes basées sur la représentation de la CAH faite plus haut ainsi que sur le rendu du catdes. En effet, nous apercevons que dans le groupe 1 (les pays qui ont un fort taux de mortalité infantile et une faible espérance de vie) se trouvent des pays comme l'Angola ou le Nigeria. Nous avons alors reliés la couleur rouge au groupe de ces pays. 
-On observe bien que les pays dans le besoin (les individus se trouvant dans le groupe 1 de notre cah) se situent principalement en afrique et en asie. 
+On observe bien que les pays dans le besoin (les individus se trouvant dans le groupe 1 de notre cah) se situent principalement en Afrique et en Asie. 
 
 # Traitement du groupe des pays les moins favorisés
 
@@ -321,6 +316,7 @@ Nous allons maintenant uniquement nous pencher sur les pays les moins développ�
 On decide de realiser une deuxième CAH sur le groupe 1, qui sont les pays moins développés : 
 
 ```{r echo=T, results='hide'}
+set.seed(123)
 donnee_groupe <- donnee
 donnee_groupe$gpecah <- as.factor(gpe.ward)
 donnee_moinsdev <- donnee_groupe[donnee_groupe$gpecah ==1,]
@@ -338,27 +334,27 @@ cah.ward.moinsdev = hclust(d_moinsdev,method="ward.D")
 plot(cah.ward.moinsdev,hang=-1)
 ```
 
-De la même façon que la seconde partie, on observe la présence d'une structure "naturelle" en un nombre de groupe modéré.  Regardons la courbe de perte d'inertie (on se contente des 15 premières valeurs pour ne pas "noyer" l'information importante)
+De la même façon que la seconde partie (classification des pays), on observe la présence d'une structure "naturelle" en un nombre de groupe modéré.  Regardons la courbe de perte d'inertie (on se contente des 15 premières valeurs pour ne pas "noyer" l'information importante)
 
 ```{r}
 plot(rev(cah.ward.moinsdev$height)[1:15],type="b")
 ```
 
-Le tracé de la perte d'inertie nous incite à choisir une partition en 4 groupes (lecture de gauche à droite : juste avant le coude ou changement de pente s'opérant au passage de 4 à 6 groupes)
+Le tracé de la perte d'inertie nous incite à choisir une partition en 4 ou 6 groupes.
 
-On peut aussi s'aider de critères automatiques calculés dans le package `NbClust`
+Nous allons alors nous aider de critères automatiques calculés dans le package `NbClust`.
 
 ```{r}
 NbClust(donnee_moinsdev,min.nc = 2,max.nc = 15,method="ward.D",index="all")
 ```
 
-C'est aussi une partition en 6 groupes qui obtient un vote majoritaire, nous confortant dans notre premier choix. Néanmoins, on peut déjà observé la variabilité des réponses apportées par les différents critères. Cela souligne l'importance de garder une inspection visuelle de la courbe d'inertie/dendrogramme.
+Grâce à ce critère, nous remarquons que le nombre de groupe optimal est 4. Cela nous permet de choisir 4 groupes plutôt que 6. Néanmoins, on peut déjà observer la variabilité des réponses apportées par les différents critères. Cela souligne l'importance de garder une inspection visuelle de la courbe d'inertie/dendrogramme.
 
 
- - Partition en 6 groupes
+ - Partition en 4 groupes
  
 ```{r}
-K=6
+K=4
 gpe.ward.moinsdev = cutree(cah.ward.moinsdev,k=K)
 ```
 
@@ -372,26 +368,24 @@ rect.hclust(cah.ward.moinsdev, K, border ="blue")
 - Clusplot
 
 ```{r}
-clusplot(donnee_moinsdev, gpe.ward.moinsdev, labels = nbc, col.p = as.numeric(gpe.ward.moinsdev))
+clusplot(donnee_moinsdev, gpe.ward.moinsdev, labels = 2, col.p = as.numeric(gpe.ward.moinsdev))
 ```
 
 ## Avec les kmeans : 
 
 ```{r,echo=FALSE}
-set.seed(123)
 c <-  sapply(1:10,FUN=function(k){ kmeans(donnee_moinsdev,k)$tot.withinss })
 plot(c,type="b")
 ```
 
-A la vue de ce graphique, on aurait tendance à choisir K= 5 ou 6
-groupes en appliquant la méthode dite « du coude ». Ayant, grâce à la CAH, choisi de garder K=3, nous allons conserver ce nombre pour les k-means. Ce graphique nous conforome tout de même dans notre idée. 
+A la vue de ce graphique, on aurait tendance à choisir K= 4
+groupes en appliquant la méthode dite « du coude ». Ayant aupravant choisi de garder K=4, nous allons conserver ce nombre pour les k-means. Ce graphique nous conforte dans notre choix 
 
 ```{r}
-K=6
+K=4
 cl = kmeans(donnee_moinsdev,K,nstart=50)
 gpe = cl$cluster
 clusplot(donnee_moinsdev,gpe,labels=3,col.p=gpe)
-donnee_moinsdev
 ```
 
 ## Interprétation des groupes 
@@ -400,7 +394,7 @@ Nous allons maintenant chercher à interpréter les groupes obtenus à
 l'aide de la fonction catdes.
 
 ```{r}
-gpe = cutree(cah.ward.moinsdev,k=6)
+gpe = cutree(cah.ward.moinsdev,k=K)
 gpe
 donnee_moinsdev$gpecah = as.factor(gpe) 
 interpcah_moinsdev = catdes(donnee_moinsdev,num.var = 10)
@@ -414,21 +408,25 @@ plot.catdes(interpcah_moinsdev,barplot=T)
 
 
 ```{r}
+set.seed(123)
 CCpca_moinsdev = dudi.pca(donnee_moinsdev[1:9],scannf=FALSE,nf=2)
 cumsum(CCpca_moinsdev$eig)/sum(CCpca_moinsdev$eig) # 52% de variabilité expliquée sur les deux premiers axes
 ```
 
 ```{r}
+set.seed(123)
 scatter(CCpca_moinsdev,posieig = "none",clab.row=0,pch=NA)
 text(CCpca_moinsdev$li[,1], CCpca_moinsdev$li[,2],labels =row.names(donnee_moinsdev),col=gpe+1,xpd=TRUE)
 s.class(CCpca_moinsdev$li, factor(gpe), col = 2:4, add.plot = TRUE,clabel = 1)
 ```
 
 
-Tableaux repartisant les pays à aider en 6 groupes : 
+Tableaux repartisant les pays à aider en 4 groupes : 
 
 ```{r}
+set.seed(123)
 tab <- table(donnee_moinsdev$gpecah)
+tab
 
 # Ajouter les marges au tableau
 tab <- addmargins(tab)
@@ -440,17 +438,13 @@ tab <- format(tab, scientific = FALSE, digits = 1)
 tab
 ```
 
-Notons que le groupe 1 est le groupe à aider en priorité 
-
+Notons que le groupe 1 est le groupe à aider en priorité.
 
 # Conclusion vis à vis des choix effectués
 
-Quels points peuvent être critiqués dans votre choix
-Quelles pistes pourraient être exploréess pour aller plus loin et/ou mieux explorer ces données ?
-
 Nous avons fait un premier gros choix suite à l'obtention de nos premiers résultats. En effet, nous n'avons sélectionné que le groupe dont les pays étaient en sous-devéloppement. Ce choix peut être critiqué. Cependant, ayant déjà un grand nombre de pays dans ce groupe et n'ayant "que" 10 millions de dollars à partager, nous avons décidé de ne prioriser que ce groupe.
 
-Nous avons enusite retraité ce groupe de pays défavorisés afin de pouvoir observer les pays qui étaient le plus en difficulté. Là encore, nous avons du faire un choix : donner une grosse somme d'argent aux pays dans le besoin puis une somme d'argent plus faible aux pays qui en ont moins besoin, mais une aide sera là quand même. 
+Nous avons enusite re-traité ce groupe de pays défavorisés afin de pouvoir observer les pays qui étaient le plus en difficulté. Là encore, nous avons du faire un choix : donner une grosse somme d'argent aux pays dans le besoin puis une somme d'argent plus faible aux pays qui en ont moins besoin. Cela nous a donc amenées à répartir l'argent de façon différente entre les pays.
 
 
 # Suggestion d'une liste de pays à aider en priorité
@@ -472,7 +466,30 @@ cat(paste(x_values, "\n"))
 
 
 On va réaliser une méthode rapide des K-means pour choisir ce que l'on
-alloue comme budget pour nos 22 pays. Nous allons fixer K = 3.
+alloue comme budget pour nos 22 pays. 
+
+```{r}
+d_aide = dist(aide)
+cah.ward.aide = hclust(d_aide,method="ward.D")
+plot(cah.ward.aide,hang=-1)
+```
+
+```{r}
+gpe.ward.aide = cutree(cah.ward.aide,k=3)
+```
+
+```{r}
+gpe = cutree(cah.ward.aide,k=3)
+gpe
+aide$gpecah = as.factor(gpe) 
+interpcah_aide = catdes(aide,num.var = 10)
+interpcah_moinsdev
+head(aide)
+```
+
+```{r}
+plot.catdes(interpcah_aide,barplot=T)
+```
 
 On préfèrera utiliser l'option `nstart` du kmeans pour stabiliser les
 résultats. En relançant le code plusieurs fois, on observe que les
@@ -482,7 +499,7 @@ résultats sont stables.
 aide <- aide[1:9]
 c = kmeans(aide,3,nstart=50)
 gpe_22 = c$cluster
-clusplot(aide,gpe_22,labels=3,col.p=gpe_22)
+clusplot(aide,gpe_22,labels=2,col.p=gpe_22)
 ```
 
 ```{r}
@@ -496,11 +513,11 @@ comprend 16 pays avec des besoins moindres.
 Compte tenu de ces informations, j'ai décidé de répartir l'argent de la
 manière suivante :
 
--   Groupe 1 : 3 millions d'euros
+-   Groupe 1 : 1 millions d'euros
 
--   Groupe 2 : 3 millions d'euros
+-   Groupe 2 : 8 millions d'euros
 
--   Groupe 3 : 4 millions d'euros
+-   Groupe 3 : 1 millions d'euros
 
 Nous allons maintenant expliquer notre raisonnement pour cette
 répartition. Le groupe 1 avec un seul pays en grande difficulté
@@ -509,20 +526,16 @@ plus grande partie de l'argent disponible à ce groupe pour répondre à
 ses besoins pressants.
 
 Pour le groupe 2, bien que les besoins soient moins urgents que dans le
-groupe 1, il y a tout de même 5 pays qui ont besoin d'une aide
+groupe 1, il y a tout de même 16 pays qui ont besoin d'une aide
 financière. Nous avons alloué une somme significative à ce groupe pour
 les aider à surmonter leurs difficultés.
 
-Enfin, pour le groupe 3, bien qu'il y ait un plus grand nombre de pays
-dans le besoin, nous avons alloué une somme plus petite car les besoins
-sont moins pressants et moins graves. Cela ne veut pas dire que ces pays
-n'ont pas besoin d'aide, mais plutôt qu'ils ont des besoins moins
-critiques que les autres groupes.
+Enfin, pour le groupe 3, nous avons alloué une somme plus petite car les besoins sont moins pressants et moins graves. Cela ne veut pas dire que ces pays n'ont pas besoin d'aide, mais plutôt qu'ils ont des besoins moins critiques que les autres groupes.
 
 
 ```{r echo=FALSE}
 library(plotrix)
-slices <- c(20, 40, 40)
+slices <- c(10, 80, 10)
 lbls <- c("Groupe 1", "Groupe 2", "Groupe 3")
 colors <- c("#ff6666", "#66b3ff", "#99ff99")
 
@@ -532,28 +545,28 @@ pie(slices, labels = lbls, explode = 0.1, main = "Répartition de l'argent entre
 
 Nous vous présentons donc si dessous, les sommes à alloué parmi les 22 pays dans le grand besoin. 
 
--    Haiti : 2 millions de dollars 
--    Siera Leone : 800 000  dollars 
--    Guinea- Bissau : 800 000  dollars 
--    Uganda : 800 000  dollars 
--    Rwanda : 800 000  dollars 
--    Burundi : 800 000  dollars 
--    Côte d'ivoire : 250 000  dollars 
--    Kambi : 250 000  dollars 
--    Cameroon : 250 000  dollars 
--    Chad : 250 000  dollars 
--    Benin : 250 000  dollars 
--    Mali : 250 000  dollars 
--    Tanzani : 250 000  dollars 
--    Central African Republic : 250 000  dollars 
--    Togo : 250 000  dollars 
--    Mozambique : 250 000  dollars 
--    Guinea : 250 000  dollars 
--    Malawi : 250 000  dollars 
--    Burkina Faso : 250 000  dollars 
--    Afghanistan : 250 000  dollars 
--    Congo : 250 000  dollars 
--    Dem Rep : 250 000  dollars 
+-    Haiti : 1 million de dollars 
+-    Siera Leone : 200 000  dollars 
+-    Guinea- Bissau : 200 000  dollars 
+-    Uganda : 200 000  dollars 
+-    Rwanda : 200 000  dollars 
+-    Burundi : 200 000  dollars 
+-    Côte d'ivoire : 500 000  dollars 
+-    Kambi : 500 000  dollars 
+-    Cameroon : 500 000  dollars 
+-    Chad : 500 000  dollars 
+-    Benin : 500 000  dollars 
+-    Mali : 500 000  dollars 
+-    Tanzani : 500 000  dollars 
+-    Central African Republic : 500 000  dollars 
+-    Togo : 500 000  dollars 
+-    Mozambique : 500 000  dollars 
+-    Guinea : 500 000  dollars 
+-    Malawi : 500 000  dollars 
+-    Burkina Faso : 500 000  dollars 
+-    Afghanistan : 500 000  dollars 
+-    Congo : 500 000  dollars 
+-    Dem Rep : 500 000  dollars 
 
 
 # Pour aller plus loin
