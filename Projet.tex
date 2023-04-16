@@ -114,7 +114,7 @@ Classification\\
 Université de Rennes II : Master Mathématiques Appliquées, Statistiques}
 \author{Margaux Bailleul\\
 Oriane Duclos}
-\date{15 April, 2023}
+\date{16 April, 2023}
 
 \begin{document}
 \maketitle
@@ -195,10 +195,10 @@ Nous avons 167 individus et 9 variables
  Max.   :105000  
 \end{verbatim}
 
-\hypertarget{pre-traimement}{%
-\subsection{Pre-traimement}\label{pre-traimement}}
+\hypertarget{pruxe9-traimement}{%
+\subsection{Pré-traimement}\label{pruxe9-traimement}}
 
-\textbf{Donnees manquantes ? Outliers}
+\textbf{Gestion des données manquantes}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -212,33 +212,36 @@ FALSE
  1503 
 \end{verbatim}
 
-Aucune donnée manquante.
+Nous n'avons aucune donné manquante dans notre base de données.
 
-\textbf{Valeur aberrante}
+\textbf{Traitement des valeurs aberrantes}
 
-Exports max à 200 ? Bizarre
+Nous observons grâce au summary que notre export maximal est à 200. Nous
+décidons d'aller chercher un peu plus loin et nous nous rendons vite
+compte que ces valeurs élevées correspondent à des pays riches comme
+Malte, le Luxembourg ou encore Singapour.
 
-Ce sont à première vue des pays riche comme malte, luxembourg, singapour
+Nous observons égelement un import maximal à 174. En allant un peu plus
+loin, nous nous rendons vite compte que c'est pour la même réponse que
+précédemment.
 
-Imports max à 174 ? Idem, finalement c'est logique Aucune valeur
-aberrante
-
-Mais y a des valeurs ``leviers'', certains pays comme malte, singapour
-se dégagent des valeurs moyennes
+Nous n'avons donc aucun valeur aberrante dans notre base de données.
 
 \textbf{Standardisation ?}
 
 Lorsque l'on a des données avec des unités différentes (par exemple des
 pourcentages, des espérances de vie, des PIB par habitant), il est
 recommandé de centrer et de réduire ces données. Centrer les données
-signifie soustraire la moyenne de la variable de toutes les
-observations, ce qui permet d'avoir une moyenne égale à zéro. Réduire
-les données signifie diviser chaque observation par l'écart-type de la
-variable, ce qui met toutes les variables à la même échelle. Cela
-facilite la comparaison entre les différentes variables et permet des
-analyses statistiques plus fiables. Il est cependant important de garder
-à l'esprit que la signification des résultats dépend toujours du
-contexte et de la validité des données utilisées
+signifie soustraire la moyenne de la variable à toutes les observations,
+ce qui permet d'avoir une moyenne égale à zéro. Réduire les données
+signifie diviser chaque observation par l'écart-type de la variable, ce
+qui met toutes les variables à la même échelle. Cela facilite la
+comparaison entre les différentes variables et permet des analyses
+statistiques plus fiables. Il est cependant important de garder à
+l'esprit que la signification des résultats dépend toujours du contexte
+et de la validité des données utilisées. Nous allons ici utiliser la
+méthode scale afin de centrer et de réduire les données, qui ici ne sont
+pas aux mêmes unités.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -258,21 +261,32 @@ contexte et de la validité des données utilisées
 \includegraphics{Projet_files/figure-latex/unnamed-chunk-10-1.pdf}
 
 La matrice de corrélation nous aide à mieux comprendre les relations
-entre chaque variable et pourra nous aider à interpréter plus tard.
+entre chaque variable et pourra nous aider à interpréter nos résultats
+plus tard.
 
-Nous allons alors classifier les pays en fonction de NOMS DE COLONNES.
+Nous allons alors classifier les pays en fonction du nombre de décès
+d'enfants de moins de 5 ans pour 1000 naissances,des exportations de
+biens et services par habitant, des dépenses totales de santé par
+habitant, des importations de biens et services par habitant, du revenu
+net moyen par personne, de la mesure du taux de croissance annuel du PIB
+total, de l'espérance de vie, du nombre moyen d'enfants par femme et
+enfin du PIB par habitant.
 
 \hypertarget{classification-des-pays-en-utilisant-les-diffuxe9rents-algorithmes-aborduxe9s-en-cours}{%
 \section{Classification des pays en utilisant les différents algorithmes
 abordés en
 cours}\label{classification-des-pays-en-utilisant-les-diffuxe9rents-algorithmes-aborduxe9s-en-cours}}
 
-Utilisation des algorithmes de classification vus en cours . Reflexion
-sur les choix operer decider d'une classification finale . Nombre de
-groupes ?
+Nous allons tout d'abord faire une CAH puis ensuite faire l'algorithme
+des k-means.
 
 \hypertarget{cah}{%
 \subsection{CAH}\label{cah}}
+
+DIRE À QUOI SERT UNE CAH
+
+Nous allons tester les différentes distances abordées afin de déterminer
+laquelle est la plus pertinente.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -312,9 +326,9 @@ groupes ?
 
 \includegraphics{Projet_files/figure-latex/unnamed-chunk-14-1.pdf}
 
-On s'apercoit raipdement que c'est le critère de Ward qui correspond le
-mieux à nos données. On voit déjà qu'on peut partitionner nos données en
-3 ou 4 groupes
+On s'apercoit que c'est le critère de Ward qui correspond le mieux à nos
+données. On voit déjà qu'on peut partitionner nos données en 3 ou 4
+groupes.
 
 \textbf{Fonction de perte}
 
@@ -654,8 +668,9 @@ $Best.partition
                              1 
 \end{verbatim}
 
-On nous dit que les meilleurs clusters sont 2 ou 4 avec 5 chacun ou 3
-avec 4. Au vu de l'interprétation graphique faite précédemment, nous
+On nous dit que 5 ont proposés 2 et 4 comme le meilleur nombre de
+clusters à choisir, et 4 ont proposé que 3 était le meilleur nombre de
+clusters. Au vu de l'interprétation graphique faite précédemment, nous
 allons rester sur 3 clusters, qui nous semble le plus pertinent.
 
 \textbf{Cutree}
@@ -675,31 +690,11 @@ allons rester sur 3 clusters, qui nous semble le plus pertinent.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(cah.min, }\AttributeTok{hang =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{main =} \StringTok{"Distance du saut minimal"}\NormalTok{)}
-\FunctionTok{rect.hclust}\NormalTok{(cah.min, nbc, }\AttributeTok{border =} \StringTok{"blue"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-21-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(cah.max, }\AttributeTok{hang =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{main =} \StringTok{"Distance du saut maximal"}\NormalTok{)}
-\FunctionTok{rect.hclust}\NormalTok{(cah.max, nbc, }\AttributeTok{border =} \StringTok{"blue"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-22-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{clusplot}\NormalTok{(donnee, gpe.ward, }\AttributeTok{labels =}\NormalTok{ nbc, }\AttributeTok{col.p =} \FunctionTok{as.numeric}\NormalTok{(gpe.ward))}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-23-1.pdf} Les 3
-groupes sont reconnaissables mais mélangés à certains endroits,
-particulièrement entre .
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-21-1.pdf}
 
 Ce graphe correspond à la représentation des groupes sur les deux
 premiers axes principaux d'une ACP. De plus, des ellipses de contour
@@ -707,24 +702,26 @@ autour des groupes sont tracées. On observe ici en colorant les points
 avec leur vraie classe que les groupes vert et rouge et rouge et noir
 sont difficiles à retrouver.
 
+Les 3 groupes sont reconnaissables mais mélangés à certains endroits,
+particulièrement entre le groupe rouge et les deux autres.
+
 \hypertarget{algorithme-des-kmeans}{%
 \subsection{Algorithme des Kmeans}\label{algorithme-des-kmeans}}
 
-Tout d'abord nous allons utiliser l'algorithme des k-means pour avoir
-une première idée de notre classification finale. Si on ne sait pas a
-priori combien de groupes comporte le jeu de donnees, on peut appliquer
+Nous allons à présent utiliser l'algorithme des k-means pour nouq
+conforter dans notre choix de K suite à la CAH. Nous pouvons appliquer
 l'algorithme pour plusieurs choix de K possibles et tracer la courbe
-d'évolution de l'inertie . On lance l'algorithme des kmeans et on
-observe l'évolution de la variance intra-groupes en fonction du nombre
-de groupes. On rajoute également l'option « nstart =50 » pour stabiliser
+d'évolution de l'inertie. On lance l'algorithme des kmeans et on observe
+l'évolution de la variance intra-groupes en fonction du nombre de
+groupes. On rajoute également l'option « nstart =50 » pour stabiliser
 les résultats.
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-24-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-22-1.pdf}
 
 A la vue de ce graphique, on aurait tendance à choisir K= 3,4 ou 5
 groupes en appliquant la méthode dite « du coude ». Ayant, grâce à la
 CAH, choisi de garder K=3, nous allons conserver ce nombre pour les
-k-means. Ce graphique nous conforome tout de même dans notre idée.
+k-means.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -735,13 +732,7 @@ k-means. Ce graphique nous conforome tout de même dans notre idée.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-25-1.pdf}
-
-La représentation en clusplot nous permet de voir qu'il y a 3 groupes
-qui se séparent plutôt bien sur les composantes 1, 2 et 3. (on le voit
-au travers des différents couleur sur le graphique).
-
-Representation des groupes sur le premier plan factoriel
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-23-1.pdf}
 
 \hypertarget{interpruxe9tation-des-groupes}{%
 \subsection{Interprétation des
@@ -857,8 +848,8 @@ Argentina            1.2409928  0.5897009 -0.38178486 -0.14535428      2
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-27-1.pdf}
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-27-2.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-25-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-25-2.pdf}
 
 Les 3 groupes sont donc caractérisés ainsi :
 
@@ -906,7 +897,7 @@ NULL
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-29-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-27-1.pdf}
 
 Suite à l'analyse de nos différentes méthodes, nous nous rendons compte
 que 3 gros groupes se sont formés. Nous décidons de nous concentrer sur
@@ -916,154 +907,10 @@ le groupe des pays les moins développés.
 \subsection{Visualisation des résultats obtenus
 (carte)}\label{visualisation-des-ruxe9sultats-obtenus-carte}}
 
-\begin{verbatim}
-  iso3c       lat       lon
-1   AFG  33.85640  66.08669
-2   AGO -12.29155  17.50291
-3   ALB  41.14135  20.03243
-4   ARE  23.86863  54.20671
-5   ARG -35.22017 -65.14954
-6   ARM  40.21661  45.00029
-\end{verbatim}
-
-\begin{verbatim}
-Simple feature collection with 6 features and 94 fields
-Geometry type: MULTIPOLYGON
-Dimension:     XY
-Bounding box:  xmin: -180 ymin: -18.28799 xmax: 180 ymax: 83.23324
-Geodetic CRS:  +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0
-       featurecla scalerank labelrank                  sovereignt sov_a3
-0 Admin-0 country         1         6                        Fiji    FJI
-1 Admin-0 country         1         3 United Republic of Tanzania    TZA
-2 Admin-0 country         1         7              Western Sahara    SAH
-3 Admin-0 country         1         2                      Canada    CAN
-4 Admin-0 country         1         2    United States of America    US1
-5 Admin-0 country         1         3                  Kazakhstan    KAZ
-  adm0_dif level              type                       admin adm0_a3 geou_dif
-0        0     2 Sovereign country                        Fiji     FJI        0
-1        0     2 Sovereign country United Republic of Tanzania     TZA        0
-2        0     2     Indeterminate              Western Sahara     SAH        0
-3        0     2 Sovereign country                      Canada     CAN        0
-4        1     2           Country    United States of America     USA        0
-5        0     2 Sovereign country                  Kazakhstan     KAZ        0
-                   geounit gu_a3 su_dif        subunit su_a3 brk_diff
-0                     Fiji   FJI      0           Fiji   FJI        0
-1                 Tanzania   TZA      0       Tanzania   TZA        0
-2           Western Sahara   SAH      0 Western Sahara   SAH        1
-3                   Canada   CAN      0         Canada   CAN        0
-4 United States of America   USA      0  United States   USA        0
-5               Kazakhstan   KAZ      0     Kazakhstan   KAZ        0
-                      name      name_long brk_a3      brk_name brk_group
-0                     Fiji           Fiji    FJI          Fiji      <NA>
-1                 Tanzania       Tanzania    TZA      Tanzania      <NA>
-2                W. Sahara Western Sahara    B28     W. Sahara      <NA>
-3                   Canada         Canada    CAN        Canada      <NA>
-4 United States of America  United States    USA United States      <NA>
-5               Kazakhstan     Kazakhstan    KAZ    Kazakhstan      <NA>
-   abbrev postal                        formal_en formal_fr     name_ciawf
-0    Fiji     FJ                 Republic of Fiji      <NA>           Fiji
-1   Tanz.     TZ      United Republic of Tanzania      <NA>       Tanzania
-2 W. Sah.     WS Sahrawi Arab Democratic Republic      <NA> Western Sahara
-3    Can.     CA                           Canada      <NA>         Canada
-4  U.S.A.     US         United States of America      <NA>  United States
-5    Kaz.     KZ           Republic of Kazakhstan      <NA>     Kazakhstan
-    note_adm0                        note_brk                name_sort name_alt
-0        <NA>                            <NA>                     Fiji     <NA>
-1        <NA>                            <NA>                 Tanzania     <NA>
-2 Self admin. Self admin.; Claimed by Morocco           Western Sahara     <NA>
-3        <NA>                            <NA>                   Canada     <NA>
-4        <NA>                            <NA> United States of America     <NA>
-5        <NA>                            <NA>               Kazakhstan     <NA>
-  mapcolor7 mapcolor8 mapcolor9 mapcolor13   pop_est pop_rank gdp_md_est
-0         5         1         2          2    920938       11  8.374e+03
-1         3         6         2          2  53950935       16  1.506e+05
-2         4         7         4          4    603253       11  9.065e+02
-3         6         6         2          2  35623680       15  1.674e+06
-4         4         5         1          1 326625791       17  1.856e+07
-5         6         1         6          1  18556698       14  4.607e+05
-  pop_year lastcensus gdp_year                   economy             income_grp
-0     2017       2007     2016      6. Developing region 4. Lower middle income
-1     2017       2002     2016 7. Least developed region          5. Low income
-2     2017         NA     2007 7. Least developed region          5. Low income
-3     2017       2011     2016   1. Developed region: G7   1. High income: OECD
-4     2017       2010     2016   1. Developed region: G7   1. High income: OECD
-5     2017       2009     2016      6. Developing region 3. Upper middle income
-  wikipedia fips_10_ iso_a2 iso_a3 iso_a3_eh iso_n3 un_a3 wb_a2 wb_a3   woe_id
-0        NA       FJ     FJ    FJI       FJI    242   242    FJ   FJI 23424813
-1        NA       TZ     TZ    TZA       TZA    834   834    TZ   TZA 23424973
-2        NA       WI     EH    ESH       ESH    732   732  <NA>  <NA> 23424990
-3        NA       CA     CA    CAN       CAN    124   124    CA   CAN 23424775
-4         0       US     US    USA       USA    840   840    US   USA 23424977
-5        NA       KZ     KZ    KAZ       KAZ    398   398    KZ   KAZ      -90
-  woe_id_eh                                   woe_note adm0_a3_is adm0_a3_us
-0  23424813                 Exact WOE match as country        FJI        FJI
-1  23424973                 Exact WOE match as country        TZA        TZA
-2  23424990                 Exact WOE match as country        MAR        SAH
-3  23424775                 Exact WOE match as country        CAN        CAN
-4  23424977                 Exact WOE match as country        USA        USA
-5  23424871 Includes Baykonur Cosmodrome as an admin-1        KAZ        KAZ
-  adm0_a3_un adm0_a3_wb     continent region_un        subregion
-0         NA         NA       Oceania   Oceania        Melanesia
-1         NA         NA        Africa    Africa   Eastern Africa
-2         NA         NA        Africa    Africa  Northern Africa
-3         NA         NA North America  Americas Northern America
-4         NA         NA North America  Americas Northern America
-5         NA         NA          Asia      Asia     Central Asia
-                   region_wb name_len long_len abbrev_len tiny homepart
-0        East Asia & Pacific        4        4          4   NA        1
-1         Sub-Saharan Africa        8        8          5   NA        1
-2 Middle East & North Africa        9       14          7   NA        1
-3              North America        6        6          4   NA        1
-4              North America       24       13          6   NA        1
-5      Europe & Central Asia       10       10          4   NA        1
-  min_zoom min_label max_label      ne_id wikidataid name_ar name_bn
-0      0.0       3.0       8.0 1159320625       Q712    <NA>    <NA>
-1      0.0       3.0       8.0 1159321337       Q924    <NA>    <NA>
-2      4.7       6.0      11.0 1159321223      Q6250    <NA>    <NA>
-3      0.0       1.7       5.7 1159320467        Q16    <NA>    <NA>
-4      0.0       1.7       5.7 1159321369        Q30    <NA>    <NA>
-5      0.0       3.0       7.0 1159320967       Q232    <NA>    <NA>
-             name_de                  name_en           name_es
-0            Fidschi                     Fiji              Fiyi
-1           Tansania                 Tanzania          Tanzania
-2         Westsahara           Western Sahara Sahara Occidental
-3             Kanada                   Canada            Canadá
-4 Vereinigte Staaten United States of America    Estados Unidos
-5         Kasachstan               Kazakhstan        Kazajistán
-            name_fr name_el name_hi                   name_hu         name_id
-0             Fidji    <NA>    <NA>           Fidzsi-szigetek            Fiji
-1          Tanzanie    <NA>    <NA>                  Tanzánia        Tanzania
-2 Sahara occidental    <NA>    <NA>            Nyugat-Szahara    Sahara Barat
-3            Canada    <NA>    <NA>                    Kanada          Kanada
-4        États-Unis    <NA>    <NA> Amerikai Egyesült Államok Amerika Serikat
-5        Kazakhstan    <NA>    <NA>                Kazahsztán      Kazakhstan
-                name_it name_ja name_ko                      name_nl
-0                  Figi    <NA>    <NA>                         Fiji
-1              Tanzania    <NA>    <NA>                     Tanzania
-2    Sahara Occidentale    <NA>    <NA>            Westelijke Sahara
-3                Canada    <NA>    <NA>                       Canada
-4 Stati Uniti d'America    <NA>    <NA> Verenigde Staten van Amerika
-5            Kazakistan    <NA>    <NA>                   Kazachstan
-            name_pl         name_pt name_ru    name_sv
-0             Fidzi            Fiji    <NA>       Fiji
-1          Tanzania        Tanzânia    <NA>   Tanzania
-2  Sahara Zachodnia Saara Ocidental    <NA> Västsahara
-3            Kanada          Canadá    <NA>     Kanada
-4 Stany Zjednoczone  Estados Unidos    <NA>        USA
-5        Kazachstan     Cazaquistão    <NA>  Kazakstan
-                      name_tr    name_vi name_zh                       geometry
-0                        Fiji       Fiji    <NA> MULTIPOLYGON (((180 -16.067...
-1                    Tanzanya   Tanzania    <NA> MULTIPOLYGON (((33.90371 -0...
-2                  Bati Sahra Tây Sahara    <NA> MULTIPOLYGON (((-8.66559 27...
-3                      Kanada     Canada    <NA> MULTIPOLYGON (((-122.84 49,...
-4 Amerika Birlesik Devletleri       <NA>    <NA> MULTIPOLYGON (((-122.84 49,...
-5                  Kazakistan Kazakhstan    <NA> MULTIPOLYGON (((87.35997 49...
-\end{verbatim}
-
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-30-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-28-1.pdf}
 
 Voici une représentation cartographique de nos 3 groupes. Pour le choix
-des couleurs (roueg étant les pays les plus dans le besoin et vert les
+des couleurs (rouge étant les pays les plus dans le besoin et vert les
 pays le moins dans le besoin), nous nous sommes basées sur la
 représentation de la CAH faite plus haut ainsi que sur le rendu du
 catdes. En effet, nous apercevons que dans le groupe 1 (les pays qui ont
@@ -1077,13 +924,9 @@ se situent principalement en afrique et en asie.
 \section{Traitement du groupe des pays les moins
 favorisés}\label{traitement-du-groupe-des-pays-les-moins-favorisuxe9s}}
 
-Caractérisation de la partition obtenue Représentation informative des
-résultats. Graphiques adaptés, représentations factorielles si adaptées
-Optionnel : Représentation spatiale des résultats sur la carte de Rennes
-Faire une ACP
-
 Nous allons maintenant uniquement nous pencher sur les pays les moins
-développés (ceux appartenant au premier groupe).
+développés (ceux appartenant au premier groupe, représentés en rouge sur
+la carte).
 
 \hypertarget{cah-sur-les-pays-moins-duxe9veloppuxe9s}{%
 \subsection{CAH sur les pays moins
@@ -1116,7 +959,7 @@ effectué plus haut c'est ce qui nous semble le plus pertinent)
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-32-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-30-1.pdf}
 
 De la même façon que la seconde partie, on observe la présence d'une
 structure ``naturelle'' en un nombre de groupe modéré. Regardons la
@@ -1129,7 +972,7 @@ ne pas ``noyer'' l'information importante)
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-33-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-31-1.pdf}
 
 Le tracé de la perte d'inertie nous incite à choisir une partition en 4
 groupes (lecture de gauche à droite : juste avant le coude ou changement
@@ -1144,7 +987,7 @@ On peut aussi s'aider de critères automatiques calculés dans le package
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-34-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-32-1.pdf}
 
 \begin{verbatim}
 *** : The Hubert index is a graphical method of determining the number of clusters.
@@ -1154,7 +997,7 @@ On peut aussi s'aider de critères automatiques calculés dans le package
  
 \end{verbatim}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-34-2.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-32-2.pdf}
 
 \begin{verbatim}
 *** : The D index is a graphical method of determining the number of clusters. 
@@ -1337,7 +1180,7 @@ de la courbe d'inertie/dendrogramme.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-36-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-34-1.pdf}
 
 \begin{itemize}
 \tightlist
@@ -1351,12 +1194,12 @@ de la courbe d'inertie/dendrogramme.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-37-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-35-1.pdf}
 
 \hypertarget{avec-les-kmeans}{%
 \subsection{Avec les kmeans :}\label{avec-les-kmeans}}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-38-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-36-1.pdf}
 
 A la vue de ce graphique, on aurait tendance à choisir K= 5 ou 6 groupes
 en appliquant la méthode dite « du coude ». Ayant, grâce à la CAH,
@@ -1372,7 +1215,7 @@ Ce graphique nous conforome tout de même dans notre idée.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-39-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-37-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1767,8 +1610,8 @@ Bolivia      0.09442774  0.11742845  0.1664870 -0.5992871      3
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-41-1.pdf}
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-41-2.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-39-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-39-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1799,7 +1642,7 @@ NULL
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-43-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-41-1.pdf}
 
 Tableaux repartisant les pays à aider en 6 groupes :
 
@@ -1896,7 +1739,7 @@ résultats sont stables.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-46-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-44-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1981,7 +1824,7 @@ Warning in title(main = main, ...): "explode" is not a graphical parameter
 Warning in title(main = main, ...): "startangle" is not a graphical parameter
 \end{verbatim}
 
-\includegraphics{Projet_files/figure-latex/unnamed-chunk-48-1.pdf}
+\includegraphics{Projet_files/figure-latex/unnamed-chunk-46-1.pdf}
 
 Nous vous présentons donc si dessous, les sommes à alloué parmi les 22
 pays dans le grand besoin.

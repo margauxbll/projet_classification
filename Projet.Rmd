@@ -84,42 +84,28 @@ for (i in 1:9) {
 }
 ```
 
-## Pre-traimement
+## Pré-traimement
 
-**Donnees manquantes ? Outliers**
+**Gestion des données manquantes**
 
 ```{r}
 table(is.na(donnee))
 ```
 
-Aucune donnée manquante.
+Nous n'avons aucune donné manquante dans notre base de données.
 
-**Valeur aberrante** 
+**Traitement des valeurs aberrantes** 
 
-Exports max à 200 ? Bizarre 
+Nous observons grâce au summary que notre export maximal est à 200. Nous décidons d'aller chercher un peu plus loin et nous nous rendons vite compte que ces valeurs élevées correspondent à des pays riches comme Malte, le Luxembourg ou encore Singapour.
 
-Ce sont à première vue des pays riche comme malte, luxembourg, singapour 
+Nous observons égelement un import maximal à 174. En allant un peu plus loin, nous nous rendons vite compte que c'est pour la même réponse que précédemment.
 
-Imports max à 174 ?
-Idem, finalement c'est logique 
-Aucune valeur aberrante
-
-Mais y a des valeurs "leviers", certains pays comme malte, singapour se
-dégagent des valeurs moyennes
+Nous n'avons donc aucun valeur aberrante dans notre base de données.
 
 **Standardisation ?**
 
-Lorsque l'on a des données avec des unités différentes (par exemple des
-pourcentages, des espérances de vie, des PIB par habitant), il est
-recommandé de centrer et de réduire ces données. Centrer les données
-signifie soustraire la moyenne de la variable de toutes les
-observations, ce qui permet d'avoir une moyenne égale à zéro. Réduire
-les données signifie diviser chaque observation par l'écart-type de la
-variable, ce qui met toutes les variables à la même échelle. Cela
-facilite la comparaison entre les différentes variables et permet des
-analyses statistiques plus fiables. Il est cependant important de garder
-à l'esprit que la signification des résultats dépend toujours du
-contexte et de la validité des données utilisées
+Lorsque l'on a des données avec des unités différentes (par exemple des pourcentages, des espérances de vie, des PIB par habitant), il est recommandé de centrer et de réduire ces données. Centrer les données signifie soustraire la moyenne de la variable à toutes les observations, ce qui permet d'avoir une moyenne égale à zéro. Réduire les données signifie diviser chaque observation par l'écart-type de la variable, ce qui met toutes les variables à la même échelle. Cela facilite la comparaison entre les différentes variables et permet des analyses statistiques plus fiables. Il est cependant important de garder à l'esprit que la signification des résultats dépend toujours du contexte et de la validité des données utilisées. 
+Nous allons ici utiliser la méthode scale afin de centrer et de réduire les données, qui ici ne sont pas aux mêmes unités. 
 
 ```{r}
 donnee <- data.frame(scale(donnee))
@@ -133,17 +119,19 @@ corrplot(cor(var), type = "upper")
 ```
 
 La matrice de corrélation nous aide à mieux comprendre les relations
-entre chaque variable et pourra nous aider à interpréter plus tard.
+entre chaque variable et pourra nous aider à interpréter nos résultats plus tard.
 
-Nous allons alors classifier les pays en fonction de NOMS DE COLONNES.
+Nous allons alors classifier les pays en fonction du nombre de décès d’enfants de moins de 5 ans pour 1000 naissances,des exportations de biens et services par habitant, des dépenses totales de santé par habitant, des importations de biens et services par habitant, du revenu net moyen par personne, de la mesure du taux de croissance annuel du PIB total, de l'espérance de vie, du nombre moyen d’enfants par femme et enfin du PIB par habitant.
 
 # Classification des pays en utilisant les différents algorithmes abordés en cours
 
-Utilisation des algorithmes de classification vus en cours . Reflexion
-sur les choix operer decider d'une classification finale . Nombre
-de groupes ?
+Nous allons tout d'abord faire une CAH puis ensuite faire l'algorithme des k-means. 
 
 ## CAH
+
+DIRE À QUOI SERT UNE CAH
+
+Nous allons tester les différentes distances abordées afin de déterminer laquelle est la plus pertinente.
 
 ```{r}
 set.seed(123)
@@ -169,19 +157,13 @@ plot(cah.min, hang = -1, main = "Distance du saut minimal", ylab = " ")
 plot(cah.max, hang = -1, main = "Distance du saut maximal", ylab = " ")
 ```
 
-On s'apercoit raipdement que c'est le critère de Ward qui correspond le
-mieux à nos données. On voit déjà qu'on peut partitionner nos données en
-3 ou 4 groupes
+On s'apercoit que c'est le critère de Ward qui correspond le
+mieux à nos données. On voit déjà qu'on peut partitionner nos données en 3 ou 4 groupes.
+
 
 **Fonction de perte**
 
-Pour rappel, on cherche à maximiser l'inertie inter-classe. En effet,
-nous avons pour objectif de créer des groupes d'individus se ressemblant
-fortement (inertie intra-classes faible) et tels que les groupes soient
-les plus distints possible (inertie inter-classes élevée). L'inertie
-inter-classe est logiquement maximale (égale à l'intertie totale)
-lorsqu'il y a autant de classes que d'individus. Nous cherchons dans le
-graphique ci-dessous un "coude" qui correspond à une rupture dans la
+Pour rappel, on cherche à maximiser l'inertie inter-classe. En effet, nous avons pour objectif de créer des groupes d'individus se ressemblant fortement (inertie intra-classes faible) et tels que les groupes soient les plus distints possible (inertie inter-classes élevée). L'inertie inter-classe est logiquement maximale (égale à l'intertie totale) lorsqu'il y a autant de classes que d'individus. Nous cherchons dans le graphique ci-dessous un "coude" qui correspond à une rupture dans la
 courbe (moment où l'inertie inter augmente beaucoup).
 
 ```{r}
@@ -196,8 +178,7 @@ plot(rev(cah.min$height)[1:10], type = "b", main = "Distance du saut minimal")
 plot(rev(cah.max$height)[1:10], type = "b", main = "Distance du saut maximal")
 ```
 
-Avec le critère de Ward, la trace de la perte d'inertie nous incite à
-choisir des partitions en 3 groupes ("coude" très visible).
+Avec le critère de Ward, la trace de la perte d'inertie nous incite à choisir des partitions en 3 groupes ("coude" très visible).
 
 ```{r}
 matrix <- as.matrix(donnee)
@@ -207,7 +188,7 @@ matrix <- as.matrix(donnee)
 NbClust(matrix, min.nc = 2, max.nc = 15, method = "ward.D", index = "all")
 ```
 
-On nous dit que les meilleurs clusters sont 2 ou 4 avec 5 chacun ou 3 avec 4. 
+On nous dit que 5 ont proposés 2 et 4 comme le meilleur nombre de clusters à choisir, et 4 ont proposé que 3 était le meilleur nombre de clusters. 
 Au vu de l'interprétation graphique faite précédemment, nous allons rester sur 3 clusters, qui nous semble le plus pertinent.
 
 
@@ -223,32 +204,17 @@ rect.hclust(cah.ward, nbc, border = "blue")
 ```
 
 ```{r}
-plot(cah.min, hang = -1, main = "Distance du saut minimal")
-rect.hclust(cah.min, nbc, border = "blue")
-```
-
-```{r}
-plot(cah.max, hang = -1, main = "Distance du saut maximal")
-rect.hclust(cah.max, nbc, border = "blue")
-```
-
-```{r}
 clusplot(donnee, gpe.ward, labels = nbc, col.p = as.numeric(gpe.ward))
 ```
-Les 3 groupes sont reconnaissables mais mélangés à certains endroits, particulièrement entre . 
 
 Ce graphe correspond à la représentation des groupes sur les deux premiers axes principaux d’une ACP. De plus, des ellipses de contour autour des groupes sont tracées. On observe ici en colorant les points avec leur vraie classe que les groupes vert et rouge et rouge et noir sont difficiles à retrouver.
 
+Les 3 groupes sont reconnaissables mais mélangés à certains endroits, particulièrement entre le groupe rouge et les deux autres. 
+
 ## Algorithme des Kmeans
 
-Tout d'abord nous allons utiliser l'algorithme des k-means pour avoir
-une première idée de notre classification finale. Si on ne sait pas a
-priori combien de groupes comporte le jeu de donnees, on peut appliquer
-l'algorithme pour plusieurs choix de K possibles et tracer la courbe
-d'évolution de l'inertie . On lance l'algorithme des kmeans et on
-observe l'évolution de la variance intra-groupes en fonction du nombre
-de groupes. On rajoute également l'option « nstart =50 » pour stabiliser
-les résultats.
+Nous allons à présent utiliser l'algorithme des k-means pour nouq conforter dans notre choix de K suite à la CAH.
+Nous pouvons appliquer l'algorithme pour plusieurs choix de K possibles et tracer la courbe d'évolution de l'inertie. On lance l'algorithme des kmeans et on observe l'évolution de la variance intra-groupes en fonction du nombre de groupes. On rajoute également l'option « nstart =50 » pour stabiliser les résultats.
 
 ```{r,echo=FALSE}
 set.seed(123)
@@ -257,7 +223,7 @@ plot(c,type="b")
 ```
 
 A la vue de ce graphique, on aurait tendance à choisir K= 3,4 ou 5
-groupes en appliquant la méthode dite « du coude ». Ayant, grâce à la CAH, choisi de garder K=3, nous allons conserver ce nombre pour les k-means. Ce graphique nous conforome tout de même dans notre idée. 
+groupes en appliquant la méthode dite « du coude ». Ayant, grâce à la CAH, choisi de garder K=3, nous allons conserver ce nombre pour les k-means.
 
 ```{r}
 K=3
@@ -266,12 +232,6 @@ gpe = cl$cluster
 clusplot(donnee,gpe,labels=3,col.p=gpe)
 
 ```
-
-La représentation en clusplot nous permet de voir qu'il y a 3 groupes
-qui se séparent plutôt bien sur les composantes 1, 2 et 3. (on le voit
-au travers des différents couleur sur le graphique).
-
-Representation des groupes sur le premier plan factoriel
 
 ## Interprétation des groupes 
 
@@ -319,7 +279,6 @@ s.class(CCpca$li, factor(gpe), col = 2:4, add.plot = TRUE,clabel = 1)
 
 Suite à l'analyse de nos différentes méthodes, nous nous rendons compte que 3 gros groupes se sont formés. Nous décidons de nous concentrer sur le groupe des pays les moins développés. 
 
-
 ## Visualisation des résultats obtenus (carte)
 
 ```{r echo=FALSE}
@@ -329,19 +288,14 @@ don_carte$pays <- row.names(don_carte)
 # Géocoder les noms de pays en utilisant la base de données worldmap
 df_coords <- data.frame(getMap()[, c("ISO3", "LAT", "LON")])
 colnames(df_coords) <- c("iso3c", "lat", "lon")
-head(df_coords)
 
 # Convertir les noms de pays en codes ISO3 en utilisant countrycode
 don_carte$iso3c <- countrycode(sourcevar = don_carte$pays, origin = "country.name", destination = "iso3c")
-
 
 merged_data <- merge(map_data("world"), don_carte, by.x = "region", by.y = "pays", all = TRUE)
 
 #Importer les données géographiques
 world <- ne_countries(returnclass = "sf")
-head(world)
-
-
 
 # Joindre les données géographiques et les données sur les valeurs
 world_data <- left_join(world, don_carte, by = c("iso_a3" = "iso3c"))
@@ -355,20 +309,12 @@ ggplot() +
 ```
 
 Voici une représentation cartographique de nos 3 groupes. 
-Pour le choix des couleurs (roueg étant les pays les plus dans le besoin et vert les pays le moins dans le besoin), nous nous sommes basées sur la représentation de la CAH faite plus haut ainsi que sur le rendu du catdes. En effet, nous apercevons que dans le groupe 1 (les pays qui ont un fort taux de mortalité infantile et une faible espérance de vie) se trouvent des pays comme l'Angola ou le Nigeria. Nous avons alors reliés la couleur rouge au groupe de ces pays. 
+Pour le choix des couleurs (rouge étant les pays les plus dans le besoin et vert les pays le moins dans le besoin), nous nous sommes basées sur la représentation de la CAH faite plus haut ainsi que sur le rendu du catdes. En effet, nous apercevons que dans le groupe 1 (les pays qui ont un fort taux de mortalité infantile et une faible espérance de vie) se trouvent des pays comme l'Angola ou le Nigeria. Nous avons alors reliés la couleur rouge au groupe de ces pays. 
 On observe bien que les pays dans le besoin (les individus se trouvant dans le groupe 1 de notre cah) se situent principalement en afrique et en asie. 
 
 # Traitement du groupe des pays les moins favorisés
 
-
-Caractérisation de la partition obtenue 
-Représentation informative des résultats.
-Graphiques adaptés, représentations factorielles si adaptées
-Optionnel : Représentation spatiale des résultats sur la carte de Rennes 
-Faire une ACP
-
-Nous allons maintenant uniquement nous pencher sur les pays les moins développés (ceux appartenant au premier groupe).
-
+Nous allons maintenant uniquement nous pencher sur les pays les moins développés (ceux appartenant au premier groupe, représentés en rouge sur la carte).
 
 ## CAH sur les pays moins développés
 
@@ -421,7 +367,6 @@ gpe.ward.moinsdev = cutree(cah.ward.moinsdev,k=K)
 ```{r}
 plot(cah.ward.moinsdev,hang=-1)
 rect.hclust(cah.ward.moinsdev, K, border ="blue")
-
 ```
 
 - Clusplot
