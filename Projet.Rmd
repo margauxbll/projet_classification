@@ -129,7 +129,7 @@ Nous allons tout d'abord faire une CAH puis ensuite faire l'algorithme des k-mea
 
 ## CAH
 
-DIRE À QUOI SERT UNE CAH
+La CAH (Classification Ascendante Hiérarchique) est une méthode d'analyse de données qui permet de regrouper des individus ou des variables similaires en clusters (groupes) selon leur ressemblance. Elle est utilisée pour l'identification de groupes homogènes, la visualisation de la structure des données et la découverte de tendances et de relations entre les variables.
 
 Nous allons tester les différentes distances abordées afin de déterminer laquelle est la plus pertinente.
 
@@ -201,9 +201,13 @@ clusplot(donnee, gpe.ward, labels = 2, col.p = as.numeric(gpe.ward))
 
 Ce graphe correspond à la représentation des groupes sur les deux premiers axes principaux d’une ACP. De plus, des ellipses de contour autour des groupes sont tracées. On observe ici en colorant les points avec leur vraie classe que les groupes vert et rouge et rouge et noir sont difficiles à retrouver.
 
-Les deux composantes expliquent 63.13% de la variance.
+
+
+Les deux composantes expliquent 63.13% de la variance. Cela signifie que les deux composantes principales (axes) du graphique de la CAH représentent ensemble X% de la variance totale des données. En d'autres termes, les deux premiers axes expliquent 63.13% de l'information contenue dans les données, ce qui permet de visualiser les relations entre les individus ou les variables dans un espace en deux dimensions.
 
 Les 3 groupes sont reconnaissables mais superposés à certains endroits, particulièrement entre le groupe rouge et les deux autres. 
+
+Nous avons opté pour la création de trois groupes plutôt que quatre. Nous avons observé que lors de la partition en quatre groupes, le groupe des pays développés était scindé. Or, dans le cadre de cette analyse, notre intérêt se concentre exclusivement sur les pays en difficulté auxquels un budget devra être alloué. Donc il le partionnement en 4 groupes n'apportera pas plus d'information à notre analyse. 
 
 ## Algorithme des Kmeans
 
@@ -385,7 +389,7 @@ groupes en appliquant la méthode dite « du coude ». Ayant aupravant choisi de
 K=4
 cl = kmeans(donnee_moinsdev,K,nstart=50)
 gpe = cl$cluster
-clusplot(donnee_moinsdev,gpe,labels=3,col.p=gpe)
+clusplot(donnee_moinsdev,gpe,labels=2,col.p=gpe)
 ```
 
 ## Interprétation des groupes 
@@ -571,9 +575,23 @@ Nous vous présentons donc si dessous, les sommes à alloué parmi les 22 pays d
 
 # Pour aller plus loin
 
+-    Le **clusplot** est une représentation graphique qui permet de visualiser les groupes formés par l'algorithme de clustering. Il utilise généralement les deux premières composantes principales pour représenter les données en deux dimensions, car il est plus facile de visualiser les données dans un espace à deux dimensions.
+
+Cependant, lorsque les données ont plusieurs variables explicatives, la représentation en deux dimensions ne permet pas de saisir toutes les informations disponibles. En effet, les variables qui ne sont pas représentées sur le graphique sont omises et peuvent être importantes pour la compréhension des différences entre les groupes.
+
+Par conséquent, il est important de garder à l'esprit que la visualisation en deux dimensions offerte par le clusplot est une simplification des données originales. Elle permet de donner une idée générale des différences entre les groupes, mais ne doit pas être considérée comme une représentation exhaustive de toutes les variables explicatives.
+
+Pour une analyse plus complète, il est recommandé de visualiser les données dans un espace à plus de deux dimensions, comme un nuage de points en 3D, ou d'utiliser des techniques de visualisation multidimensionnelles telles que le parallel coordinate plot ou le heatmap
+
+-   La **méthode du coude** est une méthode couramment utilisée pour déterminer le nombre optimal de classes à utiliser dans l'analyse de clustering. Cependant, elle n'est pas toujours la méthode la plus appropriée, car elle ne prend pas en compte la qualité de la partition de données. Elle se base uniquement sur la variation de la somme des carrés intra-classes en fonction du nombre de classes, sans évaluer la pertinence des groupes formés.
+
+D'autres indices tels que l'indice silhouette moyen ou l'indice de gap sont des alternatives plus robustes et plus appropriées pour la détermination du nombre optimal de classes. Ces indices évaluent la qualité de la partition des données et prennent en compte des critères tels que la compacité des groupes et la séparation entre les groupes.
+
+Par conséquent, en utilisant uniquement la méthode du coude pour choisir le nombre de classes, on peut passer à côté d'une partition de données plus pertinente et plus adaptée à l'objectif de l'analyse. Il est donc recommandé de considérer d'autres indices tels que l'indice silhouette moyen ou l'indice de gap pour prendre une décision éclairée sur le choix du nombre optimal de classes.
+
+
+
 ## Améliorations
-
-
 
 ## Pistes
 
