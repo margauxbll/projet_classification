@@ -98,23 +98,24 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={Les pays à aider},
+  pdftitle={Utilisation stratégique des fonds d'une ONG},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{Les pays à aider}
+\title{Utilisation stratégique des fonds d'une ONG}
 \usepackage{etoolbox}
 \makeatletter
 \providecommand{\subtitle}[1]{% add subtitle to \maketitle
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{Projet de apprentissage non suppervisé\\
+\subtitle{Priorisation des pays nécessitant une aide socio-économique et
+sanitaire à partir d'une analyse de données\\
 Classification\\
 Université de Rennes II : Master Mathématiques Appliquées, Statistiques}
 \author{Margaux Bailleul\\
 Oriane Duclos}
-\date{16 April, 2023}
+\date{20 avril, 2023}
 
 \begin{document}
 \maketitle
@@ -227,7 +228,7 @@ précédemment.
 
 Nous n'avons donc aucun valeur aberrante dans notre base de données.
 
-\textbf{Standardisation ?}
+\textbf{Standardisation}
 
 Lorsque l'on a des données avec des unités différentes (par exemple des
 pourcentages, des espérances de vie, des PIB par habitant), il est
@@ -692,12 +693,12 @@ autour des groupes sont tracées. On observe ici en colorant les points
 avec leur vraie classe que les groupes vert et rouge et rouge et noir
 sont difficiles à retrouver.
 
-Les deux composantes expliquent 63.13\% de la variance. Cela signifie
-que les deux composantes principales (axes) du graphique de la CAH
-représentent ensemble X\% de la variance totale des données. En d'autres
-termes, les deux premiers axes expliquent 63.13\% de l'information
-contenue dans les données, ce qui permet de visualiser les relations
-entre les individus ou les variables dans un espace en deux dimensions.
+Cela signifie que les deux composantes principales (axes) du graphique
+de la CAH représentent ensemble 63.13\% de la variance totale des
+données. En d'autres termes, les deux premiers axes expliquent 63.13\%
+de l'information contenue dans les données, ce qui permet de visualiser
+les relations entre les individus ou les variables dans un espace en
+deux dimensions.
 
 Les 3 groupes sont reconnaissables mais superposés à certains endroits,
 particulièrement entre le groupe rouge et les deux autres.
@@ -706,8 +707,8 @@ Nous avons opté pour la création de trois groupes plutôt que quatre.
 Nous avons observé que lors de la partition en quatre groupes, le groupe
 des pays développés était scindé. Or, dans le cadre de cette analyse,
 notre intérêt se concentre exclusivement sur les pays en difficulté
-auxquels un budget devra être alloué. Donc il le partionnement en 4
-groupes n'apportera pas plus d'information à notre analyse.
+auxquels un budget devra être alloué. Donc le partionnement en 4 groupes
+n'apportera pas plus d'information à notre analyse.
 
 \hypertarget{algorithme-des-kmeans}{%
 \subsection{Algorithme des Kmeans}\label{algorithme-des-kmeans}}
@@ -724,8 +725,7 @@ les résultats.
 
 A la vue de ce graphique, on aurait tendance à choisir K= 4 groupes en
 appliquant la méthode dite « du coude ». Ayant, grâce à la CAH, choisi
-de garder K=3, nous allons conserver ce nombre pour les k-means. En
-effet, en prenant K=4, nous nous rendons compte que CONTINUER
+de garder K=3, nous allons conserver ce nombre pour les k-means.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -772,14 +772,14 @@ Description of each cluster by quantitative variables
 =====================================================
 $`1`
                 v.test Mean in category  Overall mean sd in category Overall sd
-enfant_mort  10.370649        1.0052894  1.555642e-16      0.9111885  0.9970015
-fert         10.150674        0.9839659  1.728491e-17      0.8579969  0.9970015
-inflation     2.913863        0.2824583  1.329608e-17      1.2650602  0.9970015
-sant.        -2.615632       -0.2535490 -1.403069e-15      0.9651035  0.9970015
-exports      -3.802046       -0.3685552 -3.478588e-16      0.6775757  0.9970015
-pib_h        -6.214645       -0.6024230  2.393295e-17      0.1393288  0.9970015
-revenu       -6.968102       -0.6754601 -7.445807e-17      0.2556201  0.9970015
-esper_vie   -10.486756       -1.0165444  3.616535e-16      0.7596372  0.9970015
+enfant_mort  10.370649        1.0052894 -3.093417e-17      0.9111885  0.9970015
+fert         10.150674        0.9839659  1.932087e-17      0.8579969  0.9970015
+inflation     2.913863        0.2824583 -1.996490e-17      1.2650602  0.9970015
+sant.        -2.615632       -0.2535490 -1.047794e-16      0.9651035  0.9970015
+exports      -3.802046       -0.3685552 -4.103608e-17      0.6775757  0.9970015
+pib_h        -6.214645       -0.6024230  3.620846e-17      0.1393288  0.9970015
+revenu       -6.968102       -0.6754601 -8.768144e-17      0.2556201  0.9970015
+esper_vie   -10.486756       -1.0165444  3.564649e-16      0.7596372  0.9970015
                  p.value
 enfant_mort 3.372265e-25
 fert        3.290824e-24
@@ -791,11 +791,11 @@ revenu      3.212442e-12
 esper_vie   9.938179e-26
 
 $`2`
-               v.test Mean in category Overall mean sd in category Overall sd
-esper_vie    4.730693        0.4417023 3.616535e-16      0.3438267  0.9970015
-pib_h       -2.657982       -0.2481744 2.393295e-17      0.3297308  0.9970015
-enfant_mort -6.001733       -0.5603786 1.555642e-16      0.2069384  0.9970015
-fert        -6.325848       -0.5906411 1.728491e-17      0.4173776  0.9970015
+               v.test Mean in category  Overall mean sd in category Overall sd
+esper_vie    4.730693        0.4417023  3.564649e-16      0.3438267  0.9970015
+pib_h       -2.657982       -0.2481744  3.620846e-17      0.3297308  0.9970015
+enfant_mort -6.001733       -0.5603786 -3.093417e-17      0.2069384  0.9970015
+fert        -6.325848       -0.5906411  1.932087e-17      0.4173776  0.9970015
                  p.value
 esper_vie   2.237542e-06
 pib_h       7.861014e-03
@@ -804,14 +804,14 @@ fert        2.518459e-10
 
 $`3`
                v.test Mean in category  Overall mean sd in category Overall sd
-pib_h       10.768111        1.6480397  2.393295e-17     1.04631502  0.9970015
-revenu      10.318192        1.5791804 -7.445807e-17     1.05150950  0.9970015
-esper_vie    6.925852        1.0599890  3.616535e-16     0.23111362  0.9970015
-exports      4.147405        0.6347527 -3.478588e-16     1.54724683  0.9970015
-sant.        4.009263        0.6136103 -1.403069e-15     1.27746390  0.9970015
-inflation   -2.266208       -0.3468390  1.329608e-17     0.50958288  0.9970015
-fert        -4.572607       -0.6998292  1.728491e-17     0.29691512  0.9970015
-enfant_mort -5.234428       -0.8011195  1.555642e-16     0.08690297  0.9970015
+pib_h       10.768111        1.6480397  3.620846e-17     1.04631502  0.9970015
+revenu      10.318192        1.5791804 -8.768144e-17     1.05150950  0.9970015
+esper_vie    6.925852        1.0599890  3.564649e-16     0.23111362  0.9970015
+exports      4.147405        0.6347527 -4.103608e-17     1.54724683  0.9970015
+sant.        4.009263        0.6136103 -1.047794e-16     1.27746390  0.9970015
+inflation   -2.266208       -0.3468390 -1.996490e-17     0.50958288  0.9970015
+fert        -4.572607       -0.6998292  1.932087e-17     0.29691512  0.9970015
+enfant_mort -5.234428       -0.8011195 -3.093417e-17     0.08690297  0.9970015
                  p.value
 pib_h       4.868867e-27
 revenu      5.831062e-25
@@ -885,7 +885,8 @@ Les 3 groupes sont donc caractérisés ainsi :
 \end{verbatim}
 
 Nous avons donc 63\% de variabilité expliqués sur les deux premiers
-axes. Nous allons alors faire une ACP afin de déterminer CONTINUER
+axes. Nous allons alors faire une ACP afin de déterminer visuellement
+par quelles variables peuvent être expliquées les groupes.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1436,7 +1437,10 @@ Tableaux repartisant les pays à aider en 4 groupes :
 "22" "28" "14" " 1" "65" 
 \end{verbatim}
 
-Notons que le groupe 1 est le groupe à aider en priorité.
+Notons que le groupe 1 est le groupe à aider en priorité, car il a
+beaucoup d'enfants morts et beaucoup de fertilité, ainsi qu'une faible
+espérance de vie, l'espérance de vie étant corrélée négativement à ces
+deux variables.
 
 \hypertarget{conclusion-vis-uxe0-vis-des-choix-effectuuxe9s}{%
 \section{Conclusion vis à vis des choix
@@ -1713,45 +1717,46 @@ des besoins moins critiques que les autres groupes.
 
 \begin{verbatim}
 Warning in text.default(1.1 * P$x, 1.1 * P$y, labels[i], xpd = TRUE, adj =
-ifelse(P$x < : "explode" is not a graphical parameter
+ifelse(P$x < : "explode" n'est pas un paramètre graphique
 \end{verbatim}
 
 \begin{verbatim}
 Warning in text.default(1.1 * P$x, 1.1 * P$y, labels[i], xpd = TRUE, adj =
-ifelse(P$x < : "startangle" is not a graphical parameter
+ifelse(P$x < : "startangle" n'est pas un paramètre graphique
 \end{verbatim}
 
 \begin{verbatim}
 Warning in text.default(1.1 * P$x, 1.1 * P$y, labels[i], xpd = TRUE, adj =
-ifelse(P$x < : "explode" is not a graphical parameter
+ifelse(P$x < : "explode" n'est pas un paramètre graphique
 \end{verbatim}
 
 \begin{verbatim}
 Warning in text.default(1.1 * P$x, 1.1 * P$y, labels[i], xpd = TRUE, adj =
-ifelse(P$x < : "startangle" is not a graphical parameter
+ifelse(P$x < : "startangle" n'est pas un paramètre graphique
 \end{verbatim}
 
 \begin{verbatim}
 Warning in text.default(1.1 * P$x, 1.1 * P$y, labels[i], xpd = TRUE, adj =
-ifelse(P$x < : "explode" is not a graphical parameter
+ifelse(P$x < : "explode" n'est pas un paramètre graphique
 \end{verbatim}
 
 \begin{verbatim}
 Warning in text.default(1.1 * P$x, 1.1 * P$y, labels[i], xpd = TRUE, adj =
-ifelse(P$x < : "startangle" is not a graphical parameter
+ifelse(P$x < : "startangle" n'est pas un paramètre graphique
 \end{verbatim}
 
 \begin{verbatim}
-Warning in title(main = main, ...): "explode" is not a graphical parameter
+Warning in title(main = main, ...): "explode" n'est pas un paramètre graphique
 \end{verbatim}
 
 \begin{verbatim}
-Warning in title(main = main, ...): "startangle" is not a graphical parameter
+Warning in title(main = main, ...): "startangle" n'est pas un paramètre
+graphique
 \end{verbatim}
 
 \includegraphics{Projet_files/figure-latex/unnamed-chunk-46-1.pdf}
 
-Nous vous présentons donc si dessous, les sommes à alloué parmi les 22
+Nous vous présentons donc si dessous, les sommes à allouer parmi les 22
 pays dans le grand besoin.
 
 \begin{itemize}
@@ -1804,6 +1809,11 @@ pays dans le grand besoin.
 
 \textbf{Il nous semble tout de même compliqué d'aider plusieurs pays
 avec ``seulement'' 10 millions de dollars.}
+
+En fin de compte, l'élimination de la pauvreté est un objectif complexe
+et à long terme qui nécessite une approche holistique et un engagement à
+long terme de la part des gouvernements, des organisations
+internationales et de la communauté mondiale dans son ensemble.
 
 \hypertarget{pour-aller-plus-loin}{%
 \section{Pour aller plus loin}\label{pour-aller-plus-loin}}
@@ -1866,7 +1876,8 @@ du nombre optimal de classes.
 \tightlist
 \item
   Nous aurions également pu faire d'autres cartes : une pour les moins
-  moins développés et une autre pour les pays que nous aidons.
+  moins développés et une autre pour les pays que nous aidons en fin de
+  compte.
 \end{itemize}
 
 \end{document}
