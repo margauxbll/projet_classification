@@ -114,7 +114,7 @@ Classification\\
 Université de Rennes II : Master Mathématiques Appliquées, Statistiques}
 \author{Margaux Bailleul\\
 Oriane Duclos}
-\date{16 April, 2023}
+\date{20 April, 2023}
 
 \begin{document}
 \maketitle
@@ -227,7 +227,7 @@ précédemment.
 
 Nous n'avons donc aucun valeur aberrante dans notre base de données.
 
-\textbf{Standardisation ?}
+\textbf{Standardisation}
 
 Lorsque l'on a des données avec des unités différentes (par exemple des
 pourcentages, des espérances de vie, des PIB par habitant), il est
@@ -692,12 +692,12 @@ autour des groupes sont tracées. On observe ici en colorant les points
 avec leur vraie classe que les groupes vert et rouge et rouge et noir
 sont difficiles à retrouver.
 
-Les deux composantes expliquent 63.13\% de la variance. Cela signifie
-que les deux composantes principales (axes) du graphique de la CAH
-représentent ensemble X\% de la variance totale des données. En d'autres
-termes, les deux premiers axes expliquent 63.13\% de l'information
-contenue dans les données, ce qui permet de visualiser les relations
-entre les individus ou les variables dans un espace en deux dimensions.
+Cela signifie que les deux composantes principales (axes) du graphique
+de la CAH représentent ensemble 63.13\% de la variance totale des
+données. En d'autres termes, les deux premiers axes expliquent 63.13\%
+de l'information contenue dans les données, ce qui permet de visualiser
+les relations entre les individus ou les variables dans un espace en
+deux dimensions.
 
 Les 3 groupes sont reconnaissables mais superposés à certains endroits,
 particulièrement entre le groupe rouge et les deux autres.
@@ -706,8 +706,8 @@ Nous avons opté pour la création de trois groupes plutôt que quatre.
 Nous avons observé que lors de la partition en quatre groupes, le groupe
 des pays développés était scindé. Or, dans le cadre de cette analyse,
 notre intérêt se concentre exclusivement sur les pays en difficulté
-auxquels un budget devra être alloué. Donc il le partionnement en 4
-groupes n'apportera pas plus d'information à notre analyse.
+auxquels un budget devra être alloué. Donc le partionnement en 4 groupes
+n'apportera pas plus d'information à notre analyse.
 
 \hypertarget{algorithme-des-kmeans}{%
 \subsection{Algorithme des Kmeans}\label{algorithme-des-kmeans}}
@@ -724,8 +724,7 @@ les résultats.
 
 A la vue de ce graphique, on aurait tendance à choisir K= 4 groupes en
 appliquant la méthode dite « du coude ». Ayant, grâce à la CAH, choisi
-de garder K=3, nous allons conserver ce nombre pour les k-means. En
-effet, en prenant K=4, nous nous rendons compte que CONTINUER
+de garder K=3, nous allons conserver ce nombre pour les k-means.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -885,7 +884,8 @@ Les 3 groupes sont donc caractérisés ainsi :
 \end{verbatim}
 
 Nous avons donc 63\% de variabilité expliqués sur les deux premiers
-axes. Nous allons alors faire une ACP afin de déterminer CONTINUER
+axes. Nous allons alors faire une ACP afin de déterminer visuellement
+par quelles variables peuvent être expliquées les groupes.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1436,7 +1436,10 @@ Tableaux repartisant les pays à aider en 4 groupes :
 "22" "28" "14" " 1" "65" 
 \end{verbatim}
 
-Notons que le groupe 1 est le groupe à aider en priorité.
+Notons que le groupe 1 est le groupe à aider en priorité, car il a
+beaucoup d'enfants morts et beaucoup de fertilité, ainsi qu'une faible
+espérance de vie, l'espérance de vie étant corrélée négativement à ces
+deux variables.
 
 \hypertarget{conclusion-vis-uxe0-vis-des-choix-effectuuxe9s}{%
 \section{Conclusion vis à vis des choix
@@ -1751,7 +1754,7 @@ Warning in title(main = main, ...): "startangle" is not a graphical parameter
 
 \includegraphics{Projet_files/figure-latex/unnamed-chunk-46-1.pdf}
 
-Nous vous présentons donc si dessous, les sommes à alloué parmi les 22
+Nous vous présentons donc si dessous, les sommes à allouer parmi les 22
 pays dans le grand besoin.
 
 \begin{itemize}
@@ -1804,6 +1807,11 @@ pays dans le grand besoin.
 
 \textbf{Il nous semble tout de même compliqué d'aider plusieurs pays
 avec ``seulement'' 10 millions de dollars.}
+
+En fin de compte, l'élimination de la pauvreté est un objectif complexe
+et à long terme qui nécessite une approche holistique et un engagement à
+long terme de la part des gouvernements, des organisations
+internationales et de la communauté mondiale dans son ensemble.
 
 \hypertarget{pour-aller-plus-loin}{%
 \section{Pour aller plus loin}\label{pour-aller-plus-loin}}
@@ -1866,7 +1874,8 @@ du nombre optimal de classes.
 \tightlist
 \item
   Nous aurions également pu faire d'autres cartes : une pour les moins
-  moins développés et une autre pour les pays que nous aidons.
+  moins développés et une autre pour les pays que nous aidons en fin de
+  compte.
 \end{itemize}
 
 \end{document}
