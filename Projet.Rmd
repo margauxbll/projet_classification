@@ -93,15 +93,15 @@ for (i in 1:9) {
 table(is.na(donnee))
 ```
 
-Nous n'avons aucune donné manquante dans notre base de données.
+Nous n'avons aucune donnée manquante dans notre base de données.
 
 **Traitement des valeurs aberrantes** 
 
 Nous observons grâce au summary que notre export maximal est à 200. Nous décidons d'aller chercher un peu plus loin et nous nous rendons vite compte que ces valeurs élevées correspondent à des pays riches comme Malte, le Luxembourg ou encore Singapour.
 
-Nous observons égelement un import maximal à 174. En allant un peu plus loin, nous nous rendons vite compte que c'est pour la même réponse que précédemment.
+Nous observons également un import maximal à 174. En allant un peu plus loin, nous nous rendons compte que c'est pour la même raison que précédemment.
 
-Nous n'avons donc aucun valeur aberrante dans notre base de données.
+Nous n'avons donc aucune valeur aberrante dans notre base de données.
 
 **Standardisation**
 
@@ -122,7 +122,7 @@ corrplot(cor(var), type = "upper")
 La matrice de corrélation nous aide à mieux comprendre les relations
 entre chaque variable et pourra nous aider à interpréter nos résultats plus tard.
 
-Nous allons alors classifier les pays en fonction du nombre de décès d’enfants de moins de 5 ans pour 1000 naissances,des exportations de biens et services par habitant, des dépenses totales de santé par habitant, des importations de biens et services par habitant, du revenu net moyen par personne, de la mesure du taux de croissance annuel du PIB total, de l'espérance de vie, du nombre moyen d’enfants par femme et enfin du PIB par habitant.
+Nous allons alors classifier les pays en fonction du nombre de décès d’enfants de moins de 5 ans pour 1000 naissances, des exportations de biens et services par habitant, des dépenses totales de santé par habitant, des importations de biens et services par habitant, du revenu net moyen par personne, de la mesure du taux de croissance annuel du PIB total, de l'espérance de vie, du nombre moyen d’enfants par femme et enfin du PIB par habitant.
 
 # Classification des pays en utilisant les différents algorithmes abordés en cours
 
@@ -130,7 +130,7 @@ Nous allons tout d'abord faire une CAH puis ensuite faire l'algorithme des k-mea
 
 ## CAH
 
-La CAH (Classification Ascendante Hiérarchique) est une méthode d'analyse de données qui permet de regrouper des individus ou des variables similaires en clusters (groupes) selon leur ressemblance. Elle est utilisée pour l'identification de groupes homogènes, la visualisation de la structure des données et la découverte de tendances et de relations entre les variables.
+La CAH (Classification Ascendante Hiérarchique) est une méthode d'analyse de données qui permet de regrouper des individus ou des variables similaires en clusters (groupes) selon leurs ressemblances. Elle est utilisée pour l'identification de groupes homogènes, la visualisation de la structure des données et la découverte de tendances et de relations entre les variables.
 
 Nous allons tester les différentes distances abordées afin de déterminer laquelle est la plus pertinente.
 
@@ -145,6 +145,8 @@ cah.max <- hclust(d, method = "complete")
 ```
 
 **Dengrogrammes**
+
+Pour des dendogrammes plus visibles, ne pas hésiter à aller voir le code.
 
 ```{r}
 plot(cah.ward, hang = -1, main = "Distance de Ward", ylab = " ")
@@ -181,8 +183,8 @@ matrix <- as.matrix(donnee)
 NbClust(matrix, min.nc = 2, max.nc = 15, method = "ward.D", index = "all")
 ```
 
-On nous dit que 5 ont proposés 2 et 4 comme le meilleur nombre de clusters à choisir, et 4 ont proposé que 3 était le meilleur nombre de clusters. 
-Au vu de l'interprétation graphique faite précédemment, nous allons rester sur 3 clusters, qui nous semble le plus pertinent.
+2 et 4  ont été proposé 5 fois comme étant le meilleur nombre de clusters à choisir, tandis que 3 a été proposé 4 fois comme étant le meilleur nombre de clusters. 
+Au vu de l'interprétation graphique faite précédemment, nous allons rester sur 3 clusters, qui nous semble plus pertinent.
 
 
 **Cutree**
@@ -200,7 +202,7 @@ Nous visualisons donc le partitionnement des 3 groupes sur le dendogramme.
 clusplot(donnee, gpe.ward, labels = 2, col.p = as.numeric(gpe.ward))
 ```
 
-Ce graphe correspond à la représentation des groupes sur les deux premiers axes principaux d’une ACP. De plus, des ellipses de contour autour des groupes sont tracées. On observe ici en colorant les points avec leur vraie classe que les groupes vert et rouge et rouge et noir sont difficiles à retrouver.
+Ce graphe correspond à la représentation des groupes sur les deux premiers axes principaux d’une ACP. De plus, des ellipses de contour autour des groupes sont tracées. On observe ici en colorant les points avec leur vraie classe que les groupes vert et rouge et les groupes rouge et noir sont difficiles à retrouver.
 
 
 
@@ -213,7 +215,7 @@ Nous avons opté pour la création de trois groupes plutôt que quatre. Nous avo
 ## Algorithme des Kmeans
 
 Nous allons à présent utiliser l'algorithme des k-means pour nous conforter dans notre choix de K suite à la CAH.
-Nous pouvons appliquer l'algorithme pour plusieurs choix de K possibles et tracer la courbe d'évolution de l'inertie. On lance l'algorithme des kmeans et on observe l'évolution de la variance intra-groupes en fonction du nombre de groupes. On rajoute également l'option « nstart =50 » pour stabiliser les résultats.
+Nous pouvons appliquer l'algorithme pour plusieurs choix de K possibles et tracer la courbe d'évolution de l'inertie. On lance l'algorithme des k-means et on observe l'évolution de la variance intra-groupes en fonction du nombre de groupes. On rajoute également l'option « nstart =50 » pour stabiliser les résultats.
 
 ```{r,echo=FALSE}
 set.seed(123)
@@ -309,7 +311,7 @@ ggplot() +
 ```
 
 Voici une représentation cartographique de nos 3 groupes. 
-Pour le choix des couleurs (rouge étant les pays les plus dans le besoin et vert les pays le moins dans le besoin), nous nous sommes basées sur la représentation de la CAH faite plus haut ainsi que sur le rendu du catdes. En effet, nous apercevons que dans le groupe 1 (les pays qui ont un fort taux de mortalité infantile et une faible espérance de vie) se trouvent des pays comme l'Angola ou le Nigeria. Nous avons alors reliés la couleur rouge au groupe de ces pays. 
+Pour le choix des couleurs (rouge étant les pays les plus dans le besoin et vert les pays le moins dans le besoin), nous nous sommes basées sur la représentation de la CAH faite plus haut ainsi que sur le rendu du catdes. En effet, nous apercevons que dans le groupe 1 (les pays qui ont un fort taux de mortalité infantile et une faible espérance de vie) se trouvent des pays comme l'Angola ou le Nigeria. Nous avons alors relié la couleur rouge au groupe de ces pays. 
 On observe bien que les pays dans le besoin (les individus se trouvant dans le groupe 1 de notre cah) se situent principalement en Afrique et en Asie. 
 
 # Traitement du groupe des pays les moins favorisés
@@ -318,7 +320,7 @@ Nous allons maintenant uniquement nous pencher sur les pays les moins développ�
 
 ## CAH sur les pays moins développés
 
-On decide de realiser une deuxième CAH sur le groupe 1, qui sont les pays moins développés : 
+On décide de réaliser une deuxième CAH sur le groupe 1, qui sont les pays moins développés : 
 
 ```{r echo=T, results='hide'}
 set.seed(123)
@@ -339,7 +341,7 @@ cah.ward.moinsdev = hclust(d_moinsdev,method="ward.D")
 plot(cah.ward.moinsdev,hang=-1)
 ```
 
-De la même façon que la seconde partie (classification des pays), on observe la présence d'une structure "naturelle" en un nombre de groupe modéré.  Regardons la courbe de perte d'inertie (on se contente des 15 premières valeurs pour ne pas "noyer" l'information importante)
+De la même façon que la seconde partie (classification des pays), on observe la présence d'une structure "naturelle" en un nombre de groupes modéré.  Regardons la courbe de perte d'inertie (on se contente des 15 premières valeurs pour ne pas "noyer" l'information importante)
 
 ```{r}
 plot(rev(cah.ward.moinsdev$height)[1:15],type="b")
@@ -363,7 +365,7 @@ K=4
 gpe.ward.moinsdev = cutree(cah.ward.moinsdev,k=K)
 ```
 
-- Representation du dendogramme avec les différents groupes obtenus 
+- Représentation du dendogramme avec les différents groupes obtenus 
 
 ```{r}
 plot(cah.ward.moinsdev,hang=-1)
@@ -375,6 +377,7 @@ rect.hclust(cah.ward.moinsdev, K, border ="blue")
 ```{r}
 clusplot(donnee_moinsdev, gpe.ward.moinsdev, labels = 2, col.p = as.numeric(gpe.ward.moinsdev))
 ```
+
 ## Interprétation des groupes 
 
 Nous allons maintenant chercher à interpréter les groupes obtenus à
@@ -408,24 +411,15 @@ s.class(CCpca_moinsdev$li, factor(gpe), col = 2:4, add.plot = TRUE,clabel = 1)
 ```
 
 
-Tableaux repartisant les pays à aider en 4 groupes : 
+Tableau qui répartit les pays à aider en 4 groupes : 
 
 ```{r}
 set.seed(123)
 tab <- table(donnee_moinsdev$gpecah)
 tab
-
-# Ajouter les marges au tableau
-tab <- addmargins(tab)
-
-# Formater les nombres dans le tableau
-tab <- format(tab, scientific = FALSE, digits = 1)
-
-# Afficher le tableau
-tab
 ```
 
-Notons que le groupe 1 est le groupe à aider en priorité, car il a beaucoup d'enfants morts et beaucoup de fertilité, ainsi qu'une faible espérance de vie, l'espérance de vie étant corrélée négativement à ces deux variables. 
+Notons que le groupe 1 est le groupe à aider en priorité, car il a beaucoup de mortalité infantile et beaucoup de fertilité, ainsi qu'une faible espérance de vie, l'espérance de vie étant corrélée négativement à ces deux variables. 
 
 # Conclusion vis à vis des choix effectués
 
@@ -451,9 +445,7 @@ cat(paste(x_values, "\n"))
 
 ```
 
-
-On va réaliser une méthode rapide des K-means pour choisir ce que l'on
-alloue comme budget pour nos 22 pays. 
+Nous allons alors décider quel budget allouer pour les 22 pays.
 
 ```{r}
 d_aide = dist(aide)
