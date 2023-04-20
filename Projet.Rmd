@@ -1,7 +1,8 @@
 ---
-title: "Les pays à aider"
+title: "Utilisation stratégique des fonds d'une ONG"
+
 subtitle: | 
-    | Projet de apprentissage non suppervisé
+    | Priorisation des pays nécessitant une aide socio-économique et sanitaire à partir d'une analyse de données
     | Classification
     | Université de Rennes II : Master Mathématiques Appliquées, Statistiques 
 author: | 
